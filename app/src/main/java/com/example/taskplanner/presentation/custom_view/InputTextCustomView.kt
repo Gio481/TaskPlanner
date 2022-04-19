@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.taskplanner.R
-import com.example.taskplanner.databinding.AuthenticationCustomViewBinding
+import com.example.taskplanner.databinding.InputTextCustomViewBinding
 import com.google.android.material.textfield.TextInputLayout
 
 class InputTextCustomView @JvmOverloads constructor(
@@ -18,7 +18,7 @@ class InputTextCustomView @JvmOverloads constructor(
     defStyleAttr: Int = 0,
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
-    private var binding: AuthenticationCustomViewBinding = AuthenticationCustomViewBinding.inflate(
+    private var binding: InputTextCustomViewBinding = InputTextCustomViewBinding.inflate(
         LayoutInflater.from(context), this, true)
 
     init {
