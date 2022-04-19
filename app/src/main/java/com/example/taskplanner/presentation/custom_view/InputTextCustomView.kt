@@ -2,12 +2,11 @@ package com.example.taskplanner.presentation.custom_view
 
 import android.content.Context
 import android.content.res.ColorStateList
-import android.content.res.TypedArray
 import android.graphics.Color
-import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.InputTextCustomViewBinding
 import com.google.android.material.textfield.TextInputLayout
@@ -26,43 +25,44 @@ class InputTextCustomView @JvmOverloads constructor(
             R.styleable.InputTextCustomView,
             defStyleAttr,
             0)
-        setTextInputLayoutAttributes(typedArray)
-        setTextInputEditTextAttributes(typedArray)
+
+        val hint = typedArray.getString(R.styleable.InputTextCustomView_hint)
+        val helperText = typedArray.getString(R.styleable.InputTextCustomView_helperText)
+        val helperTextColor = typedArray.getColor(R.styleable.InputTextCustomView_helperTextTextColor, Color.RED)
+        setTextInputLayoutAttributes(hint!!, helperText!!, helperTextColor)
+
+        val inputType = typedArray.getColor(R.styleable.InputTextCustomView_helperTextTextColor, Color.RED)
+        val backgroundTint = typedArray.getColor(R.styleable.InputTextCustomView_android_background, Color.TRANSPARENT)
+        setTextInputEditTextAttributes(inputType, backgroundTint)
+
+        typedArray.recycle()
+
     }
 
-    private fun setTextInputLayoutAttributes(typedArray: TypedArray) {
+    private fun setTextInputLayoutAttributes(
+        editTextHint: String,
+        textHelper: String,
+        helperTextColor: Int,
+    ) {
         with(binding.textInputLayout) {
-            hint = typedArray.getString(R.styleable.InputTextCustomView_hint)
-            helperText = typedArray.getString(R.styleable.InputTextCustomView_helperText)
-            val color =
-                typedArray.getColor(R.styleable.InputTextCustomView_helperTextTextColor, Color.RED)
-            setHelperTextColor(ColorStateList.valueOf(color))
+            hint = editTextHint
+            helperText = textHelper
+            setHelperTextColor(ContextCompat.getColorStateList(context, helperTextColor))
         }
-
-        typedArray.recycle()
     }
 
-    private fun setTextInputEditTextAttributes(typedArray: TypedArray) {
+    private fun setTextInputEditTextAttributes(textInputType: Int, backgroundTint: Int) {
         with(binding.textInputEditText) {
-            inputType = typedArray.getInt(
-                R.styleable.InputTextCustomView_android_inputType,
-                InputType.TYPE_CLASS_TEXT)
-            val color =
-                typedArray.getColor(R.styleable.InputTextCustomView_android_background,
-                    Color.TRANSPARENT)
-            background.setTint(color)
+            inputType = textInputType
+            background.setTint(backgroundTint)
         }
-        typedArray.recycle()
     }
 
     fun setPasswordToggleButton() {
         with(binding.textInputLayout) {
             endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
-            setEndIconTintList(ColorStateList.valueOf(Color.parseColor(PASSWORD_TOGGLE_BUTTON_COLOR)))
+            setEndIconTintList(ColorStateList.valueOf(ContextCompat.getColor(context,
+                R.color.blue_700)))
         }
-    }
-
-    companion object {
-        private const val PASSWORD_TOGGLE_BUTTON_COLOR = "#004481"
     }
 }

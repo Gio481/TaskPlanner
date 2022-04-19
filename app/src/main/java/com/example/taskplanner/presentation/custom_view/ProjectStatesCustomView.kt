@@ -1,11 +1,10 @@
 package com.example.taskplanner.presentation.custom_view
 
 import android.content.Context
-import android.content.res.TypedArray
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.ProjectStatesCustomViewBinding
 
@@ -23,29 +22,28 @@ class ProjectStatesCustomView @JvmOverloads constructor(
             R.styleable.StateCustomView,
             defStyleAttr,
             0)
-        setProjectStateTextViewAttributes(typedArray)
-        setTotalProjectsTextViewAttributes(typedArray)
-    }
 
-    private fun setProjectStateTextViewAttributes(typedArray: TypedArray) {
-        with(binding.projectStateTextView) {
-            text = typedArray.getString(R.styleable.StateCustomView_project_state)
-        }
+        val projectSateText = typedArray.getString(R.styleable.StateCustomView_project_state)
+        val totalProjectText = typedArray.getString(R.styleable.StateCustomView_total_project)
+        val color = typedArray.getColor(R.styleable.StateCustomView_color,
+            ContextCompat.getColor(context, R.color.blue_500))
+
+        setProjectStateTextViewAttributes(projectSateText!!)
+        setTotalProjectsTextViewAttributes(totalProjectText!!, color)
         typedArray.recycle()
+
     }
 
-    private fun setTotalProjectsTextViewAttributes(typedArray: TypedArray) {
+    private fun setProjectStateTextViewAttributes(newText: String) {
+        with(binding.projectStateTextView) {
+            text = newText
+        }
+    }
+
+    private fun setTotalProjectsTextViewAttributes(newText: String, color: Int) {
         with(binding.totalProjectTextView) {
-            text = typedArray.getString(R.styleable.StateCustomView_total_project)
-            val color = typedArray.getColor(R.styleable.StateCustomView_color,
-                Color.parseColor(TODO_STATE_COLOR))
+            text = newText
             background.setTint(color)
         }
-        typedArray.recycle()
     }
-
-    companion object {
-        private const val TODO_STATE_COLOR = "#4CABCE"
-    }
-
 }
