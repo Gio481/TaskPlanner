@@ -81,7 +81,7 @@
         android:layout_width="@dimen/dimen_170_dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_30_dp"
-        android:background="@drawable/log_in_button_background"
+        android:background="@drawable/authentication_button_background"
         android:text="@string/log_in_text"
         android:textAllCaps="false"
         android:textColor="@color/white"
