@@ -17,33 +17,35 @@ class ProjectStatesCustomView @JvmOverloads constructor(
     private var binding: ProjectStatesCustomViewBinding = ProjectStatesCustomViewBinding.inflate(
         LayoutInflater.from(context), this, true)
 
+    private var projectStateText: String? = null
+        set(value) {
+            binding.projectStateTextView.text = value
+            field = value
+        }
+
+    private var totalProjectText: String? = null
+        set(value) {
+            binding.totalProjectTextView.text = value
+            field = value
+        }
+
+    private var background: Int = 0
+        set(value) {
+            binding.totalProjectTextView.background.setTint(value)
+            field = value
+        }
+
     init {
         val typedArray = context.theme.obtainStyledAttributes(attrs,
             R.styleable.StateCustomView,
             defStyleAttr,
             0)
 
-        val projectSateText = typedArray.getString(R.styleable.StateCustomView_project_state)
-        val totalProjectText = typedArray.getString(R.styleable.StateCustomView_total_project)
-        val color = typedArray.getColor(R.styleable.StateCustomView_color,
+        projectStateText = typedArray.getString(R.styleable.StateCustomView_project_state)
+        totalProjectText = typedArray.getString(R.styleable.StateCustomView_total_project)
+        background = typedArray.getColor(R.styleable.StateCustomView_color,
             ContextCompat.getColor(context, R.color.blue_500))
-
-        setProjectStateTextViewAttributes(projectSateText!!)
-        setTotalProjectsTextViewAttributes(totalProjectText!!, color)
         typedArray.recycle()
 
-    }
-
-    private fun setProjectStateTextViewAttributes(newText: String) {
-        with(binding.projectStateTextView) {
-            text = newText
-        }
-    }
-
-    private fun setTotalProjectsTextViewAttributes(newText: String, color: Int) {
-        with(binding.totalProjectTextView) {
-            text = newText
-            background.setTint(color)
-        }
     }
 }

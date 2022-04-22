@@ -18,51 +18,78 @@ class InputTextCustomView @JvmOverloads constructor(
 ) : ConstraintLayout(context, attrs, defStyleAttr) {
 
     private var binding: InputTextCustomViewBinding = InputTextCustomViewBinding.inflate(
-        LayoutInflater.from(context), this, true)
+        LayoutInflater.from(context), this, true
+    )
+
+    private var hint: String? = null
+        set(value) {
+            binding.textInputLayout.hint = value
+            field = value
+        }
+
+    private var helperText: String? = null
+        set(value) {
+            binding.textInputLayout.helperText = value
+            field = value
+        }
+    
+    private var helperTextColor: Int = R.color.red
+        set(value) {
+            binding.textInputLayout.setHelperTextColor(
+                ContextCompat.getColorStateList(context, helperTextColor)
+            )
+            field = value
+        }
+
+    private var inputType: Int = 0
+        set(value) {
+            binding.textInputEditText.inputType = value
+            field = value
+        }
+
+    private var backgroundTint: Int = 0
+        set(value) {
+            binding.textInputEditText.background.setTint(value)
+            field = value
+        }
+
+    private var background: Int = 0
+        set(value) {
+            binding.textInputEditText.setBackgroundResource(value)
+            field = value
+        }
 
     init {
-        val typedArray = context.theme.obtainStyledAttributes(attrs,
+        val typedArray = context.theme.obtainStyledAttributes(
+            attrs,
             R.styleable.InputTextCustomView,
             defStyleAttr,
-            0)
+            0
+        )
 
-        val hint = typedArray.getString(R.styleable.InputTextCustomView_hint)
-        val helperText = typedArray.getString(R.styleable.InputTextCustomView_helperText)
-        val helperTextColor = typedArray.getColor(R.styleable.InputTextCustomView_helperTextTextColor, Color.RED)
-        setTextInputLayoutAttributes(hint!!, helperText!!, helperTextColor)
-
-        val inputType = typedArray.getColor(R.styleable.InputTextCustomView_helperTextTextColor, Color.RED)
-        val backgroundTint = typedArray.getColor(R.styleable.InputTextCustomView_android_background, Color.TRANSPARENT)
-        setTextInputEditTextAttributes(inputType, backgroundTint)
-
+        hint = typedArray.getString(R.styleable.InputTextCustomView_hint)
+        helperText = typedArray.getString(R.styleable.InputTextCustomView_helperText)
+        helperTextColor =
+            typedArray.getColor(R.styleable.InputTextCustomView_helperTextTextColor, 0)
+        inputType =
+            typedArray.getColor(R.styleable.InputTextCustomView_helperTextTextColor, Color.RED)
+        backgroundTint = typedArray.getColor(R.styleable.InputTextCustomView_android_backgroundTint,
+            Color.TRANSPARENT)
+        background = typedArray.getResourceId(R.styleable.InputTextCustomView_android_background, 0)
         typedArray.recycle()
-
-    }
-
-    private fun setTextInputLayoutAttributes(
-        editTextHint: String,
-        textHelper: String,
-        helperTextColor: Int,
-    ) {
-        with(binding.textInputLayout) {
-            hint = editTextHint
-            helperText = textHelper
-            setHelperTextColor(ContextCompat.getColorStateList(context, helperTextColor))
-        }
-    }
-
-    private fun setTextInputEditTextAttributes(textInputType: Int, backgroundTint: Int) {
-        with(binding.textInputEditText) {
-            inputType = textInputType
-            background.setTint(backgroundTint)
-        }
     }
 
     fun setPasswordToggleButton() {
         with(binding.textInputLayout) {
             endIconMode = TextInputLayout.END_ICON_PASSWORD_TOGGLE
-            setEndIconTintList(ColorStateList.valueOf(ContextCompat.getColor(context,
-                R.color.blue_700)))
+            setEndIconTintList(
+                ColorStateList.valueOf(
+                    ContextCompat.getColor(
+                        context,
+                        R.color.blue_700
+                    )
+                )
+            )
         }
     }
 }
