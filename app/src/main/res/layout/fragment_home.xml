@@ -14,49 +14,43 @@
         android:background="@drawable/home_screen_background"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/userProfileCardView"
-        android:layout_width="@dimen/dimen_100_dp"
-        android:layout_height="@dimen/dimen_100_dp"
-        android:layout_marginStart="@dimen/dimen_50_dp"
-        app:cardCornerRadius="@dimen/dimen_55_dp"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/userProfileImageView"
+        android:layout_width="@dimen/dimen_120_dp"
+        android:layout_height="@dimen/dimen_120_dp"
+        android:layout_margin="@dimen/dimen_20_dp"
+        android:padding="@dimen/dimen_10_dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"
         app:layout_constraintBottom_toBottomOf="@id/blueBackgroundView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/userProfileImageView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"
-            app:layout_constraintBottom_toBottomOf="@id/blueBackgroundView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/ImageStyle_Circle"
+        app:strokeColor="@color/white"
+        app:strokeWidth="@dimen/dimen_2_dp" />
 
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/userNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dimen_20_dp"
+        android:layout_marginHorizontal="@dimen/dimen_10_dp"
         android:layout_marginBottom="@dimen/dimen_40_dp"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_20_sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/blueBackgroundView"
-        app:layout_constraintStart_toEndOf="@id/userProfileCardView"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="@id/userProfileImageView"
+        app:layout_constraintStart_toEndOf="@id/userProfileImageView"
+        app:layout_constraintTop_toTopOf="@id/userProfileImageView" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/dimen_20_sp"
+        android:layout_marginHorizontal="@dimen/dimen_10_dp"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_17_sp"
-        app:layout_constraintStart_toEndOf="@id/userProfileCardView"
+        app:layout_constraintStart_toEndOf="@id/userProfileImageView"
         app:layout_constraintTop_toBottomOf="@id/userNameTextView" />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -86,16 +80,16 @@
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimen_10_dp"
             app:color="@color/blue_500"
-            app:total_project="5"
-            app:project_state="@string/todo_state_text" />
+            app:project_state="@string/todo_state_text"
+            app:total_project="5" />
 
         <com.example.taskplanner.presentation.custom_view.ProjectStatesCustomView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:color="@color/purple"
-            app:total_project="5"
-            app:project_state="@string/in_progress_text" />
+            app:project_state="@string/in_progress_text"
+            app:total_project="5" />
 
         <com.example.taskplanner.presentation.custom_view.ProjectStatesCustomView
             android:layout_width="wrap_content"
@@ -103,8 +97,8 @@
             android:layout_gravity="center|end"
             android:layout_marginEnd="@dimen/dimen_10_dp"
             app:color="@color/green_500"
-            app:total_project="5"
-            app:project_state="@string/done_text" />
+            app:project_state="@string/done_text"
+            app:total_project="5" />
 
     </androidx.cardview.widget.CardView>
 
