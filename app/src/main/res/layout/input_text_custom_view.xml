@@ -11,8 +11,6 @@
         android:layout_height="wrap_content"
         android:textColorHint="@color/blue_700"
         app:boxBackgroundMode="filled"
-        app:boxStrokeColor="@color/blue_700"
-        app:boxStrokeWidth="@dimen/dimen_3_dp"
         app:hintTextColor="@color/blue_700"
         app:layout_constraintTop_toTopOf="parent">
 
