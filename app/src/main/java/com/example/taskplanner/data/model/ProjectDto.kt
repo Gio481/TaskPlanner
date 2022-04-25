@@ -1,0 +1,11 @@
+package com.example.taskplanner.data.model
+
+data class ProjectDto(
+    val projectId: String? = null,
+    val ownerId: String? = null,
+    val title: String? = null,
+    val description: String? = null,
+    val startDate: String? = null,
+    val endDate: String? = null,
+    val projectProgress: String? = null,
+)
