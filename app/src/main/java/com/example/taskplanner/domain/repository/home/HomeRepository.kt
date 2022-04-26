@@ -9,7 +9,6 @@ interface HomeRepository {
     suspend fun getTodoProjectsSize(): Resources<Int>
     suspend fun getInProgressProjectSize(): Resources<Int>
     suspend fun getDoneProgressProjectSize(): Resources<Int>
-    suspend fun updateUser(name: String, job: String, imageUrl: String): Resources<Unit>
+    suspend fun updateUser(fieldName: String, updatedInfo: String): Resources<Unit>
     suspend fun updateProjectProgress(projectId: String, progress: Progress): Resources<Unit>
-
 }

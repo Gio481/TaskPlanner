@@ -74,17 +74,11 @@ class HomeRepositoryImpl(
         }
     }
 
-    override suspend fun updateUser(
-        name: String,
-        job: String,
-        imageUrl: String,
-    ): Resources<Unit> {
+    override suspend fun updateUser(fieldName: String, updatedInfo: String): Resources<Unit> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 val userId = auth.currentUser?.uid!!
-                userCollection.document(userId).update(USER_NAME_FIELD, name).await()
-                userCollection.document(userId).update(USER_JOB_FIELD, job).await()
-                userCollection.document(userId).update(USER_PROFILE_IMAGE_FIELD, imageUrl).await()
+                userCollection.document(userId).update(fieldName, updatedInfo).await()
                 Resources.Success(Unit)
             }
         }
@@ -101,11 +95,5 @@ class HomeRepositoryImpl(
                 Resources.Success(Unit)
             }
         }
-    }
-
-    companion object {
-        private const val USER_NAME_FIELD = "name"
-        private const val USER_JOB_FIELD = "job"
-        private const val USER_PROFILE_IMAGE_FIELD = "profileImage"
     }
 }

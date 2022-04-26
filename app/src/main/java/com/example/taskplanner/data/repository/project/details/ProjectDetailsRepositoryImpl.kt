@@ -7,12 +7,9 @@ import com.example.taskplanner.data.model.TaskDto
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.repository.project.details.ProjectDetailsRepository
-import com.example.taskplanner.util.Constants.DESCRIPTION_FIELD
-import com.example.taskplanner.util.Constants.END_TIME_FIELD
 import com.example.taskplanner.util.Constants.PROJECTS_OWNER_ID
 import com.example.taskplanner.util.Constants.PROJECT_COLLECTION
 import com.example.taskplanner.util.Constants.PROJECT_PROGRESS_FIELD
-import com.example.taskplanner.util.Constants.START_TIME_FIELD
 import com.example.taskplanner.util.Constants.TASK_COLLECTION
 import com.example.taskplanner.util.Constants.TASK_PROGRESS_FIELD
 import com.example.taskplanner.util.Constants.TITLE_FIELD
@@ -70,18 +67,14 @@ class ProjectDetailsRepositoryImpl(
         }
     }
 
-    override suspend fun updateProject(projectDomain: ProjectDomain): Resources<Unit> {
+    override suspend fun updateProject(
+        projectId: String,
+        fieldName: String,
+        updatedInfo: String,
+    ): Resources<Unit> {
         return withContext(Dispatchers.IO) {
             fetchData {
-                val project = projectMapper.domainToDto(projectDomain)
-                with(project) {
-                    projectCollection.document(projectId!!).update(TITLE_FIELD, title).await()
-                    projectCollection.document(projectId).update(DESCRIPTION_FIELD, description)
-                        .await()
-                    projectCollection.document(projectId).update(START_TIME_FIELD, startDate)
-                        .await()
-                    projectCollection.document(projectId).update(END_TIME_FIELD, endDate).await()
-                }
+                projectCollection.document(projectId).update(fieldName, updatedInfo).await()
                 Resources.Success(Unit)
             }
         }
