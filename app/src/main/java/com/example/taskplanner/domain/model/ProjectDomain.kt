@@ -7,7 +7,7 @@ data class ProjectDomain(
     val ownerId: String? = null,
     val title: String? = null,
     val description: String? = null,
-    val startDate: String? = null,
-    val endDate: String? = null,
+    val startDate: Long? = null,
+    val endDate: Long? = null,
     val projectProgress: Progress? = null,
 )
