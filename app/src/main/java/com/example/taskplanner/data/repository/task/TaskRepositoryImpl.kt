@@ -1,7 +1,8 @@
 package com.example.taskplanner.data.repository.task
 
-import com.example.taskplanner.data.mapper.task.TaskDataMapper
+import com.example.taskplanner.data.mapper.TaskDtoMapper
 import com.example.taskplanner.data.model.TaskDto
+import com.example.taskplanner.domain.mapper.TaskDomainMapper
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.repository.task.TaskRepository
 import com.example.taskplanner.util.Resources
@@ -16,7 +17,8 @@ import java.util.*
 class TaskRepositoryImpl(
     fireStore: FirebaseFirestore,
     auth: FirebaseAuth,
-    private val taskMapper: TaskDataMapper<TaskDto, TaskDomain>,
+    private val taskDtoMapper: TaskDtoMapper,
+    private val taskDomainMapper: TaskDomainMapper,
 ) : TaskRepository {
 
     private val taskCollection = fireStore.collection(TASK_COLLECTION)
@@ -31,7 +33,7 @@ class TaskRepositoryImpl(
                             .whereEqualTo(PROJECT_ID, projectId).get()
                             .await()
                             .toObjects(TaskDto::class.java)
-                    Resources.Success(taskMapper.dtoListToDomainList(result))
+                    Resources.Success(taskDtoMapper.modelListMapper(result))
                 }
             }
         }
@@ -51,7 +53,7 @@ class TaskRepositoryImpl(
                     taskProgress = taskDomain.taskProgress,
                     projectId = projectId
                 )
-                taskCollection.document(taskId).set(taskMapper.domainToDto(task)).await()
+                taskCollection.document(taskId).set(taskDomainMapper.modelMapper(task)).await()
                 Resources.Success(Unit)
             }
         }
@@ -62,7 +64,7 @@ class TaskRepositoryImpl(
             fetchData {
                 val result =
                     taskCollection.document(taskId).get().await().toObject(TaskDto::class.java)!!
-                Resources.Success(taskMapper.dtoToDomain(result))
+                Resources.Success(taskDtoMapper.modelMapper(result))
             }
         }
     }

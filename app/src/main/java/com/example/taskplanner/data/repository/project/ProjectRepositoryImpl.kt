@@ -1,7 +1,8 @@
 package com.example.taskplanner.data.repository.project
 
-import com.example.taskplanner.data.mapper.project.ProjectDataMapper
+import com.example.taskplanner.data.mapper.ProjectDtoMapper
 import com.example.taskplanner.data.model.ProjectDto
+import com.example.taskplanner.domain.mapper.ProjectDomainMapper
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.repository.project.ProjectRepository
 import com.example.taskplanner.util.Progress
@@ -17,7 +18,8 @@ import java.util.*
 class ProjectRepositoryImpl(
     auth: FirebaseAuth,
     fireStore: FirebaseFirestore,
-    private val projectMapper: ProjectDataMapper<ProjectDto, ProjectDomain>,
+    private val projectDtoMapper: ProjectDtoMapper,
+    private val projectDomainMapper: ProjectDomainMapper,
 ) : ProjectRepository {
 
     private val projectCollection = fireStore.collection(PROJECT_COLLECTION)
@@ -30,7 +32,7 @@ class ProjectRepositoryImpl(
                     projectCollection.whereEqualTo(PROJECTS_OWNER_ID, userId).get()
                         .await()
                         .toObjects(ProjectDto::class.java)
-                Resources.Success(projectMapper.dtoListToDomainList(result))
+                Resources.Success(projectDtoMapper.modelListMapper(result))
             }
         }
     }
@@ -60,7 +62,7 @@ class ProjectRepositoryImpl(
                     endDate = projectDomain.endDate,
                     projectProgress = projectDomain.projectProgress
                 )
-                projectCollection.document(projectId).set(projectMapper.domainToDto(project))
+                projectCollection.document(projectId).set(projectDomainMapper.modelMapper(project))
                     .await()
                 Resources.Success(Unit)
             }
@@ -73,7 +75,7 @@ class ProjectRepositoryImpl(
                 val result =
                     projectCollection.document(projectId).get().await()
                         .toObject(ProjectDto::class.java)
-                Resources.Success(projectMapper.dtoToDomain(result!!))
+                Resources.Success(projectDtoMapper.modelMapper(result!!))
             }
         }
     }

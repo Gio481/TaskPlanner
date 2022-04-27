@@ -1,8 +1,7 @@
 package com.example.taskplanner.data.repository.auth
 
 import android.net.Uri
-import com.example.taskplanner.data.mapper.user.UserDataMapper
-import com.example.taskplanner.data.model.UserDto
+import com.example.taskplanner.domain.mapper.UserDomainMapper
 import com.example.taskplanner.domain.model.UserDomain
 import com.example.taskplanner.domain.repository.auth.AuthRepository
 import com.example.taskplanner.util.Resources
@@ -18,7 +17,7 @@ import kotlinx.coroutines.withContext
 class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     fireStore: FirebaseFirestore,
-    private val userMapper: UserDataMapper<UserDto, UserDomain>,
+    private val userMapper: UserDomainMapper,
     private val storage: FirebaseStorage,
 ) : AuthRepository {
 
@@ -51,7 +50,7 @@ class AuthRepositoryImpl(
                     password = userDomain.password,
                     profileImage = imageUrl
                 )
-                userCollection.document(userId).set(userMapper.domainToDto(user)).await()
+                userCollection.document(userId).set(userMapper.modelMapper(user)).await()
                 Resources.Success(result)
             }
         }
