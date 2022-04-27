@@ -17,28 +17,11 @@ class HomeUseCaseImpl(private val repository: HomeRepository) : HomeUseCase {
         }
     }
 
-    override suspend fun getTodoProjectsSize(action: (message: String) -> Unit): Int? {
-        return when (val data = repository.getTodoProjectsSize()) {
-            is Resources.Success -> data.data
-            is Resources.Error -> {
-                action(data.message)
-                null
-            }
-        }
-    }
-
-    override suspend fun getInProgressProjectSize(action: (message: String) -> Unit): Int? {
-        return when (val data = repository.getInProgressProjectSize()) {
-            is Resources.Success -> data.data
-            is Resources.Error -> {
-                action(data.message)
-                null
-            }
-        }
-    }
-
-    override suspend fun getDoneProgressProjectSize(action: (message: String) -> Unit): Int? {
-        return when (val data = repository.getDoneProgressProjectSize()) {
+    override suspend fun getProjectsSize(
+        progress: Progress,
+        action: (message: String) -> Unit,
+    ): Int? {
+        return when (val data = repository.getProjectsSize(progress)) {
             is Resources.Success -> data.data
             is Resources.Error -> {
                 action(data.message)

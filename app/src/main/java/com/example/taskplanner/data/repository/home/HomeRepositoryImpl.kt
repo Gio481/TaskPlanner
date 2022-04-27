@@ -38,36 +38,12 @@ class HomeRepositoryImpl(
         }
     }
 
-    override suspend fun getTodoProjectsSize(): Resources<Int> {
+    override suspend fun getProjectsSize(progress: Progress): Resources<Int> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 val result =
                     projectCollection.whereEqualTo(PROJECTS_OWNER_ID, auth.currentUser?.uid)
-                        .whereEqualTo(PROJECT_PROGRESS_FIELD, Progress.Todo).get()
-                        .await().documents.size
-                Resources.Success(result)
-            }
-        }
-    }
-
-    override suspend fun getInProgressProjectSize(): Resources<Int> {
-        return withContext(Dispatchers.IO) {
-            fetchData {
-                val result =
-                    projectCollection.whereEqualTo(PROJECTS_OWNER_ID, auth.currentUser?.uid)
-                        .whereEqualTo(PROJECT_PROGRESS_FIELD, Progress.InProgress).get()
-                        .await().documents.size
-                Resources.Success(result)
-            }
-        }
-    }
-
-    override suspend fun getDoneProgressProjectSize(): Resources<Int> {
-        return withContext(Dispatchers.IO) {
-            fetchData {
-                val result =
-                    projectCollection.whereEqualTo(PROJECTS_OWNER_ID, auth.currentUser?.uid)
-                        .whereEqualTo(PROJECT_PROGRESS_FIELD, Progress.Done).get()
+                        .whereEqualTo(PROJECT_PROGRESS_FIELD, progress.name).get()
                         .await().documents.size
                 Resources.Success(result)
             }
