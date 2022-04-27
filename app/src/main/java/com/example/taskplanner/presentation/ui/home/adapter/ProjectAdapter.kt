@@ -12,28 +12,25 @@ class ProjectAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<ProjectDomain, ProjectAdapter.ViewHolder>(ItemDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ProjectItemLayoutBinding.inflate(LayoutInflater.from(parent.context),
-            parent,
-            false),
-            onClickListener)
+        val view =
+            ProjectItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val viewHolder = ViewHolder(view)
+        view.projectItemLayout.setOnClickListener {
+            onClickListener.onItemClickListener(getItem(viewHolder.adapterPosition))
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(getItem(position))
     }
 
-    class ViewHolder(
-        private val binding: ProjectItemLayoutBinding,
-        private val onClickListener: OnClickListener,
-    ) :
+    class ViewHolder(private val binding: ProjectItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(projectDomain: ProjectDomain) {
             with(binding) {
                 projectTitleTextView.text = projectDomain.title
-                projectProgressTextView.text = projectDomain.projectProgress?.name
-                projectItemLayout.setOnClickListener {
-                    onClickListener.onItemClickListener(projectDomain)
-                }
+                projectProgressTextView.text = projectDomain.projectProgress
             }
         }
     }

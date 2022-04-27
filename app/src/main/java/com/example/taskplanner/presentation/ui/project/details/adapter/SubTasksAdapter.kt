@@ -12,30 +12,29 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
     ListAdapter<TaskDomain, SubTasksAdapter.ViewHolder>(ItemDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(TaskItemLayoutBinding.inflate(LayoutInflater.from(parent.context),
-            parent,
-            false), onItemClickListener)
+        val view = TaskItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val viewHolder = ViewHolder(view)
+        with(view) {
+            taskProgressTextView.setOnClickListener {
+                onItemClickListener.onTaskProgressClick()
+            }
+            showItemView.setOnClickListener {
+                onItemClickListener.onItemClick(getItem(viewHolder.adapterPosition))
+            }
+        }
+        return viewHolder
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.onBind(getItem(position))
     }
 
-    class ViewHolder(
-        private val binding: TaskItemLayoutBinding,
-        private val onItemClickListener: OnItemClickListener,
-    ) :
+    class ViewHolder(private val binding: TaskItemLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(taskDomain: TaskDomain) {
             with(binding) {
                 taskTitleTextView.text = taskDomain.title
-                taskProgressTextView.text = taskDomain.taskProgress?.name
-                taskProgressTextView.setOnClickListener {
-                    onItemClickListener.onTaskProgressClick()
-                }
-                showItemView.setOnClickListener {
-                    onItemClickListener.onItemClick(taskDomain)
-                }
+                taskProgressTextView.text = taskDomain.taskProgress
 
             }
         }
