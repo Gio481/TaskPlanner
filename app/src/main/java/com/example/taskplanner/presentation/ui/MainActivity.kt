@@ -1,4 +1,4 @@
-package com.example.taskplanner
+package com.example.taskplanner.presentation.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
