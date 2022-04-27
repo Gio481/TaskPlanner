@@ -1,11 +1,10 @@
-package com.example.taskplanner.data.repository.auth.signup
+package com.example.taskplanner.data.repository.auth
 
 import android.net.Uri
 import com.example.taskplanner.data.mapper.user.UserDataMapper
 import com.example.taskplanner.data.model.UserDto
 import com.example.taskplanner.domain.model.UserDomain
-import com.example.taskplanner.domain.repository.auth.signup.SignUpRepository
-import com.example.taskplanner.util.Constants.USER_COLLECTION
+import com.example.taskplanner.domain.repository.auth.AuthRepository
 import com.example.taskplanner.util.Resources
 import com.example.taskplanner.util.fetchData
 import com.google.firebase.auth.AuthResult
@@ -16,14 +15,23 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 
-class SignUpRepositoryImpl(
+class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     fireStore: FirebaseFirestore,
     private val userMapper: UserDataMapper<UserDto, UserDomain>,
     private val storage: FirebaseStorage,
-) : SignUpRepository {
+) : AuthRepository {
 
     private val userCollection = fireStore.collection(USER_COLLECTION)
+
+    override suspend fun signIn(email: String, password: String): Resources<AuthResult> {
+        return withContext(Dispatchers.IO) {
+            fetchData {
+                val result = auth.signInWithEmailAndPassword(email, password).await()
+                Resources.Success(result)
+            }
+        }
+    }
 
     override suspend fun signUp(userDomain: UserDomain): Resources<AuthResult> {
         return withContext(Dispatchers.IO) {
@@ -47,5 +55,19 @@ class SignUpRepositoryImpl(
                 Resources.Success(result)
             }
         }
+    }
+
+    override suspend fun updateUser(fieldName: String, updatedInfo: String): Resources<Unit> {
+        return withContext(Dispatchers.IO) {
+            fetchData {
+                val userId = auth.currentUser?.uid!!
+                userCollection.document(userId).update(fieldName, updatedInfo).await()
+                Resources.Success(Unit)
+            }
+        }
+    }
+
+    companion object {
+        private const val USER_COLLECTION = "user"
     }
 }
