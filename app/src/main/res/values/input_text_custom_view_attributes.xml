@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="InputTextCustomView">
+        <attr name="hint" format="string" />
+        <attr name="helperText" format="string" />
+        <attr name="helperTextTextColor" format="color" />
+        <attr name="android:inputType" format="reference" />
+        <attr name="android:backgroundTint" format="reference"/>
+        <attr name="android:background" format="reference"/>
+    </declare-styleable>
+</resources>

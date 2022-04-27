@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">TaskPlanner</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="welcome_text">Welcome</string>
+    <string name="log_in_text">Log in</string>
+    <string name="create_account_text">Don\'t have an account ? sign in</string>
+    <string name="enter_password_text">Enter Password</string>
+    <string name="enter_email_hint">Enter Email</string>
+    <string name="sign_in_text">Sign in</string>
+    <string name="current_projects_text">Current Projects</string>
+    <string name="my_projects_text">My Projects</string>
+    <string name="create_new_project">Create New Project</string>
+    <string name="project_name_hint">Project Name</string>
+    <string name="project_description_hint">Project Description</string>
+    <string name="todo_state_text">TODO</string>
+    <string name="choose_date_text">Choose date</string>
+    <string name="create_project_text">Create Project</string>
+    <string name="project_time_text">Project time</string>
+    <string name="project_ends_in_text">Project Ends In:</string>
+    <string name="tasks_text">Tasks</string>
+    <string name="enter_name_hint">Enter Name</string>
+    <string name="repeat_password_hint">Repeat Password</string>
+    <string name="required_text">required</string>
+    <string name="create_new_task_text">Create New Task</string>
+    <string name="task_name_hint">Task Name</string>
+    <string name="task_description_hint">Task Description</string>
+    <string name="create_task_text">Create Task</string>
+    <string name="enter_job_hint">Enter job</string>
+    <string name="task_description_text">Task Description</string>
+    <string name="task_time_text">Task Time</string>
+    <string name="task_ends_in_text">Task Ends In:</string>
+    <string name="in_progress_text">In Progress</string>
+    <string name="done_text">Done</string>
 </resources>

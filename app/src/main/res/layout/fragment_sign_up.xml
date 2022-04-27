@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_200"
+    tools:context=".presentation.ui.signup.SignUpFragment">
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/SignInTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_20_dp"
+        android:gravity="center"
+        android:text="@string/sign_in_text"
+        android:textColor="@color/blue_700"
+        android:textSize="@dimen/dimen_30_sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/userProfileImageView"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:layout_margin="@dimen/dimen_20_dp"
+        android:padding="@dimen/dimen_5_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile"
+        app:layout_constraintBottom_toTopOf="@id/emailEditTextLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/SignInTextView"
+        app:shapeAppearanceOverlay="@style/ImageStyle_Circle"
+        app:strokeColor="@color/black"
+        app:strokeWidth="@dimen/dimen_5_dp" />
+
+
+    <com.example.taskplanner.presentation.custom_view.InputTextCustomView
+        android:id="@+id/userFullNameEditTextLayout"
+        android:layout_width="@dimen/dimen_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_15_dp"
+        android:layout_marginTop="@dimen/dimen_80_dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="text"
+        app:helperText="@string/required_text"
+        app:hint="@string/enter_name_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userProfileImageView"
+        app:layout_constraintTop_toTopOf="@id/SignInTextView" />
+
+
+    <com.example.taskplanner.presentation.custom_view.InputTextCustomView
+        android:id="@+id/jobEditTextLayout"
+        android:layout_width="@dimen/dimen_0_dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_15_dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="text"
+        app:helperText="@string/required_text"
+        app:hint="@string/enter_job_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userProfileImageView"
+        app:layout_constraintTop_toBottomOf="@id/userFullNameEditTextLayout" />
+
+    <com.example.taskplanner.presentation.custom_view.InputTextCustomView
+        android:id="@+id/emailEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_40_dp"
+        android:layout_marginVertical="@dimen/dimen_30_dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textEmailAddress"
+        app:helperText="@string/required_text"
+        app:hint="@string/enter_email_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/jobEditTextLayout" />
+
+    <com.example.taskplanner.presentation.custom_view.InputTextCustomView
+        android:id="@+id/passwordEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_40_dp"
+        android:layout_marginVertical="@dimen/dimen_15_dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textPassword"
+        app:helperText="@string/required_text"
+        app:hint="@string/enter_password_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailEditTextLayout" />
+
+    <com.example.taskplanner.presentation.custom_view.InputTextCustomView
+        android:id="@+id/repeatPasswordEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_40_dp"
+        android:layout_marginVertical="@dimen/dimen_15_dp"
+        android:background="@drawable/edit_text_background"
+        android:inputType="textPassword"
+        app:helperText="@string/required_text"
+        app:hint="@string/repeat_password_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logInButton"
+        android:layout_width="@dimen/dimen_170_dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/authentication_button_background"
+        android:text="@string/sign_in_text"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/repeatPasswordEditTextLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
