@@ -37,12 +37,12 @@ class ProjectRepositoryImpl(
         }
     }
 
-    override suspend fun getProjectsSize(projectProgress: Progress): Resources<Int> {
+    override suspend fun getProjectsSize(projectProgress: String): Resources<Int> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 val result =
                     projectCollection.whereEqualTo(PROJECTS_OWNER_ID, userId)
-                        .whereEqualTo(PROJECT_PROGRESS_FIELD, projectProgress.name).get()
+                        .whereEqualTo(PROJECT_PROGRESS_FIELD, projectProgress).get()
                         .await().documents.size
                 Resources.Success(result)
             }
