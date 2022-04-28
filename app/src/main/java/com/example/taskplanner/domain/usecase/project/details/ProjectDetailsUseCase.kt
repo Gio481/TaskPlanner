@@ -5,29 +5,9 @@ import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.util.Progress
 
 interface ProjectDetailsUseCase {
-    suspend fun getAllSubTasks(
-        projectId: String,
-        action: (message: String) -> Unit,
-    ): List<TaskDomain>?
-
-    suspend fun getProjectInfo(projectId: String, action: (message: String) -> Unit): ProjectDomain?
-    suspend fun deleteProject(projectId: String, action: (message: String) -> Unit)
-    suspend fun updateProject(
-        projectId: String,
-        fieldName: String,
-        updatedInfo: String,
-        action: (message: String) -> Unit,
-    )
-
-    suspend fun updateProjectProgress(
-        projectId: String,
-        progress: Progress,
-        action: (message: String) -> Unit,
-    )
-
-    suspend fun updateSubTaskStatus(
-        taskId: String,
-        progress: Progress,
-        action: (message: String) -> Unit,
-    )
+    suspend fun getAllSubTasks(projectId: String): List<TaskDomain>?
+    suspend fun getProjectInfo(projectId: String): ProjectDomain?
+    suspend fun deleteProject(projectId: String)
+    suspend fun updateProject(projectId: String, fieldName: String, updatedInfo: String)
+    suspend fun updateSubTaskStatus(taskId: String, fieldName: String, progress: String)
 }

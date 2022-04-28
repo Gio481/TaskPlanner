@@ -1,20 +1,20 @@
 package com.example.taskplanner.domain.usecase.task.details
 
 import com.example.taskplanner.domain.model.TaskDomain
-import com.example.taskplanner.domain.repository.task.details.TaskDetailsRepository
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.domain.repository.task.TaskRepository
+import com.example.taskplanner.domain.usecase.util.GetErrorMessage
 import com.example.taskplanner.util.Resources
 
-class TaskDetailsUseCaseImpl(private val repository: TaskDetailsRepository) : TaskDetailsUseCase {
+class TaskDetailsUseCaseImpl(
+    private val taskRepository: TaskRepository,
+    private val getErrorMessage: GetErrorMessage,
+) : TaskDetailsUseCase {
 
-    override suspend fun getTaskInfo(
-        taskId: String,
-        action: (message: String) -> Unit,
-    ): TaskDomain? {
-        return when (val data = repository.getTaskInfo(taskId)) {
+    override suspend fun getTaskInfo(taskId: String): TaskDomain? {
+        return when (val data = taskRepository.getTaskInfo(taskId)) {
             is Resources.Success -> data.data
             is Resources.Error -> {
-                action.invoke(data.message)
+                getErrorMessage.errorMessage(data.message)
                 null
             }
         }
@@ -24,29 +24,17 @@ class TaskDetailsUseCaseImpl(private val repository: TaskDetailsRepository) : Ta
         taskId: String,
         fieldName: String,
         updatedInfo: String,
-        action: (message: String) -> Unit,
     ) {
-        return when (val data = repository.updateTask(taskId, fieldName, updatedInfo)) {
+        return when (val data = taskRepository.updateTask(taskId, fieldName, updatedInfo)) {
             is Resources.Success -> Unit
-            is Resources.Error -> action.invoke(data.message)
+            is Resources.Error -> getErrorMessage.errorMessage(data.message)
         }
     }
 
-    override suspend fun updateTaskProgress(
-        taskId: String,
-        progress: Progress,
-        action: (message: String) -> Unit,
-    ) {
-        return when (val data = repository.updateTaskProgress(taskId, progress)) {
+    override suspend fun deleteTask(taskId: String) {
+        return when (val data = taskRepository.deleteTask(taskId)) {
             is Resources.Success -> Unit
-            is Resources.Error -> action.invoke(data.message)
-        }
-    }
-
-    override suspend fun deleteTask(taskId: String, action: (message: String) -> Unit) {
-        return when (val data = repository.deleteTask(taskId)) {
-            is Resources.Success -> Unit
-            is Resources.Error -> action.invoke(data.message)
+            is Resources.Error -> getErrorMessage.errorMessage(data.message)
         }
     }
 

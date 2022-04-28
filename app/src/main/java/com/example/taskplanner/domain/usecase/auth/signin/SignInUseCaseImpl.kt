@@ -1,19 +1,20 @@
 package com.example.taskplanner.domain.usecase.auth.signin
 
-import com.example.taskplanner.domain.repository.auth.signin.SignInRepository
+import com.example.taskplanner.domain.repository.auth.AuthRepository
+import com.example.taskplanner.domain.usecase.util.GetErrorMessage
 import com.example.taskplanner.util.Resources
 import com.google.firebase.auth.AuthResult
 
-class SignInUseCaseImpl(private val repository: SignInRepository) : SignInUseCase {
-    override suspend fun signIn(
-        email: String,
-        password: String,
-        action: (message: String) -> Unit,
-    ): AuthResult? {
+class SignInUseCaseImpl(
+    private val repository: AuthRepository,
+    private val getErrorMessage: GetErrorMessage,
+) : SignInUseCase {
+
+    override suspend fun signIn(email: String, password: String): AuthResult? {
         return when (val data = repository.signIn(email, password)) {
             is Resources.Success -> data.data
             is Resources.Error -> {
-                action.invoke(data.message)
+                getErrorMessage.errorMessage(data.message)
                 null
             }
         }
