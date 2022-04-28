@@ -17,11 +17,11 @@ import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCaseImp
 import org.koin.dsl.module
 
 val useCaseModule = module {
-    single<SignInUseCase> { SignInUseCaseImpl(get()) }
-    single<SignUpUseCase> { SignUpUseCaseImpl(get()) }
-    single<HomeUseCase> { HomeUseCaseImpl(get()) }
-    single<ProjectDetailsUseCase> { ProjectDetailsUseCaseImpl(get()) }
-    single<ProjectCreatorUseCase> { ProjectCreatorUseCaseImpl(get()) }
-    single<TaskCreatorUseCase> { TaskCreatorUseCaseImpl(get()) }
-    single<TaskDetailsUseCase> { TaskDetailsUseCaseImpl(get()) }
+    single<SignInUseCase> { SignInUseCaseImpl(get(), get()) }
+    single<SignUpUseCase> { SignUpUseCaseImpl(get(), get()) }
+    single<HomeUseCase> { HomeUseCaseImpl(get(), get(), get()) }
+    single<ProjectDetailsUseCase> { ProjectDetailsUseCaseImpl(get(), get(), get()) }
+    single<ProjectCreatorUseCase> { ProjectCreatorUseCaseImpl(get(), get()) }
+    single<TaskCreatorUseCase> { TaskCreatorUseCaseImpl(get(), get()) }
+    single<TaskDetailsUseCase> { TaskDetailsUseCaseImpl(get(), get()) }
 }
