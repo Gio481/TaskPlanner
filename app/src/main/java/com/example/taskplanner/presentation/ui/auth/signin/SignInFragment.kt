@@ -2,8 +2,8 @@ package com.example.taskplanner.presentation.ui.auth.signin
 
 import com.example.taskplanner.databinding.FragmentSignInBinding
 import com.example.taskplanner.presentation.base.BaseFragment
-import com.example.taskplanner.presentation.base.BindingInflater
 import com.example.taskplanner.presentation.ui.auth.signin.viewmodel.SignInViewModel
+import com.example.taskplanner.util.BindingInflater
 import kotlin.reflect.KClass
 
 class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>() {
