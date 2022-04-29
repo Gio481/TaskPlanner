@@ -8,8 +8,12 @@ import com.example.taskplanner.domain.usecase.home.HomeUseCase
 import com.example.taskplanner.domain.usecase.home.HomeUseCaseImpl
 import com.example.taskplanner.domain.usecase.project.create.ProjectCreatorUseCase
 import com.example.taskplanner.domain.usecase.project.create.ProjectCreatorUseCaseImpl
-import com.example.taskplanner.domain.usecase.project.details.ProjectDetailsUseCase
-import com.example.taskplanner.domain.usecase.project.details.ProjectDetailsUseCaseImpl
+import com.example.taskplanner.domain.usecase.project.details.edit_project.EditProjectUseCase
+import com.example.taskplanner.domain.usecase.project.details.edit_project.EditProjectUseCaseImpl
+import com.example.taskplanner.domain.usecase.project.details.project_info.GetProjectInfoUseCase
+import com.example.taskplanner.domain.usecase.project.details.project_info.GetProjectInfoUseCaseImpl
+import com.example.taskplanner.domain.usecase.project.details.subtasks.SubTasksUseCase
+import com.example.taskplanner.domain.usecase.project.details.subtasks.SubTasksUseCaseImpl
 import com.example.taskplanner.domain.usecase.task.create.TaskCreatorUseCase
 import com.example.taskplanner.domain.usecase.task.create.TaskCreatorUseCaseImpl
 import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCase
@@ -23,7 +27,9 @@ val useCaseModule = module {
     single<SignInUseCase> { SignInUseCaseImpl(get(), get()) }
     single<SignUpUseCase> { SignUpUseCaseImpl(get(), get()) }
     single<HomeUseCase> { HomeUseCaseImpl(get(), get(), get()) }
-    single<ProjectDetailsUseCase> { ProjectDetailsUseCaseImpl(get(), get(), get()) }
+    single<EditProjectUseCase> { EditProjectUseCaseImpl(get(), get()) }
+    single<GetProjectInfoUseCase> { GetProjectInfoUseCaseImpl(get(), get()) }
+    single<SubTasksUseCase> { SubTasksUseCaseImpl(get(), get()) }
     single<ProjectCreatorUseCase> { ProjectCreatorUseCaseImpl(get(), get()) }
     single<TaskCreatorUseCase> { TaskCreatorUseCaseImpl(get(), get()) }
     single<TaskDetailsUseCase> { TaskDetailsUseCaseImpl(get(), get()) }
