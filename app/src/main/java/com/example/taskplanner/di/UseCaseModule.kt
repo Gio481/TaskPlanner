@@ -14,9 +14,12 @@ import com.example.taskplanner.domain.usecase.task.create.TaskCreatorUseCase
 import com.example.taskplanner.domain.usecase.task.create.TaskCreatorUseCaseImpl
 import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCase
 import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCaseImpl
+import com.example.taskplanner.domain.usecase.util.GetErrorMessage
+import com.example.taskplanner.domain.usecase.util.GetErrorMessageImpl
 import org.koin.dsl.module
 
 val useCaseModule = module {
+    single<GetErrorMessage> { GetErrorMessageImpl() }
     single<SignInUseCase> { SignInUseCaseImpl(get(), get()) }
     single<SignUpUseCase> { SignUpUseCaseImpl(get(), get()) }
     single<HomeUseCase> { HomeUseCaseImpl(get(), get(), get()) }
