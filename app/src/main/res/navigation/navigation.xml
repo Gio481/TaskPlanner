@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.taskplanner.presentation.ui.signin.SignInFragment"
+        android:name="com.example.taskplanner.presentation.ui.auth.signin.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -30,7 +30,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.taskplanner.presentation.ui.signup.SignUpFragment"
+        android:name="com.example.taskplanner.presentation.ui.auth.signup.SignUpFragment"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" >
         <action

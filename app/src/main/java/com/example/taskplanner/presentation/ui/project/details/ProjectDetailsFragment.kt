@@ -2,8 +2,8 @@ package com.example.taskplanner.presentation.ui.project.details
 
 import com.example.taskplanner.databinding.FragmentProjectDetailsBinding
 import com.example.taskplanner.presentation.base.BaseFragment
-import com.example.taskplanner.presentation.base.BindingInflater
 import com.example.taskplanner.presentation.ui.project.details.viewmodel.ProjectDetailsViewModel
+import com.example.taskplanner.util.BindingInflater
 import kotlin.reflect.KClass
 
 class ProjectDetailsFragment :

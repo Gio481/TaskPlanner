@@ -2,8 +2,8 @@ package com.example.taskplanner.presentation.ui.home
 
 import com.example.taskplanner.databinding.FragmentHomeBinding
 import com.example.taskplanner.presentation.base.BaseFragment
-import com.example.taskplanner.presentation.base.BindingInflater
 import com.example.taskplanner.presentation.ui.home.viewmodel.HomeVewModel
+import com.example.taskplanner.util.BindingInflater
 import kotlin.reflect.KClass
 
 class HomeFragment : BaseFragment<FragmentHomeBinding, HomeVewModel>() {

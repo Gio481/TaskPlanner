@@ -7,7 +7,7 @@ import com.example.taskplanner.util.Resources
 
 interface ProjectRepository {
     suspend fun getAllProjects():Resources<List<ProjectDomain>>
-    suspend fun getProjectsSize(projectProgress:Progress):Resources<Int>
+    suspend fun getProjectsSize(projectProgress:String):Resources<Int>
     suspend fun createProject(projectDomain: ProjectDomain): Resources<Unit>
     suspend fun getProjectInfo(projectId: String): Resources<ProjectDomain>
     suspend fun deleteProject(projectId: String): Resources<Unit>

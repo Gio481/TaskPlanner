@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_200"
-    tools:context=".presentation.ui.signup.SignUpFragment">
+    tools:context=".presentation.ui.auth.signup.SignUpFragment">
 
 
     <androidx.appcompat.widget.AppCompatTextView
