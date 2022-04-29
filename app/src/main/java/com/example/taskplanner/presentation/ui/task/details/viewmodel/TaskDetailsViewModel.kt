@@ -2,26 +2,18 @@ package com.example.taskplanner.presentation.ui.task.details.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCase
-import com.example.taskplanner.domain.usecase.util.GetErrorMessage
+import com.example.taskplanner.presentation.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class TaskDetailsViewModel(private val taskDetailsUseCase: TaskDetailsUseCase) : ViewModel(),
-    GetErrorMessage {
-
-    private val _errorMessageLiveData: MutableLiveData<String> = MutableLiveData()
-    val errorMessageLiveData: LiveData<String> = _errorMessageLiveData
+class TaskDetailsViewModel(private val taskDetailsUseCase: TaskDetailsUseCase) : BaseViewModel() {
 
     private val _taskInfoLiveData: MutableLiveData<TaskDomain> = MutableLiveData()
     val taskInfoLiveData: LiveData<TaskDomain> = _taskInfoLiveData
 
-    override fun errorMessage(message: String) {
-        _errorMessageLiveData.postValue(message)
-    }
 
     fun getTaskInfo(taskId: String) {
         viewModelScope.launch(Dispatchers.IO) {
