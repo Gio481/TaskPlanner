@@ -22,7 +22,7 @@ class TaskRepositoryImpl(
 ) : TaskRepository {
 
     private val taskCollection = fireStore.collection(TASK_COLLECTION)
-    private val userId = auth.currentUser?.uid!!
+    private val userId = auth.currentUser?.uid
 
     override suspend fun getAllTasks(projectId: String): Resources<List<TaskDomain>> {
         return withContext(Dispatchers.IO) {

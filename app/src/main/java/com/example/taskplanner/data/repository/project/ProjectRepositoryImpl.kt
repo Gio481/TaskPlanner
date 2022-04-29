@@ -23,7 +23,7 @@ class ProjectRepositoryImpl(
 ) : ProjectRepository {
 
     private val projectCollection = fireStore.collection(PROJECT_COLLECTION)
-    private val userId = auth.currentUser?.uid!!
+    private val userId = auth.currentUser?.uid
 
     override suspend fun getAllProjects(): Resources<List<ProjectDomain>> {
         return withContext(Dispatchers.IO) {
