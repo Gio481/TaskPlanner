@@ -16,7 +16,7 @@ val viewModelModule = module {
     viewModel { SignInViewModel(get()) }
     viewModel { SignUpViewModel(get()) }
     viewModel { HomeVewModel(get()) }
-    viewModel { ProjectDetailsViewModel(get()) }
+    viewModel { ProjectDetailsViewModel(get(), get(), get()) }
     viewModel { ProjectCreatorViewModel(get()) }
     viewModel { TaskDetailsViewModel(get()) }
     viewModel { TaskCreatorViewModel(get()) }
