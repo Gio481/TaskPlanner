@@ -7,11 +7,13 @@
     android:background="@color/blue_200"
     tools:context=".presentation.ui.task.details.TaskDetailsFragment">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/taskNameTextView"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/taskNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_30_dp"
+        android:background="@color/blue_200"
+        android:focusable="false"
         android:textColor="@color/blue_700"
         android:textSize="@dimen/dimen_20_sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +30,7 @@
         android:textColor="@color/blue_700"
         android:textSize="@dimen/dimen_17_sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/taskNameTextView" />
+        app:layout_constraintTop_toBottomOf="@id/taskNameEditText" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/taskEndTimeTextView"
@@ -65,22 +67,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:drawableTint="@color/white"
-            android:paddingHorizontal="@dimen/dimen_10_dp"
-            android:drawableEnd="@drawable/ic_show_item"
             android:layout_marginHorizontal="@dimen/dimen_30_dp"
             android:layout_marginTop="@dimen/dimen_15_dp"
             android:background="@color/blue_500"
+            android:drawableEnd="@drawable/ic_show_item"
+            android:drawableTint="@color/white"
             android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_10_dp"
             android:text="@string/todo_state_text"
             android:textColor="@color/white" />
 
-        <androidx.appcompat.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/taskDescriptionEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_marginHorizontal="@dimen/dimen_30_dp"
             android:layout_marginVertical="@dimen/dimen_80_dp"
+            android:background="@color/white"
+            android:focusable="false"
             android:gravity="center"
             android:padding="@dimen/dimen_15_dp"
             android:textColor="@color/blue_700"

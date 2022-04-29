@@ -29,29 +29,35 @@
         app:strokeColor="@color/white"
         app:strokeWidth="@dimen/dimen_2_dp" />
 
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/userNameTextView"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/userNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_10_dp"
         android:layout_marginBottom="@dimen/dimen_40_dp"
+        android:background="@color/blue_700"
+        android:focusable="false"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_20_sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/userProfileImageView"
         app:layout_constraintStart_toEndOf="@id/userProfileImageView"
-        app:layout_constraintTop_toTopOf="@id/userProfileImageView" />
+        app:layout_constraintTop_toTopOf="@id/userProfileImageView"
+        tools:text="giorgi beridze" />
 
-    <androidx.appcompat.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/userJobEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_10_dp"
+        android:background="@color/blue_700"
+        android:focusable="false"
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="@dimen/dimen_17_sp"
         app:layout_constraintStart_toEndOf="@id/userProfileImageView"
-        app:layout_constraintTop_toBottomOf="@id/userNameTextView" />
+        app:layout_constraintTop_toBottomOf="@id/userNameEditText"
+        tools:text="giorgi beridze" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/currentProjectsTextView"
