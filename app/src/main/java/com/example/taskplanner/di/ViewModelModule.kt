@@ -14,10 +14,10 @@ import org.koin.dsl.module
 val viewModelModule = module {
     viewModel { SplashViewModel() }
     viewModel { SignInViewModel(get()) }
-    viewModel { SignUpViewModel(get()) }
+    viewModel { SignUpViewModel(get(), get()) }
     viewModel { HomeVewModel(get()) }
     viewModel { ProjectDetailsViewModel(get(), get(), get()) }
-    viewModel { ProjectCreatorViewModel(get()) }
+    viewModel { ProjectCreatorViewModel(get(), get()) }
     viewModel { TaskDetailsViewModel(get()) }
-    viewModel { TaskCreatorViewModel(get()) }
+    viewModel { TaskCreatorViewModel(get(), get()) }
 }

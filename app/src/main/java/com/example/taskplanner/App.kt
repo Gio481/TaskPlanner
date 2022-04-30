@@ -15,7 +15,8 @@ class App : Application() {
                 dataMapperModule,
                 repositoriesModule,
                 useCaseModule,
-                viewModelModule
+                viewModelModule,
+                validatorModule
             ))
         }
     }
