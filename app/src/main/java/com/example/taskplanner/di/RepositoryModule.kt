@@ -9,7 +9,7 @@ import com.example.taskplanner.domain.repository.task.TaskRepository
 import org.koin.dsl.module
 
 val repositoriesModule = module {
-    single<AuthRepository> { AuthRepositoryImpl(get(), get(), get(), get()) }
+    single<AuthRepository> { AuthRepositoryImpl(get(), get(), get(), get(), get()) }
     single<ProjectRepository> { ProjectRepositoryImpl(get(), get(), get(), get()) }
     single<TaskRepository> { TaskRepositoryImpl(get(), get(), get(), get()) }
 }
