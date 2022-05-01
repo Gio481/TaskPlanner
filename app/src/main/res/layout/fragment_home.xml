@@ -21,7 +21,7 @@
         android:layout_margin="@dimen/dimen_20_dp"
         android:padding="@dimen/dimen_10_dp"
         android:scaleType="centerCrop"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/profile"
         app:layout_constraintBottom_toBottomOf="@id/blueBackgroundView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
