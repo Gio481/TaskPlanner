@@ -1,6 +1,8 @@
 package com.example.taskplanner.data.repository.auth
 
 import android.net.Uri
+import com.example.taskplanner.data.mapper.UserDtoMapper
+import com.example.taskplanner.data.model.UserDto
 import com.example.taskplanner.domain.mapper.UserDomainMapper
 import com.example.taskplanner.domain.model.UserDomain
 import com.example.taskplanner.domain.repository.auth.AuthRepository
@@ -17,7 +19,8 @@ import kotlinx.coroutines.withContext
 class AuthRepositoryImpl(
     private val auth: FirebaseAuth,
     fireStore: FirebaseFirestore,
-    private val userMapper: UserDomainMapper,
+    private val userDtoMapper: UserDtoMapper,
+    private val userDomainMapper: UserDomainMapper,
     private val storage: FirebaseStorage,
 ) : AuthRepository {
 
@@ -50,7 +53,7 @@ class AuthRepositoryImpl(
                     password = userDomain.password,
                     profileImage = imageUrl
                 )
-                userCollection.document(userId).set(userMapper.modelMapper(user)).await()
+                userCollection.document(userId).set(userDomainMapper.modelMapper(user)).await()
                 Resources.Success(result)
             }
         }
@@ -62,6 +65,16 @@ class AuthRepositoryImpl(
                 val userId = auth.currentUser?.uid!!
                 userCollection.document(userId).update(fieldName, updatedInfo).await()
                 Resources.Success(Unit)
+            }
+        }
+    }
+
+    override suspend fun getUserInfo(): Resources<UserDomain> {
+        return withContext(Dispatchers.IO){
+            fetchData {
+                val userId = auth.currentUser?.uid!!
+                val result = userCollection.document(userId).get().await().toObject(UserDto::class.java)
+                Resources.Success(userDtoMapper.modelMapper(result!!))
             }
         }
     }

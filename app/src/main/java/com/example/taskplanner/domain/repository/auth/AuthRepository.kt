@@ -8,4 +8,5 @@ interface AuthRepository {
     suspend fun signIn(email: String, password: String): Resources<AuthResult>
     suspend fun signUp(userDomain: UserDomain): Resources<AuthResult>
     suspend fun updateUser(fieldName: String, updatedInfo: String): Resources<Unit>
+    suspend fun getUserInfo():Resources<UserDomain>
 }
