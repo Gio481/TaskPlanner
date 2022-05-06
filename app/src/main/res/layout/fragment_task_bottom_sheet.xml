@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".presentation.ui.task.details.actions.TaskBottomSheetFragment">
+
+    <View
+        android:layout_width="@dimen/dimen_70_dp"
+        android:layout_height="@dimen/dimen_5_dp"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        android:background="@color/blue_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.taskplanner.presentation.custom_view.ActionTypeCustomView
+        android:id="@+id/updateItemCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_30_dp"
+        app:actionName="Update"
+        app:background="@drawable/ic_edit"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.taskplanner.presentation.custom_view.ActionTypeCustomView
+        android:id="@+id/updateAllItemsCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        app:actionName="Update All Items"
+        app:background="@drawable/ic_edit"
+        app:layout_constraintTop_toBottomOf="@id/updateItemCustomView" />
+
+    <com.example.taskplanner.presentation.custom_view.ActionTypeCustomView
+        android:id="@+id/deleteTaskCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        app:actionName="Delete Task"
+        app:background="@drawable/ic_delete"
+        app:layout_constraintTop_toBottomOf="@id/updateAllItemsCustomView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

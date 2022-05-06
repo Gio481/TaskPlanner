@@ -7,16 +7,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskplanner.databinding.TaskItemLayoutBinding
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.util.ItemDiffUtil
+import com.example.taskplanner.util.ProgressListener
 
 class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
     ListAdapter<TaskDomain, SubTasksAdapter.ViewHolder>(ItemDiffUtil()) {
+
+    lateinit var progressListener: ProgressListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = TaskItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val viewHolder = ViewHolder(view)
         with(view) {
             taskProgressTextView.setOnClickListener {
-                onItemClickListener.onTaskProgressClick()
+                progressListener()
             }
             showItemView.setOnClickListener {
                 onItemClickListener.onItemClick(getItem(viewHolder.adapterPosition))

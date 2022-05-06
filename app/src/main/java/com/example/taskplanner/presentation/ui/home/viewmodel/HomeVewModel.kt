@@ -2,16 +2,16 @@ package com.example.taskplanner.presentation.ui.home.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.domain.model.ProjectDomain
+import com.example.taskplanner.domain.model.UserDomain
 import com.example.taskplanner.domain.usecase.home.HomeUseCase
-import com.example.taskplanner.domain.usecase.util.GetErrorMessage
+import com.example.taskplanner.presentation.base.BaseViewModel
 import com.example.taskplanner.util.Progress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeVewModel(private val homeUseCase: HomeUseCase) : ViewModel(), GetErrorMessage {
+class HomeVewModel(private val homeUseCase: HomeUseCase) : BaseViewModel() {
 
     private val _allProjectsLiveData: MutableLiveData<List<ProjectDomain>> = MutableLiveData()
     val allProjectsLiveData: LiveData<List<ProjectDomain>> = _allProjectsLiveData
@@ -25,12 +25,18 @@ class HomeVewModel(private val homeUseCase: HomeUseCase) : ViewModel(), GetError
     private val _getAllDoneProjects: MutableLiveData<Int> = MutableLiveData()
     val getAllDoneProjects: LiveData<Int> = _getAllDoneProjects
 
-    private val _errorLiveData: MutableLiveData<String> = MutableLiveData()
-    val errorLiveData: LiveData<String> = _errorLiveData
+    private val _userLiveData: MutableLiveData<UserDomain> = MutableLiveData()
+    val userLiveData: LiveData<UserDomain> = _userLiveData
 
     fun getAllProjects() {
         viewModelScope.launch(Dispatchers.IO) {
             _allProjectsLiveData.postValue(homeUseCase.getAllProjects())
+        }
+    }
+
+    fun getUserInfo() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _userLiveData.postValue(homeUseCase.getUserInfo())
         }
     }
 
@@ -46,9 +52,5 @@ class HomeVewModel(private val homeUseCase: HomeUseCase) : ViewModel(), GetError
         viewModelScope.launch(Dispatchers.IO) {
             homeUseCase.updateUser(fieldName, updatedInfo)
         }
-    }
-
-    override fun errorMessage(message: String) {
-        _errorLiveData.postValue(message)
     }
 }

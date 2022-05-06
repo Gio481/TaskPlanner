@@ -4,5 +4,4 @@ import com.example.taskplanner.domain.model.TaskDomain
 
 interface OnItemClickListener {
     fun onItemClick(taskDomain: TaskDomain)
-    fun onTaskProgressClick()
 }

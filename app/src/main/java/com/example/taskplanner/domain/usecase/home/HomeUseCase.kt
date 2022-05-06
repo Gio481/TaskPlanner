@@ -1,6 +1,7 @@
 package com.example.taskplanner.domain.usecase.home
 
 import com.example.taskplanner.domain.model.ProjectDomain
+import com.example.taskplanner.domain.model.UserDomain
 import com.example.taskplanner.util.Progress
 
 interface HomeUseCase {
@@ -8,4 +9,5 @@ interface HomeUseCase {
     suspend fun getProjectsSize(progress: Progress): Int?
     suspend fun updateUser(fieldName: String, updatedInfo: String)
     suspend fun updateProjectProgress(projectId: String, fieldName: String, progress: Progress)
+    suspend fun getUserInfo():UserDomain?
 }

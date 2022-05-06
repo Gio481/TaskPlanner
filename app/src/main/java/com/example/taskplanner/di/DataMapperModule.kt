@@ -2,6 +2,7 @@ package com.example.taskplanner.di
 
 import com.example.taskplanner.data.mapper.ProjectDtoMapper
 import com.example.taskplanner.data.mapper.TaskDtoMapper
+import com.example.taskplanner.data.mapper.UserDtoMapper
 import com.example.taskplanner.domain.mapper.ProjectDomainMapper
 import com.example.taskplanner.domain.mapper.TaskDomainMapper
 import com.example.taskplanner.domain.mapper.UserDomainMapper
@@ -13,4 +14,5 @@ val dataMapperModule = module {
     single { UserDomainMapper() }
     single { ProjectDomainMapper() }
     single { TaskDomainMapper() }
+    single { UserDtoMapper() }
 }
