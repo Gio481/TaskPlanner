@@ -1,5 +1,7 @@
 package com.example.taskplanner.presentation.ui.project.create.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.usecase.project.create.ProjectCreatorUseCase
@@ -13,27 +15,16 @@ class ProjectCreatorViewModel(
     private val validator: ProjectValidator,
 ) : BaseViewModel() {
 
-    fun createProject(title: String, description: String, startDate: Long, endDate: Long) {
+    private val _projectDomainLiveData: MutableLiveData<ProjectDomain> = MutableLiveData()
+    val projectDomainLiveData: LiveData<ProjectDomain> = _projectDomainLiveData
+
+    fun createProject(projectDomain: ProjectDomain) {
         viewModelScope.launch {
-            val attributeList = listOf(title, description, startDate.toString(), endDate.toString())
-            when (val validation = validator.validate(attributeList)) {
-                is ValidateState.Error -> errorMessage(validation.message)
-                is ValidateState.Success -> newProject(title, description, startDate, endDate)
+            when (val validation = validator.validate(projectDomain)) {
+                is ValidateState.Error -> getErrorMessage(validation.message)
+                is ValidateState.Success -> _projectDomainLiveData.postValue(projectCreatorUseCase.createProject(
+                    projectDomain) { getErrorMessage(it) })
             }
         }
     }
-
-    private suspend fun newProject(
-        title: String,
-        description: String,
-        startDate: Long,
-        endDate: Long,
-    ) {
-        val projectDomain = ProjectDomain(title = title,
-            description = description,
-            startDate = startDate,
-            endDate = endDate)
-        projectCreatorUseCase.createProject(projectDomain)
-    }
-
 }
