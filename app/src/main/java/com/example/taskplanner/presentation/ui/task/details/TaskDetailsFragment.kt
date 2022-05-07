@@ -1,9 +1,15 @@
 package com.example.taskplanner.presentation.ui.task.details
 
+import android.widget.Button
+import androidx.core.content.ContextCompat
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.taskplanner.databinding.FragmentTaskDetailsBinding
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.task.details.viewmodel.TaskDetailsViewModel
 import com.example.taskplanner.util.BindingInflater
+import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
 class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetailsViewModel>() {
@@ -13,5 +19,80 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     override fun getViewModelClass(): KClass<TaskDetailsViewModel> = TaskDetailsViewModel::class
 
-    override fun onBindViewModel(viewModel: TaskDetailsViewModel) {}
+    private val args: TaskDetailsFragmentArgs by navArgs()
+
+    override fun onBindViewModel(viewModel: TaskDetailsViewModel) {
+        setUpTaskDetailsScreen()
+        observeDeleteTaskLiveData(viewModel)
+        observeErrorLiveData(viewModel)
+        setListener(viewModel)
+    }
+
+    private fun setUpTaskDetailsScreen() {
+        with(binding) {
+            with(args.task) {
+                taskNameEditText.setText(title)
+                taskDescriptionEditText.setText(description)
+                taskTimeTextView.text = startDate!!.toEndDate(endDate!!)
+                taskEndInTimeTextView.timer(startDate, endDate)
+                taskStateButton.text = taskProgress?.value
+                taskStateButton.setBackgroundColor(ContextCompat.getColor(requireContext(),
+                    taskProgress?.color!!))
+                taskEndInTimeTextView.countDownTimer.start()
+            }
+        }
+    }
+
+    private fun observeDeleteTaskLiveData(viewModel: TaskDetailsViewModel) {
+        observer(viewModel.successLiveData) {
+            binding.progressBarView.isVisible(false)
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun observeErrorLiveData(viewModel: TaskDetailsViewModel) {
+        observer(viewModel.errorLiveData) {
+            binding.progressBarView.isVisible(false)
+            showToast(it)
+        }
+    }
+
+
+    private fun setListener(viewModel: TaskDetailsViewModel) {
+        with(binding) {
+            taskStateButton.setOnClickListener {
+                setProgressUpdaterPopupMenu(it as Button, viewModel)
+            }
+            deleteTaskActionButton.setOnClickListener {
+                binding.progressBarView.isVisible(true)
+                viewModel.deleteTask(args.task.taskId)
+            }
+        }
+    }
+
+    private fun setProgressUpdaterPopupMenu(view: Button, viewModel: TaskDetailsViewModel) {
+        inflatePopupMenu(view,
+            todoAction = {
+                updateTaskProgress(view, Progress.TODO, viewModel)
+            },
+            inProgressAction = {
+                updateTaskProgress(view, Progress.IN_PROGRESS, viewModel)
+            },
+            doneAction = {
+                updateTaskProgress(view, Progress.DONE, viewModel)
+            }
+        )
+    }
+
+    private fun updateTaskProgress(
+        view: Button,
+        progress: Progress,
+        viewModel: TaskDetailsViewModel,
+    ) {
+        with(view) {
+            setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
+            text = progress.value
+        }
+        viewModel.updateTaskProgress(args.task.taskId, progress)
+    }
 }
