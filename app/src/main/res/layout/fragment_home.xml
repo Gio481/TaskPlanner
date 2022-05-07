@@ -14,6 +14,16 @@
         android:background="@drawable/home_screen_background"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <View
+        android:id="@+id/logOutView"
+        android:layout_width="@dimen/dimen_30_dp"
+        android:layout_height="@dimen/dimen_30_dp"
+        android:layout_margin="@dimen/dimen_25_dp"
+        android:background="@drawable/ic_log_out"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/userProfileImageView"
         android:layout_width="@dimen/dimen_120_dp"
@@ -81,6 +91,7 @@
         app:layout_constraintTop_toBottomOf="@id/currentProjectsTextView">
 
         <com.example.taskplanner.presentation.custom_view.ProjectStatesCustomView
+            android:id="@+id/todoProjectsCustomView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
@@ -90,6 +101,7 @@
             app:total_project="5" />
 
         <com.example.taskplanner.presentation.custom_view.ProjectStatesCustomView
+            android:id="@+id/inProgressProjectsCustomView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -98,6 +110,7 @@
             app:total_project="5" />
 
         <com.example.taskplanner.presentation.custom_view.ProjectStatesCustomView
+            android:id="@+id/doneProjectsCustomView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
@@ -152,5 +165,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add_item"
         app:tint="@color/white" />
+
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dimen_10_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
