@@ -1,46 +1,31 @@
 package com.example.taskplanner.presentation.ui.task.create.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.task.create.TaskCreatorUseCase
 import com.example.taskplanner.presentation.base.BaseViewModel
 import com.example.taskplanner.presentation.ui.project.create.validator.ProjectValidator
+import com.example.taskplanner.presentation.ui.task.create.validator.TaskValidator
 import com.example.taskplanner.util.ValidateState
 import kotlinx.coroutines.launch
 
 class TaskCreatorViewModel(
     private val taskCreatorUseCase: TaskCreatorUseCase,
-    private val validator: ProjectValidator,
+    private val validator: TaskValidator,
 ) : BaseViewModel() {
 
-    fun createTask(
-        projectId: String,
-        title: String,
-        description: String,
-        startDate: Long,
-        endDate: Long,
-    ) {
+    private val _taskLiveData: MutableLiveData<TaskDomain> = MutableLiveData()
+    val taskLiveData: LiveData<TaskDomain> = _taskLiveData
+
+    fun createTask(taskDomain: TaskDomain, projectId: String?) {
         viewModelScope.launch {
-            val attributeList =
-                listOf(projectId, title, description, startDate.toString(), endDate.toString())
-            when(val validate = validator.validate(attributeList)){
-                is ValidateState.Error -> errorMessage(validate.message)
-                is ValidateState.Success -> newTask(projectId, title, description, startDate, endDate)
+            when (val validate = validator.validate(taskDomain, projectId!!)) {
+                is ValidateState.Error -> getErrorMessage(validate.message)
+                is ValidateState.Success -> _taskLiveData.postValue(taskCreatorUseCase.createTask(taskDomain,
+                    projectId) { getErrorMessage(it) })
             }
         }
-    }
-
-    private suspend fun newTask(
-        projectId: String,
-        title: String,
-        description: String,
-        startDate: Long,
-        endDate: Long,
-    ) {
-        val taskDomain = TaskDomain(title = title,
-            description = description,
-            startDate = startDate,
-            endDate = endDate)
-        taskCreatorUseCase.createTask(projectId = projectId, taskDomain = taskDomain)
     }
 }
