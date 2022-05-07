@@ -1,29 +1,33 @@
 package com.example.taskplanner.domain.usecase.project.details.edit_project
 
+import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.repository.project.ProjectRepository
-import com.example.taskplanner.domain.usecase.util.GetErrorMessage
-import com.example.taskplanner.util.Resources
+import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.dataFetcher
 
 class EditProjectUseCaseImpl(
     private val projectRepository: ProjectRepository,
-    private val getErrorMessage: GetErrorMessage,
 ) : EditProjectUseCase {
 
-    override suspend fun deleteProject(projectId: String) {
-        when (val data = projectRepository.deleteProject(projectId)) {
-            is Resources.Success -> Unit
-            is Resources.Error -> getErrorMessage.errorMessage(data.message)
-        }
+    override suspend fun deleteProject(projectId: String, errorAction: (error: String) -> Unit) {
+        dataFetcher({ projectRepository.deleteProject(projectId) }, { errorAction(it) })
     }
 
     override suspend fun updateProject(
         projectId: String,
-        fieldName: String,
-        updatedInfo: String,
+        projectDomain: ProjectDomain,
+        errorAction: (error: String) -> Unit,
     ) {
-        when (val data = projectRepository.updateProject(projectId, fieldName, updatedInfo)) {
-            is Resources.Success -> Unit
-            is Resources.Error -> getErrorMessage.errorMessage(data.message)
-        }
+        dataFetcher({ projectRepository.updateProject(projectId, projectDomain) },
+            { errorAction(it) })
+    }
+
+    override suspend fun updateProjectProgress(
+        projectId: String,
+        progress: Progress,
+        errorAction: (error: String) -> Unit,
+    ) {
+        dataFetcher({ projectRepository.updateProjectProgress(projectId, progress) },
+            { errorAction(it) })
     }
 }
