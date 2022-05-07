@@ -31,4 +31,11 @@
     <string name="task_ends_in_text">Task Ends In:</string>
     <string name="in_progress_text">In Progress</string>
     <string name="done_text">Done</string>
+    <string name="blank_field_error">Fill the fields</string>
+    <string name="password_error_text">The password needs to contain at least one letter and digit</string>
+    <string name="passwords_math_error">passwords do not match</string>
+    <string name="permission_dialog_title">Permission</string>
+    <string name="permission_dialog_message">this permission must be an active</string>
+    <string name="permission_dialog_negative_button_text">No</string>
+    <string name="permission_dialog_positive_button_text">OK</string>
 </resources>
