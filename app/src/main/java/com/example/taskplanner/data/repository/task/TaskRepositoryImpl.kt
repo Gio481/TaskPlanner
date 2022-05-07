@@ -5,7 +5,13 @@ import com.example.taskplanner.data.model.TaskDto
 import com.example.taskplanner.domain.mapper.TaskDomainMapper
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.repository.task.TaskRepository
+import com.example.taskplanner.util.Constants.DESCRIPTION_FIELD
+import com.example.taskplanner.util.Constants.END_DATE_FIELD
+import com.example.taskplanner.util.Constants.START_DATE_FIELD
+import com.example.taskplanner.util.Constants.TITLE_FIELD
+import com.example.taskplanner.util.Progress
 import com.example.taskplanner.util.Resources
+import com.example.taskplanner.util.extensions.update
 import com.example.taskplanner.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -39,7 +45,10 @@ class TaskRepositoryImpl(
         }
     }
 
-    override suspend fun createTask(taskDomain: TaskDomain, projectId: String): Resources<Unit> {
+    override suspend fun createTask(
+        taskDomain: TaskDomain,
+        projectId: String,
+    ): Resources<TaskDomain> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 val taskId = UUID.randomUUID().toString()
@@ -54,7 +63,7 @@ class TaskRepositoryImpl(
                     projectId = projectId
                 )
                 taskCollection.document(taskId).set(taskDomainMapper.modelMapper(task)).await()
-                Resources.Success(Unit)
+                getTaskInfo(taskId)
             }
         }
     }
@@ -71,12 +80,25 @@ class TaskRepositoryImpl(
 
     override suspend fun updateTask(
         taskId: String,
-        fieldName: String,
-        updatedInfo: String,
+        taskDomain: TaskDomain,
     ): Resources<Unit> {
         return withContext(Dispatchers.IO) {
             fetchData {
-                taskCollection.document(taskId).update(fieldName, updatedInfo).await()
+                with(taskDomain) {
+                    title.update {
+                        taskCollection.document(taskId).update(TITLE_FIELD, title).await()
+                    }
+                    description.update {
+                        taskCollection.document(taskId).update(DESCRIPTION_FIELD, description)
+                            .await()
+                    }
+                    startDate.update {
+                        taskCollection.document(taskId).update(START_DATE_FIELD, startDate).await()
+                    }
+                    endDate.update {
+                        taskCollection.document(taskId).update(END_DATE_FIELD, endDate).await()
+                    }
+                }
                 Resources.Success(Unit)
             }
         }
@@ -91,7 +113,40 @@ class TaskRepositoryImpl(
         }
     }
 
+    override suspend fun getAllDoneTasks(projectId: String): Resources<Int> {
+        return withContext(Dispatchers.IO) {
+            fetchData {
+                val result =
+                    taskCollection.whereEqualTo(PROJECTS_OWNER_ID, userId)
+                        .whereEqualTo(PROJECT_ID, projectId)
+                        .whereEqualTo(TASK_PROGRESS_FIELD, Progress.DONE).get()
+                        .await().documents.size
+                Resources.Success(result)
+            }
+        }
+    }
+
+    override suspend fun getAllTasksSize(projectId: String): Resources<Int> {
+        return withContext(Dispatchers.IO) {
+            fetchData {
+                val result = taskCollection.whereEqualTo(PROJECTS_OWNER_ID, userId).whereEqualTo(
+                    PROJECT_ID, projectId).get().await().documents.size
+                Resources.Success(result)
+            }
+        }
+    }
+
+    override suspend fun updateTaskProgress(taskId: String, progress: Progress): Resources<Unit> {
+        return withContext(Dispatchers.IO) {
+            fetchData {
+                taskCollection.document(taskId).update(TASK_PROGRESS_FIELD, progress).await()
+                Resources.Success(Unit)
+            }
+        }
+    }
+
     companion object {
+        private const val TASK_PROGRESS_FIELD = "taskProgress"
         private const val PROJECT_ID = "projectId"
         private const val TASK_COLLECTION = "task"
         private const val PROJECTS_OWNER_ID = "ownerId"
