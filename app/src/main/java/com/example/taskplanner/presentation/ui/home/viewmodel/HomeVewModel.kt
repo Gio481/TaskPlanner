@@ -5,13 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.model.UserDomain
-import com.example.taskplanner.domain.usecase.home.HomeUseCase
+import com.example.taskplanner.domain.usecase.home.project.GetProjectsUseCase
+import com.example.taskplanner.domain.usecase.home.user.UserUseCase
 import com.example.taskplanner.presentation.base.BaseViewModel
 import com.example.taskplanner.util.Progress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeVewModel(private val homeUseCase: HomeUseCase) : BaseViewModel() {
+class HomeVewModel(
+    private val getProjectsUseCase: GetProjectsUseCase,
+    private val userUseCase: UserUseCase,
+) : BaseViewModel() {
 
     private val _allProjectsLiveData: MutableLiveData<List<ProjectDomain>> = MutableLiveData()
     val allProjectsLiveData: LiveData<List<ProjectDomain>> = _allProjectsLiveData
@@ -30,27 +34,40 @@ class HomeVewModel(private val homeUseCase: HomeUseCase) : BaseViewModel() {
 
     fun getAllProjects() {
         viewModelScope.launch(Dispatchers.IO) {
-            _allProjectsLiveData.postValue(homeUseCase.getAllProjects())
+            _allProjectsLiveData.postValue(getProjectsUseCase.getAllProjects { getErrorMessage(it) })
         }
     }
 
     fun getUserInfo() {
         viewModelScope.launch(Dispatchers.IO) {
-            _userLiveData.postValue(homeUseCase.getUserInfo())
+            _userLiveData.postValue(userUseCase.getUserInfo { getErrorMessage(it) })
         }
     }
 
-    fun gelAllProjectsSize() {
+    fun getAllProjectsSize() {
         viewModelScope.launch(Dispatchers.IO) {
-            _getAllTodoProjects.postValue(homeUseCase.getProjectsSize(Progress.TODO))
-            _getAllInProgressProjects.postValue(homeUseCase.getProjectsSize(Progress.IN_PROGRESS))
-            _getAllDoneProjects.postValue(homeUseCase.getProjectsSize(Progress.DONE))
+            _getAllTodoProjects.postValue(getProjectsUseCase.getProjectsSize(Progress.TODO) {
+                getErrorMessage(it)
+            })
+            _getAllInProgressProjects.postValue(getProjectsUseCase.getProjectsSize(Progress.IN_PROGRESS) {
+                getErrorMessage(it)
+            })
+            _getAllDoneProjects.postValue(getProjectsUseCase.getProjectsSize(Progress.DONE) {
+                getErrorMessage(it)
+            })
         }
     }
 
-    fun updateUser(fieldName: String, updatedInfo: String) {
+    fun updateUser(userDomain: UserDomain) {
         viewModelScope.launch(Dispatchers.IO) {
-            homeUseCase.updateUser(fieldName, updatedInfo)
+            userUseCase.updateUser(userDomain) { getErrorMessage(it) }
         }
     }
+
+    fun logOut() {
+        viewModelScope.launch(Dispatchers.IO) {
+            successData(userUseCase.logOut())
+        }
+    }
+
 }
