@@ -97,8 +97,7 @@
             android:layout_gravity="center|start"
             android:layout_marginStart="@dimen/dimen_10_dp"
             app:color="@color/blue_500"
-            app:project_state="@string/todo_state_text"
-            app:total_project="5" />
+            app:project_state="@string/todo_state_text" />
 
         <com.example.taskplanner.presentation.custom_view.ProjectStatesCustomView
             android:id="@+id/inProgressProjectsCustomView"
@@ -106,8 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             app:color="@color/purple"
-            app:project_state="@string/in_progress_text"
-            app:total_project="5" />
+            app:project_state="@string/in_progress_text" />
 
         <com.example.taskplanner.presentation.custom_view.ProjectStatesCustomView
             android:id="@+id/doneProjectsCustomView"
@@ -116,8 +114,7 @@
             android:layout_gravity="center|end"
             android:layout_marginEnd="@dimen/dimen_10_dp"
             app:color="@color/green_500"
-            app:project_state="@string/done_text"
-            app:total_project="5" />
+            app:project_state="@string/done_text" />
 
     </androidx.cardview.widget.CardView>
 
