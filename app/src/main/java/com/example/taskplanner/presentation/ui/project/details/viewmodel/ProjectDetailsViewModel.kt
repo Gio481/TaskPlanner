@@ -2,56 +2,70 @@ package com.example.taskplanner.presentation.ui.project.details.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.project.details.edit_project.EditProjectUseCase
-import com.example.taskplanner.domain.usecase.project.details.project_info.GetProjectInfoUseCase
 import com.example.taskplanner.domain.usecase.project.details.subtasks.SubTasksUseCase
+import com.example.taskplanner.presentation.base.BaseViewModel
+import com.example.taskplanner.util.Progress
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class ProjectDetailsViewModel(
     private val editProjectUseCase: EditProjectUseCase,
-    private val getProjectInfoUseCase: GetProjectInfoUseCase,
     private val subTasksUseCase: SubTasksUseCase,
-) : ViewModel() {
-
-    private val _projectInfoLiveData: MutableLiveData<ProjectDomain> = MutableLiveData()
-    val projectInfoLiveData: LiveData<ProjectDomain> = _projectInfoLiveData
+) : BaseViewModel() {
 
     private val _getAllSubTasksLiveData: MutableLiveData<List<TaskDomain>> = MutableLiveData()
     val getAllSubTasksLiveData: LiveData<List<TaskDomain>> = _getAllSubTasksLiveData
 
-    fun getAllSubTasks(projectId: String) {
+    private val _deleteProjectLiveData: MutableLiveData<Unit> = MutableLiveData()
+    val deleteProjectLiveData: LiveData<Unit> = _deleteProjectLiveData
+
+    private val _doneTasksPercentLiveData: MutableLiveData<Int> = MutableLiveData()
+    val doneTasksPercentLiveData: LiveData<Int> = _doneTasksPercentLiveData
+
+    fun getAllSubTasks(projectId: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            _getAllSubTasksLiveData.postValue(subTasksUseCase.getAllSubTasks(projectId))
+            _getAllSubTasksLiveData.postValue(subTasksUseCase.getAllSubTasks(projectId!!) {
+                getErrorMessage(it)
+            })
         }
     }
 
-    fun getProjectInfo(projectId: String) {
+    fun getDoneTasksPercent(projectId: String?) {
         viewModelScope.launch(Dispatchers.IO) {
-            _projectInfoLiveData.postValue(getProjectInfoUseCase.getProjectInfo(projectId))
+            _doneTasksPercentLiveData.postValue(subTasksUseCase.getDoneProjectsPercent(projectId!!) {
+                getErrorMessage(it)
+            })
         }
     }
 
-    fun updateProject(projectId: String, fieldName: String, updatedInfo: String) {
+    fun updateProject(projectId: String?, projectDomain: ProjectDomain) {
         viewModelScope.launch(Dispatchers.IO) {
-            editProjectUseCase.updateProject(projectId, fieldName, updatedInfo)
+            editProjectUseCase.updateProject(projectId!!, projectDomain)
+            { getErrorMessage(it) }
         }
     }
 
-    fun updateSubTaskProgress(taskId: String, fieldName: String, progress: String) {
+    fun updateProjectProgress(projectId: String?, progress: Progress) {
         viewModelScope.launch(Dispatchers.IO) {
-            subTasksUseCase.updateSubTaskStatus(taskId, fieldName, progress)
+            editProjectUseCase.updateProjectProgress(projectId!!, progress) { getErrorMessage(it) }
+        }
+    }
+
+    fun updateSubTaskProgress(taskId: String, progress: Progress) {
+        viewModelScope.launch(Dispatchers.IO) {
+            subTasksUseCase.updateSubTaskStatus(taskId, progress) { getErrorMessage(it) }
         }
     }
 
     fun deleteProject(projectId: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            editProjectUseCase.deleteProject(projectId)
+            _deleteProjectLiveData.postValue(editProjectUseCase.deleteProject(projectId) {
+                getErrorMessage(it)
+            })
         }
     }
-
 }
