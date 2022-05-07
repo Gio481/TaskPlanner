@@ -38,4 +38,7 @@
     <string name="permission_dialog_message">this permission must be an active</string>
     <string name="permission_dialog_negative_button_text">No</string>
     <string name="permission_dialog_positive_button_text">OK</string>
+    <string name="pick_date_error_text">Pick the date</string>
+    <string name="finished_timer_text">finish</string>
+    <string name="task_create_error_text">Task is not created</string>
 </resources>
