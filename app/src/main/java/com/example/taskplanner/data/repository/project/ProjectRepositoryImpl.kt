@@ -5,8 +5,13 @@ import com.example.taskplanner.data.model.ProjectDto
 import com.example.taskplanner.domain.mapper.ProjectDomainMapper
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.repository.project.ProjectRepository
+import com.example.taskplanner.util.Constants.DESCRIPTION_FIELD
+import com.example.taskplanner.util.Constants.END_DATE_FIELD
+import com.example.taskplanner.util.Constants.START_DATE_FIELD
+import com.example.taskplanner.util.Constants.TITLE_FIELD
 import com.example.taskplanner.util.Progress
 import com.example.taskplanner.util.Resources
+import com.example.taskplanner.util.extensions.update
 import com.example.taskplanner.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -37,7 +42,7 @@ class ProjectRepositoryImpl(
         }
     }
 
-    override suspend fun getProjectsSize(projectProgress: String): Resources<Int> {
+    override suspend fun getProjectsSize(projectProgress: Progress): Resources<Int> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 val result =
@@ -49,7 +54,7 @@ class ProjectRepositoryImpl(
         }
     }
 
-    override suspend fun createProject(projectDomain: ProjectDomain): Resources<Unit> {
+    override suspend fun createProject(projectDomain: ProjectDomain): Resources<ProjectDomain> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 val projectId = UUID.randomUUID().toString()
@@ -64,7 +69,7 @@ class ProjectRepositoryImpl(
                 )
                 projectCollection.document(projectId).set(projectDomainMapper.modelMapper(project))
                     .await()
-                Resources.Success(Unit)
+                getProjectInfo(projectId)
             }
         }
     }
@@ -91,12 +96,41 @@ class ProjectRepositoryImpl(
 
     override suspend fun updateProject(
         projectId: String,
-        fieldName: String,
-        updatedInfo: String,
+        projectDomain: ProjectDomain,
     ): Resources<Unit> {
         return withContext(Dispatchers.IO) {
             fetchData {
-                projectCollection.document(projectId).update(fieldName, updatedInfo).await()
+                with(projectDomain) {
+                    title.update {
+                        projectCollection.document(projectId).update(TITLE_FIELD, title).await()
+                    }
+                    description.update {
+                        projectCollection.document(projectId).update(DESCRIPTION_FIELD, description)
+                            .await()
+                    }
+                    startDate.update {
+                        projectCollection.document(projectId).update(START_DATE_FIELD, startDate)
+                            .await()
+                    }
+
+                    endDate.update {
+                        projectCollection.document(projectId).update(END_DATE_FIELD, endDate)
+                            .await()
+                    }
+                }
+                Resources.Success(Unit)
+            }
+        }
+    }
+
+    override suspend fun updateProjectProgress(
+        projectId: String,
+        progress: Progress,
+    ): Resources<Unit> {
+        return withContext(Dispatchers.IO) {
+            fetchData {
+                projectCollection.document(projectId).update(PROJECT_PROGRESS_FIELD, progress)
+                    .await()
                 Resources.Success(Unit)
             }
         }
