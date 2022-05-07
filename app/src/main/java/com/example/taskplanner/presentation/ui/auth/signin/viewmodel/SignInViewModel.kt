@@ -17,7 +17,7 @@ class SignInViewModel(private val signInUseCase: SignInUseCase) : BaseViewModel(
 
     fun signIn(email: String, password: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            _signInLiveData.postValue(signInUseCase.signIn(email, password))
+            _signInLiveData.postValue(signInUseCase.signIn(email, password) { getErrorMessage(it) })
         }
     }
 }
