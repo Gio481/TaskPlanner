@@ -2,41 +2,38 @@ package com.example.taskplanner.domain.usecase.task.details
 
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.repository.task.TaskRepository
-import com.example.taskplanner.domain.usecase.util.GetErrorMessage
-import com.example.taskplanner.util.Resources
+import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.dataFetcher
 
 class TaskDetailsUseCaseImpl(
     private val taskRepository: TaskRepository,
-    private val getErrorMessage: GetErrorMessage,
 ) : TaskDetailsUseCase {
 
-    override suspend fun getTaskInfo(taskId: String): TaskDomain? {
-        return when (val data = taskRepository.getTaskInfo(taskId)) {
-            is Resources.Success -> data.data
-            is Resources.Error -> {
-                getErrorMessage.errorMessage(data.message)
-                null
-            }
-        }
+    override suspend fun getTaskInfo(
+        taskId: String,
+        errorAction: (error: String) -> Unit,
+    ): TaskDomain? {
+        return dataFetcher({ taskRepository.getTaskInfo(taskId) }, { errorAction(it) })
     }
 
     override suspend fun updateTask(
         taskId: String,
-        fieldName: String,
-        updatedInfo: String,
+        taskDomain: TaskDomain,
+        errorAction: (error: String) -> Unit,
     ) {
-        return when (val data = taskRepository.updateTask(taskId, fieldName, updatedInfo)) {
-            is Resources.Success -> Unit
-            is Resources.Error -> getErrorMessage.errorMessage(data.message)
-        }
+        dataFetcher({ taskRepository.updateTask(taskId, taskDomain) },
+            { errorAction(it) })
     }
 
-    override suspend fun deleteTask(taskId: String) {
-        return when (val data = taskRepository.deleteTask(taskId)) {
-            is Resources.Success -> Unit
-            is Resources.Error -> getErrorMessage.errorMessage(data.message)
-        }
+    override suspend fun deleteTask(taskId: String, errorAction: (error: String) -> Unit) {
+        dataFetcher({ taskRepository.deleteTask(taskId) }, { errorAction(it) })
     }
 
-
+    override suspend fun updateTaskProgress(
+        taskId: String,
+        progress: Progress,
+        errorAction: (error: String) -> Unit,
+    ) {
+        dataFetcher({ taskRepository.updateTaskProgress(taskId, progress) }, { errorAction(it) })
+    }
 }
