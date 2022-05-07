@@ -1,5 +1,9 @@
 package com.example.taskplanner.util
 
-enum class Progress(val value: String) {
-    TODO("Todo"), IN_PROGRESS("In Progress"), DONE("Done")
+import com.example.taskplanner.R
+
+enum class Progress(val value: String, val color: Int) {
+    TODO("Todo", R.color.blue_500),
+    IN_PROGRESS("In Progress", R.color.purple),
+    DONE("Done", R.color.green_500)
 }
