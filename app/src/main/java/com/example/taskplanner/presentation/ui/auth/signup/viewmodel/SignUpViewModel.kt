@@ -23,9 +23,9 @@ class SignUpViewModel(
     fun signUp(userDomain: UserDomain, repeatPassword: String) {
         viewModelScope.launch(Dispatchers.IO) {
             when (val validation = validator.validate(userDomain, repeatPassword)) {
-                is ValidateState.Error -> errorMessage(validation.message)
+                is ValidateState.Error -> getErrorMessage(validation.message)
                 is ValidateState.Success -> _signUpLiveData.postValue(signUpUseCase.signUp(
-                    userDomain))
+                    userDomain) { getErrorMessage(it) })
             }
         }
     }
