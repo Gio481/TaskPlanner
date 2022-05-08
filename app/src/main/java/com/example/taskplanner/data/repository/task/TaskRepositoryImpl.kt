@@ -81,7 +81,7 @@ class TaskRepositoryImpl(
     override suspend fun updateTask(
         taskId: String,
         taskDomain: TaskDomain,
-    ): Resources<Unit> {
+    ): Resources<TaskDomain> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 with(taskDomain) {
@@ -99,7 +99,7 @@ class TaskRepositoryImpl(
                         taskCollection.document(taskId).update(END_DATE_FIELD, endDate).await()
                     }
                 }
-                Resources.Success(Unit)
+                getTaskInfo(taskId)
             }
         }
     }

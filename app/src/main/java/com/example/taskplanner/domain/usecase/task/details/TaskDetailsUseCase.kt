@@ -9,7 +9,7 @@ interface TaskDetailsUseCase {
         taskId: String,
         taskDomain: TaskDomain,
         errorAction: (error: String) -> Unit,
-    )
+    ): TaskDomain?
 
     suspend fun deleteTask(taskId: String, errorAction: (error: String) -> Unit)
     suspend fun updateTaskProgress(

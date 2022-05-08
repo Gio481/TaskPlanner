@@ -20,8 +20,8 @@ class TaskDetailsUseCaseImpl(
         taskId: String,
         taskDomain: TaskDomain,
         errorAction: (error: String) -> Unit,
-    ) {
-        dataFetcher({ taskRepository.updateTask(taskId, taskDomain) },
+    ):TaskDomain? {
+       return dataFetcher({ taskRepository.updateTask(taskId, taskDomain) },
             { errorAction(it) })
     }
 
