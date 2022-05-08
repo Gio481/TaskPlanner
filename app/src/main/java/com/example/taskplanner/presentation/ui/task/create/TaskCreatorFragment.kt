@@ -34,7 +34,7 @@ class TaskCreatorFragment : BaseFragment<FragmentTaskCreatorBinding, TaskCreator
         observer(viewModel.taskLiveData) {
             binding.progressBarView.isVisible(false)
             findNavController().navigate(TaskCreatorFragmentDirections.actionTaskCreatorFragmentToTaskDetailsFragment(
-                it))
+                it, args.project))
         }
     }
 

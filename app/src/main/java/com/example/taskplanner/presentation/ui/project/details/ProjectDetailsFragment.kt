@@ -9,6 +9,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.FragmentProjectDetailsBinding
+import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.project.details.actions.ProjectActionsBottomSheetFragment
@@ -34,81 +35,51 @@ class ProjectDetailsFragment :
     private val args: ProjectDetailsFragmentArgs by navArgs()
     private val taskAdapter by lazy { SubTasksAdapter(this) }
     private val actionBottomSheet by lazy { ProjectActionsBottomSheetFragment() }
+    private var startDate: Long? = null
+    private var endDate: Long? = null
+    private var project = ProjectDomain()
 
     override fun onBindViewModel(viewModel: ProjectDetailsViewModel) {
+        project = args.project
         binding.progressBarView.isVisible(true)
-        with(args.project) {
-            viewModel.getAllSubTasks(projectId)
-            viewModel.getDoneTasksPercent(projectId)
-            binding.projectEndInTimeTextView.timer(startDate!!, endDate!!)
-        }
-
         taskAdapter.progressListener = { view, taskId ->
-            updateSubTaskProgress(view as TextView, taskId, viewModel)
+            setSubTaskProgressUpdaterPopupMenu(view as TextView, taskId, viewModel)
         }
-        setUpRecyclerView()
-        observeErrorLiveData(viewModel)
         observeSubTasksLiveData(viewModel)
-        observeDeleteProjectLiveData(viewModel)
         observeDoneTasksPercentLiveData(viewModel)
-        determineBottomSheetAction(viewModel)
+        getSubTasks(viewModel)
+        observeDeleteProjectLiveData(viewModel)
+        observeErrorLiveData(viewModel)
         setUpProjectDetailsScreen()
+        determineBottomSheetAction(viewModel)
+        setUpUpdateFieldsCustomView(viewModel)
+        observeUpdatedProjectLiveData(viewModel)
         setListener(viewModel)
+        setUpRecyclerView()
+    }
+
+    private fun observeSubTasksLiveData(viewModel: ProjectDetailsViewModel) {
+        observer(viewModel.getAllSubTasksLiveData) {
+            binding.progressBarView.isVisible(false)
+            taskAdapter.submitList(it)
+        }
     }
 
     private fun observeDoneTasksPercentLiveData(viewModel: ProjectDetailsViewModel) {
         observer(viewModel.doneTasksPercentLiveData) {
-            binding.progressBarView.isVisible(false)
-            binding.doneStateLoader.progress = it
-        }
-    }
-
-    private fun setUpProjectDetailsScreen() {
-        with(binding) {
-            with(args.project) {
-                projectNameEditText.setText(title)
-                projectTimeTextView.text = startDate!!.toEndDate(endDate!!)
-                projectProgressButton.text = projectProgress?.value
-                projectProgressButton.setTextColor(ContextCompat.getColor(requireContext(),
-                    projectProgress?.color!!))
-                projectEndInTimeTextView.countDownTimer.start()
+            with(binding) {
+                progressBarView.isVisible(false)
+                doneStateLoader.progress = it
             }
         }
     }
 
-    private fun updateSubTaskProgress(
-        view: TextView,
-        taskId: String,
-        viewModel: ProjectDetailsViewModel,
-    ) {
-        inflatePopupMenu(view,
-            todoAction = {
-                popupMenuItemAction(view, Progress.TODO, taskId, viewModel)
-            },
-            inProgressAction = {
-                popupMenuItemAction(view, Progress.IN_PROGRESS, taskId, viewModel)
-            },
-            doneAction = {
-                popupMenuItemAction(view, Progress.DONE, taskId, viewModel)
-            })
-    }
-
-    private fun popupMenuItemAction(
-        view: TextView,
-        progress: Progress,
-        taskId: String,
-        viewModel: ProjectDetailsViewModel,
-    ) {
-        binding.progressBarView.isVisible(true)
-        with(view) {
-            setBackgroundColor(ContextCompat.getColor(requireContext(),
-                progress.color))
-            text = progress.value
-        }
-        with(viewModel) {
-            getDoneTasksPercent(args.project.projectId)
-            updateSubTaskProgress(taskId, progress)
-            getAllSubTasks(args.project.projectId)
+    private fun getSubTasks(viewModel: ProjectDetailsViewModel) {
+        with(args.project) {
+            with(viewModel) {
+                getAllSubTasks(projectId)
+                getDoneTasksPercent(projectId)
+            }
         }
     }
 
@@ -119,12 +90,6 @@ class ProjectDetailsFragment :
         }
     }
 
-    private fun observeSubTasksLiveData(viewModel: ProjectDetailsViewModel) {
-        observer(viewModel.getAllSubTasksLiveData) {
-            binding.progressBarView.isVisible(false)
-            taskAdapter.submitList(it)
-        }
-    }
 
     private fun observeErrorLiveData(viewModel: ProjectDetailsViewModel) {
         observer(viewModel.errorLiveData) {
@@ -133,19 +98,77 @@ class ProjectDetailsFragment :
         }
     }
 
-    private fun determineBottomSheetAction(viewModel: ProjectDetailsViewModel) {
-        actionBottomSheet.action = {
-            when (it) {
-                is ActionTypes.Delete -> viewModel.deleteProject(args.project.projectId!!)
-                is ActionTypes.Create -> createNewsTask()
-                is ActionTypes.Update -> {}
+    private fun setUpProjectDetailsScreen() {
+        with(binding) {
+            with(args.project) {
+                projectNameTextView.text = title
+                projectTimeTextView.text = startDate!!.toEndDate(endDate!!)
+                projectProgressButton.text = projectProgress?.value
+                projectProgressButton.setTextColor(ContextCompat.getColor(requireContext(),
+                    projectProgress?.color!!))
+                with(projectEndInTimeTextView) {
+                    timer(startDate, endDate)
+                    countDownTimer.start()
+                }
+                setUpUpdateFieldsCustomViewFields(this)
             }
         }
     }
 
-    private fun createNewsTask() {
-        findNavController().navigate(ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToTaskCreatorFragment(
-            args.project))
+    private fun setUpUpdateFieldsCustomViewFields(projectDomain: ProjectDomain) {
+        with(binding.updateFieldsCustomView) {
+            with(projectDomain) {
+                descriptionText = description
+                titleText = title
+                dateText = startDate?.toEndDate(endDate!!)
+            }
+        }
+    }
+
+    private fun setUpUpdateFieldsCustomView(viewModel: ProjectDetailsViewModel) {
+        with(binding.updateFieldsCustomView) {
+            chooseDateAction = { pickUpDate() }
+            updateAction = { updateProject(viewModel) }
+        }
+    }
+
+    private fun pickUpDate() {
+        childFragmentManager.pickDate(startTime = args.project.startDate,
+            endTime = args.project.endDate) { startingDate, endingDate ->
+            binding.updateFieldsCustomView.dateText = startingDate.toEndDate(endingDate)
+            startDate = startingDate
+            endDate = endingDate
+        }
+    }
+
+    private fun updateProject(viewModel: ProjectDetailsViewModel) {
+        val project = ProjectDomain(
+            title = binding.updateFieldsCustomView.getItemTitleText(),
+            description = binding.updateFieldsCustomView.getItemDescriptionText(),
+            endDate = endDate,
+            startDate = startDate
+        )
+        viewModel.updateProject(args.project.projectId, project)
+    }
+
+    private fun observeUpdatedProjectLiveData(viewModel: ProjectDetailsViewModel) {
+        observer(viewModel.updatedProjectLiveDomain) {
+            project = it
+            with(binding) {
+                progressBarView.isVisible(false)
+                projectNameTextView.text = it.title
+                projectTimeTextView.text = it.startDate?.toEndDate(it.endDate!!)
+                updateFieldsCustomView.dateText = it.startDate?.toEndDate(it.endDate!!)
+                with(projectEndInTimeTextView) {
+                    countDownTimer.cancel()
+                    timer(it.startDate!!, it.endDate!!)
+                    countDownTimer.start()
+                }
+                projectDetailsMotionLayout.transitionEndAction {
+                    setUpUpdateFieldsCustomViewFields(it)
+                }
+            }
+        }
     }
 
     private fun setListener(viewModel: ProjectDetailsViewModel) {
@@ -158,6 +181,20 @@ class ProjectDetailsFragment :
                 setProgressUpdaterPopupMenu(it as Button, viewModel)
             }
         }
+    }
+
+    private fun determineBottomSheetAction(viewModel: ProjectDetailsViewModel) {
+        actionBottomSheet.action = {
+            when (it) {
+                is ActionTypes.Delete -> viewModel.deleteProject(args.project.projectId!!)
+                is ActionTypes.Create -> createNewsTask()
+            }
+        }
+    }
+
+    private fun createNewsTask() {
+        findNavController().navigate(ProjectDetailsFragmentDirections.actionProjectDetailsFragmentToTaskCreatorFragment(
+            project))
     }
 
     private fun setProgressUpdaterPopupMenu(view: Button, viewModel: ProjectDetailsViewModel) {
@@ -186,6 +223,41 @@ class ProjectDetailsFragment :
         }
     }
 
+    private fun setSubTaskProgressUpdaterPopupMenu(
+        view: TextView,
+        taskId: String,
+        viewModel: ProjectDetailsViewModel,
+    ) {
+        inflatePopupMenu(view,
+            todoAction = {
+                updateSubTaskProgress(view, Progress.TODO, taskId, viewModel)
+            },
+            inProgressAction = {
+                updateSubTaskProgress(view, Progress.IN_PROGRESS, taskId, viewModel)
+            },
+            doneAction = {
+                updateSubTaskProgress(view, Progress.DONE, taskId, viewModel)
+            })
+    }
+
+    private fun updateSubTaskProgress(
+        view: TextView,
+        progress: Progress,
+        taskId: String,
+        viewModel: ProjectDetailsViewModel,
+    ) {
+        binding.progressBarView.isVisible(true)
+        with(view) {
+            setBackgroundColor(ContextCompat.getColor(requireContext(),
+                progress.color))
+            text = progress.value
+        }
+        with(viewModel) {
+            getDoneTasksPercent(args.project.projectId)
+            updateSubTaskProgress(taskId, progress)
+            getAllSubTasks(args.project.projectId)
+        }
+    }
 
     private fun setUpRecyclerView() {
         with(binding.subTasksRecyclerView) {
@@ -195,7 +267,10 @@ class ProjectDetailsFragment :
     }
 
     override fun onItemClick(taskDomain: TaskDomain) {
-        val bundle = bundle { putParcelable(TASK_DETAILS_ARGS_NAME, taskDomain) }
+        val bundle = bundle {
+            putParcelable(TASK_DETAILS_ARGS_NAME, taskDomain)
+            putParcelable(PROJECT_DETAILS_ARGS_NAME, project)
+        }
         findNavController().safeNavigate(
             R.id.projectDetailsFragment,
             R.id.action_projectDetailsFragment_to_taskDetailsFragment,
@@ -204,5 +279,6 @@ class ProjectDetailsFragment :
 
     companion object {
         private const val TASK_DETAILS_ARGS_NAME = "task"
+        private const val PROJECT_DETAILS_ARGS_NAME = "project"
     }
 }

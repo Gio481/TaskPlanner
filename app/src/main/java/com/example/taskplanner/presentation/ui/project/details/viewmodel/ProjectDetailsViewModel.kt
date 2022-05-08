@@ -26,6 +26,9 @@ class ProjectDetailsViewModel(
     private val _doneTasksPercentLiveData: MutableLiveData<Int> = MutableLiveData()
     val doneTasksPercentLiveData: LiveData<Int> = _doneTasksPercentLiveData
 
+    private val _updatedProjectLiveData: MutableLiveData<ProjectDomain> = MutableLiveData()
+    val updatedProjectLiveDomain: LiveData<ProjectDomain> = _updatedProjectLiveData
+
     fun getAllSubTasks(projectId: String?) {
         viewModelScope.launch(Dispatchers.IO) {
             _getAllSubTasksLiveData.postValue(subTasksUseCase.getAllSubTasks(projectId!!) {
@@ -44,8 +47,9 @@ class ProjectDetailsViewModel(
 
     fun updateProject(projectId: String?, projectDomain: ProjectDomain) {
         viewModelScope.launch(Dispatchers.IO) {
-            editProjectUseCase.updateProject(projectId!!, projectDomain)
-            { getErrorMessage(it) }
+            _updatedProjectLiveData.postValue(editProjectUseCase.updateProject(projectId!!,
+                projectDomain)
+            { getErrorMessage(it) })
         }
     }
 

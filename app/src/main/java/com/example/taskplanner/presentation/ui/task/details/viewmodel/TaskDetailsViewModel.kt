@@ -1,5 +1,7 @@
 package com.example.taskplanner.presentation.ui.task.details.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCase
@@ -10,9 +12,13 @@ import kotlinx.coroutines.launch
 
 class TaskDetailsViewModel(private val taskDetailsUseCase: TaskDetailsUseCase) : BaseViewModel() {
 
+    private val _updatedTaskLiveData: MutableLiveData<TaskDomain> = MutableLiveData()
+    val updatedTaskLiveData: LiveData<TaskDomain> = _updatedTaskLiveData
+
     fun updateTask(taskId: String, taskDomain: TaskDomain) {
         viewModelScope.launch(Dispatchers.IO) {
-            taskDetailsUseCase.updateTask(taskId, taskDomain) { getErrorMessage(it) }
+            _updatedTaskLiveData.postValue(taskDetailsUseCase.updateTask(taskId,
+                taskDomain) { getErrorMessage(it) })
         }
     }
 
