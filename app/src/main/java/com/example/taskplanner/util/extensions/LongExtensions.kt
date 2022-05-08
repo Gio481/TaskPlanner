@@ -20,3 +20,11 @@ fun Long.toEndDate(endDate: Long): String {
 fun Long.isValidDate(endDate: Long): Boolean {
     return System.currentTimeMillis() in this..endDate
 }
+
+fun Long.isValidateWith(projectStartDate: Long, projectEndDate: Long): Boolean {
+    return this in projectStartDate..projectEndDate
+}
+
+inline fun Long?.update(action: () -> Unit) {
+    this?.let { action() }
+}
