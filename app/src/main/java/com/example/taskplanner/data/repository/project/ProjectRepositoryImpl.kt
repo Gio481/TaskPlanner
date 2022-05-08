@@ -97,7 +97,7 @@ class ProjectRepositoryImpl(
     override suspend fun updateProject(
         projectId: String,
         projectDomain: ProjectDomain,
-    ): Resources<Unit> {
+    ): Resources<ProjectDomain> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 with(projectDomain) {
@@ -118,7 +118,7 @@ class ProjectRepositoryImpl(
                             .await()
                     }
                 }
-                Resources.Success(Unit)
+                getProjectInfo(projectId)
             }
         }
     }

@@ -17,8 +17,8 @@ class EditProjectUseCaseImpl(
         projectId: String,
         projectDomain: ProjectDomain,
         errorAction: (error: String) -> Unit,
-    ) {
-        dataFetcher({ projectRepository.updateProject(projectId, projectDomain) },
+    ):ProjectDomain? {
+        return dataFetcher({ projectRepository.updateProject(projectId, projectDomain) },
             { errorAction(it) })
     }
 

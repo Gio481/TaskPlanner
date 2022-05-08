@@ -11,6 +11,6 @@ interface ProjectRepository {
     suspend fun createProject(projectDomain: ProjectDomain): Resources<ProjectDomain>
     suspend fun getProjectInfo(projectId: String): Resources<ProjectDomain>
     suspend fun deleteProject(projectId: String): Resources<Unit>
-    suspend fun updateProject(projectId: String, projectDomain:ProjectDomain): Resources<Unit>
+    suspend fun updateProject(projectId: String, projectDomain:ProjectDomain): Resources<ProjectDomain>
     suspend fun updateProjectProgress(projectId: String, progress: Progress):Resources<Unit>
 }

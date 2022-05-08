@@ -9,7 +9,7 @@ interface EditProjectUseCase {
         projectId: String,
         projectDomain: ProjectDomain,
         errorAction: (error: String) -> Unit,
-    )
+    ):ProjectDomain?
 
     suspend fun updateProjectProgress(
         projectId: String,
