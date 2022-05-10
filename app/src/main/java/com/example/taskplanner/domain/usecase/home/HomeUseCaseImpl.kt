@@ -5,7 +5,7 @@ import com.example.taskplanner.domain.model.UserDomain
 import com.example.taskplanner.domain.repository.auth.AuthRepository
 import com.example.taskplanner.domain.repository.project.ProjectRepository
 import com.example.taskplanner.domain.usecase.util.GetErrorMessage
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.Resources
 
 class HomeUseCaseImpl(
@@ -24,7 +24,7 @@ class HomeUseCaseImpl(
         }
     }
 
-    override suspend fun getProjectsSize(progress: Progress): Int? {
+    override suspend fun getProjectsSize(progress: Status): Int? {
         return when (val data = projectRepository.getProjectsSize(progress.value)) {
             is Resources.Success -> data.data
             is Resources.Error -> {
@@ -44,7 +44,7 @@ class HomeUseCaseImpl(
     override suspend fun updateProjectProgress(
         projectId: String,
         fieldName: String,
-        progress: Progress,
+        progress: Status,
     ) {
         return when (val data =
             projectRepository.updateProject(projectId, fieldName, progress.value)) {
