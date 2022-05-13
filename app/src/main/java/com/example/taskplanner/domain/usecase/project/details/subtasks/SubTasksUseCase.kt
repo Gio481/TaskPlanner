@@ -1,7 +1,7 @@
 package com.example.taskplanner.domain.usecase.project.details.subtasks
 
 import com.example.taskplanner.domain.model.TaskDomain
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 
 interface SubTasksUseCase {
     suspend fun getAllSubTasks(
@@ -11,7 +11,7 @@ interface SubTasksUseCase {
 
     suspend fun updateSubTaskStatus(
         taskId: String,
-        progress: Progress,
+        status: Status,
         errorAction: (error: String) -> Unit,
     )
 
