@@ -26,34 +26,40 @@ class ProjectDetailsViewModel(
     private val _doneTasksPercentLiveData: MutableLiveData<Int> = MutableLiveData()
     val doneTasksPercentLiveData: LiveData<Int> = _doneTasksPercentLiveData
 
-    private val _updatedProjectLiveData: MutableLiveData<ProjectDomain> = MutableLiveData()
-    val updatedProjectLiveDomain: LiveData<ProjectDomain> = _updatedProjectLiveData
+    private val _projectLiveData: MutableLiveData<ProjectDomain> = MutableLiveData()
+    val projectLiveData: LiveData<ProjectDomain> = _projectLiveData
 
-    fun getAllSubTasks(projectId: String?) {
+    var project = ProjectDomain()
+    var startDate: Long? = null
+    var endDate: Long? = null
+    var isFinishedProject = false
+
+    fun getProjectInfo(project: ProjectDomain) = _projectLiveData.postValue(project)
+
+    fun getAllSubTasks(projectId: String? = project.projectId) {
         viewModelScope.launch(Dispatchers.IO) {
-            _getAllSubTasksLiveData.postValue(subTasksUseCase.getAllSubTasks(projectId!!) {
-                getErrorMessage(it)
-            })
+            _getAllSubTasksLiveData.postValue(subTasksUseCase.getAllSubTasks(projectId!!) { getErrorMessage(it) })
         }
     }
 
-    fun getDoneTasksPercent(projectId: String?) {
+    fun getDoneTasksPercent(projectId: String? = project.projectId) {
         viewModelScope.launch(Dispatchers.IO) {
-            _doneTasksPercentLiveData.postValue(subTasksUseCase.getDoneProjectsPercent(projectId!!) {
-                getErrorMessage(it)
-            })
+            _doneTasksPercentLiveData.postValue(subTasksUseCase.getDoneProjectsPercent(projectId!!) { getErrorMessage(it) })
         }
     }
 
-    fun updateProject(projectId: String?, projectDomain: ProjectDomain) {
+    fun updateProject(title: String, description: String, startDate: Long, endDate: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _updatedProjectLiveData.postValue(editProjectUseCase.updateProject(projectId!!,
-                projectDomain)
-            { getErrorMessage(it) })
-        }
+            val project = ProjectDomain(
+                title = title,
+                description = description,
+                startDate = startDate,
+                endDate = endDate
+            )
+            _projectLiveData.postValue(editProjectUseCase.updateProject(project.projectId!!, project) { getErrorMessage(it) }) }
     }
 
-    fun updateProjectProgress(projectId: String?, progress: Progress) {
+    fun updateProjectProgress(projectId: String? = project.projectId, progress: Progress) {
         viewModelScope.launch(Dispatchers.IO) {
             editProjectUseCase.updateProjectProgress(projectId!!, progress) { getErrorMessage(it) }
         }
@@ -65,11 +71,9 @@ class ProjectDetailsViewModel(
         }
     }
 
-    fun deleteProject(projectId: String) {
+    fun deleteProject(projectId: String? = project.projectId) {
         viewModelScope.launch(Dispatchers.IO) {
-            _deleteProjectLiveData.postValue(editProjectUseCase.deleteProject(projectId) {
-                getErrorMessage(it)
-            })
+            _deleteProjectLiveData.postValue(editProjectUseCase.deleteProject(projectId!!) { getErrorMessage(it) })
         }
     }
 }
