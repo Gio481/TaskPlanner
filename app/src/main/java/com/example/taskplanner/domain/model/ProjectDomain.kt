@@ -1,6 +1,6 @@
 package com.example.taskplanner.domain.model
 
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 
 data class ProjectDomain(
     val projectId: String? = null,
@@ -9,5 +9,5 @@ data class ProjectDomain(
     val description: String? = null,
     val startDate: Long? = null,
     val endDate: Long? = null,
-    val projectProgress: Progress? = null,
+    val projectProgress: Status? = null,
 )

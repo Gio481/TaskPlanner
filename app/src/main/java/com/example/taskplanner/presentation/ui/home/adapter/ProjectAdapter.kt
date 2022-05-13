@@ -30,7 +30,11 @@ class ProjectAdapter(private val onClickListener: OnClickListener) :
         fun onBind(projectDomain: ProjectDomain) {
             with(binding) {
                 projectTitleTextView.text = projectDomain.title
-                projectProgressTextView.text = projectDomain.projectProgress
+                with(projectProgressTextView) {
+                    text = projectDomain.projectProgress?.value?.let {
+                        context.getString(it)
+                    }
+                }
             }
         }
     }
