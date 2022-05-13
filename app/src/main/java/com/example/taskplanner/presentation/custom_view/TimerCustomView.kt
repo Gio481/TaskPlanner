@@ -55,4 +55,7 @@ class TimerCustomView @JvmOverloads constructor(
         return countDownTimer
     }
 
+    fun setText(text:String){
+        binding.timerTextView.text = text
+    }
 }
