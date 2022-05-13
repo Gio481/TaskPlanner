@@ -8,12 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.taskplanner.databinding.TaskItemLayoutBinding
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.util.ItemDiffUtil
+import com.example.taskplanner.util.OnItemClickListener
 import com.example.taskplanner.util.ProgressListener
 
-class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
-    ListAdapter<TaskDomain, SubTasksAdapter.ViewHolder>(ItemDiffUtil()) {
+class SubTasksAdapter : ListAdapter<TaskDomain, SubTasksAdapter.ViewHolder>(ItemDiffUtil()) {
 
     lateinit var progressListener: ProgressListener
+    lateinit var onItemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = TaskItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,7 +24,7 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
                 progressListener(it, getItem(viewHolder.adapterPosition).taskId!!)
             }
             showItemView.setOnClickListener {
-                onItemClickListener.onItemClick(getItem(viewHolder.adapterPosition))
+                onItemClickListener(getItem(viewHolder.adapterPosition))
             }
         }
         return viewHolder
@@ -39,7 +40,8 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
             with(binding) {
                 taskTitleTextView.text = taskDomain.title
                 taskProgressTextView.text = taskDomain.taskProgress?.value
-                taskProgressTextView.setBackgroundColor(ContextCompat.getColor(taskProgressTextView.context, taskDomain.taskProgress?.color!!))
+                taskProgressTextView.setBackgroundColor(ContextCompat.getColor(taskProgressTextView.context,
+                    taskDomain.taskProgress?.color!!))
             }
         }
     }
