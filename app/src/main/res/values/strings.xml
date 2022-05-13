@@ -45,4 +45,5 @@
     <string name="update_task_text">Update Task</string>
     <string name="delete_task_text">Delete Task</string>
     <string name="invalid_date_text">Your date is out of date</string>
+    <string name="project_is_done_text">your project is done</string>
 </resources>
