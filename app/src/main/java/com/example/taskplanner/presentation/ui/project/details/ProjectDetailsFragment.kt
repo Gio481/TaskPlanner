@@ -17,9 +17,11 @@ import com.example.taskplanner.presentation.ui.project.details.adapter.SubTasksA
 import com.example.taskplanner.presentation.ui.project.details.viewmodel.ProjectDetailsViewModel
 import com.example.taskplanner.util.ActionTypes
 import com.example.taskplanner.util.BindingInflater
+import com.example.taskplanner.util.Constants.TIMER_STOP_AND_START_DELAY
 import com.example.taskplanner.util.Progress
 import com.example.taskplanner.util.bundle
 import com.example.taskplanner.util.extensions.*
+import kotlinx.coroutines.delay
 import kotlin.reflect.KClass
 
 class ProjectDetailsFragment :
@@ -55,7 +57,9 @@ class ProjectDetailsFragment :
 
     private fun setUpProject(viewModel: ProjectDetailsViewModel) {
         with(viewModel) {
-            project = args.project
+            if (project.projectId.isNullOrBlank()) {
+                project = args.project
+            }
             startDate = project.startDate
             endDate = project.endDate
             getProjectInfo(project)
@@ -97,9 +101,6 @@ class ProjectDetailsFragment :
             observer(projectLiveData) {
                 project = it
                 setUpProjectDetailsScreen(viewModel, project)
-                binding.projectDetailsMotionLayout.transitionEndAction {
-                    setUpUpdateFieldsCustomViewFields(viewModel, project)
-                }
             }
         }
     }
@@ -157,12 +158,15 @@ class ProjectDetailsFragment :
     }
 
     private fun setUpTimer(project: ProjectDomain) {
-        with(binding.projectEndInTimeTextView) {
-            timer(project.startDate!!, project.endDate!!)
-            if (project.projectProgress == Progress.DONE) {
-                setText(getString(R.string.project_is_done_text))
-            } else {
-                countDownTimer.start()
+        launchScope {
+            with(binding.projectEndInTimeTextView) {
+                timer(project.startDate!!, project.endDate!!)
+                if (project.projectProgress == Progress.DONE) {
+                    setText(getString(R.string.project_is_done_text))
+                } else {
+                    delay(TIMER_STOP_AND_START_DELAY)
+                    countDownTimer.start()
+                }
             }
         }
     }
@@ -203,13 +207,12 @@ class ProjectDetailsFragment :
     }
 
     private fun updateProject(viewModel: ProjectDetailsViewModel) {
-        binding.progressBarView.isVisible(true)
         with(viewModel) {
             with(binding.updateFieldsCustomView) {
                 if (startDate != project.startDate && endDate != project.endDate) {
                     binding.projectEndInTimeTextView.countDownTimer.cancel()
                 }
-                updateProject(getItemTitleText(), getItemDescriptionText(), startDate!!, endDate!!)
+                updateProject(getItemTitleText(), getItemDescriptionText())
             }
         }
     }
@@ -222,6 +225,9 @@ class ProjectDetailsFragment :
             }
             projectProgressButton.setOnClickListener {
                 setProgressUpdaterPopupMenu(it as Button, viewModel)
+            }
+            projectDetailsMotionLayout.transitionEndAction {
+                setUpUpdateFieldsCustomViewFields(viewModel, viewModel.project)
             }
         }
     }
@@ -245,35 +251,41 @@ class ProjectDetailsFragment :
     private fun setProgressUpdaterPopupMenu(view: Button, viewModel: ProjectDetailsViewModel) {
         inflatePopupMenu(view,
             todoAction = {
-                nonDoneProjectAction(viewModel)
-                updateProjectProgress(view, Progress.TODO, viewModel)
-
+                launchScope {
+                    nonDoneProjectAction(viewModel)
+                    updateProjectProgress(view, Progress.TODO, viewModel)
+                }
             },
             inProgressAction = {
-                nonDoneProjectAction(viewModel)
-                updateProjectProgress(view, Progress.IN_PROGRESS, viewModel)
-
+                launchScope {
+                    nonDoneProjectAction(viewModel)
+                    updateProjectProgress(view, Progress.IN_PROGRESS, viewModel)
+                }
             },
             doneAction = {
-                doneProjectAction(viewModel)
-                updateProjectProgress(view, Progress.DONE, viewModel)
+                launchScope {
+                    doneProjectAction(viewModel)
+                    updateProjectProgress(view, Progress.DONE, viewModel)
+                }
             }
         )
     }
 
-    private fun nonDoneProjectAction(viewModel: ProjectDetailsViewModel) {
+    private suspend fun nonDoneProjectAction(viewModel: ProjectDetailsViewModel) {
         with(viewModel) {
             with(binding.projectEndInTimeTextView) {
                 isFinishedProject = false
                 timer(project.startDate!!, project.endDate!!)
+                delay(TIMER_STOP_AND_START_DELAY)
                 countDownTimer.start()
             }
         }
     }
 
-    private fun doneProjectAction(viewModel: ProjectDetailsViewModel) {
+    private suspend fun doneProjectAction(viewModel: ProjectDetailsViewModel) {
         viewModel.isFinishedProject = true
         with(binding.projectEndInTimeTextView) {
+            delay(TIMER_STOP_AND_START_DELAY)
             countDownTimer.cancel()
             setText(getString(R.string.project_is_done_text))
         }

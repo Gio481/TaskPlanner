@@ -27,14 +27,10 @@ class TaskDetailsViewModel(private val taskDetailsUseCase: TaskDetailsUseCase) :
     var projectEndDate: Long? = null
 
     fun getTaskInfo(taskDomain: TaskDomain) = _taskLiveData.postValue(taskDomain)
+
     fun getProjectDate(projectDomain: ProjectDomain) = _projectDateLiveData.postValue(projectDomain)
 
-    fun updateTask(
-        title: String? = task.title,
-        description: String? = task.description,
-        startDate: Long,
-        endDate: Long,
-    ) {
+    fun updateTask(title: String? = task.title, description: String? = task.description) {
         viewModelScope.launch(Dispatchers.IO) {
             val taskDomain = TaskDomain(
                 title = title?.ifBlank { task.title },

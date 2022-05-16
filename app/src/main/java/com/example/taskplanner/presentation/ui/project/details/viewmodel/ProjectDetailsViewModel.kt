@@ -38,25 +38,31 @@ class ProjectDetailsViewModel(
 
     fun getAllSubTasks(projectId: String? = project.projectId) {
         viewModelScope.launch(Dispatchers.IO) {
-            _getAllSubTasksLiveData.postValue(subTasksUseCase.getAllSubTasks(projectId!!) { getErrorMessage(it) })
+            _getAllSubTasksLiveData.postValue(subTasksUseCase.getAllSubTasks(projectId!!) {
+                getErrorMessage(it)
+            })
         }
     }
 
     fun getDoneTasksPercent(projectId: String? = project.projectId) {
         viewModelScope.launch(Dispatchers.IO) {
-            _doneTasksPercentLiveData.postValue(subTasksUseCase.getDoneProjectsPercent(projectId!!) { getErrorMessage(it) })
+            _doneTasksPercentLiveData.postValue(subTasksUseCase.getDoneProjectsPercent(projectId!!) {
+                getErrorMessage(it)
+            })
         }
     }
 
-    fun updateProject(title: String, description: String, startDate: Long, endDate: Long) {
+    fun updateProject(title: String, description: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            val project = ProjectDomain(
+            val newProject = ProjectDomain(
                 title = title,
                 description = description,
                 startDate = startDate,
                 endDate = endDate
             )
-            _projectLiveData.postValue(editProjectUseCase.updateProject(project.projectId!!, project) { getErrorMessage(it) }) }
+            _projectLiveData.postValue(editProjectUseCase.updateProject(project.projectId!!,
+                newProject) { getErrorMessage(it) })
+        }
     }
 
     fun updateProjectProgress(projectId: String? = project.projectId, progress: Progress) {
@@ -73,7 +79,9 @@ class ProjectDetailsViewModel(
 
     fun deleteProject(projectId: String? = project.projectId) {
         viewModelScope.launch(Dispatchers.IO) {
-            _deleteProjectLiveData.postValue(editProjectUseCase.deleteProject(projectId!!) { getErrorMessage(it) })
+            _deleteProjectLiveData.postValue(editProjectUseCase.deleteProject(projectId!!) {
+                getErrorMessage(it)
+            })
         }
     }
 }
