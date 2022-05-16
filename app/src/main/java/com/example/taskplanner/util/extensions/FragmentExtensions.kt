@@ -10,10 +10,13 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import com.example.taskplanner.R
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 fun <T> Fragment.observer(liveData: LiveData<T>, observer: (data: T) -> Unit) {
     liveData.observe(this.viewLifecycleOwner) { observer(it) }
@@ -86,5 +89,11 @@ fun Fragment.inflatePopupMenu(
             }
         }
         true
+    }
+}
+
+fun Fragment.launchScope(launch: suspend CoroutineScope.() -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        launch()
     }
 }
