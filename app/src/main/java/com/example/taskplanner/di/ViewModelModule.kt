@@ -12,10 +12,10 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
-    viewModel { SplashViewModel() }
+    viewModel { SplashViewModel(get()) }
     viewModel { SignInViewModel(get()) }
     viewModel { SignUpViewModel(get(), get()) }
-    viewModel { HomeVewModel(get()) }
+    viewModel { HomeVewModel(get(), get()) }
     viewModel { ProjectDetailsViewModel(get(), get(), get()) }
     viewModel { ProjectCreatorViewModel(get(), get()) }
     viewModel { TaskDetailsViewModel(get()) }

@@ -23,7 +23,7 @@ class ProjectStatesCustomView @JvmOverloads constructor(
             field = value
         }
 
-    private var totalProjectText: String? = null
+    var totalProjectText: String? = null
         set(value) {
             binding.totalProjectTextView.text = value
             field = value

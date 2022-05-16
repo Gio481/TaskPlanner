@@ -1,7 +1,10 @@
 package com.example.taskplanner.domain.model
 
+import android.os.Parcelable
 import com.example.taskplanner.util.Status
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class TaskDomain(
     val taskId: String? = null,
     val projectId: String? = null,
@@ -11,4 +14,4 @@ data class TaskDomain(
     val taskProgress: Status? = null,
     val startDate: Long? = null,
     val endDate: Long? = null,
-)
+) : Parcelable

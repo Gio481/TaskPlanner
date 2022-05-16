@@ -5,7 +5,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        def navArgsVersion = '2.4.1'
         classpath 'com.google.gms:google-services:4.3.10'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navArgsVersion"
     }
 }
 
