@@ -3,12 +3,10 @@ package com.example.taskplanner.presentation.ui.task.create
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskplanner.databinding.FragmentTaskCreatorBinding
-import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.task.create.viewmodel.TaskCreatorViewModel
 import com.example.taskplanner.util.BindingInflater
 import com.example.taskplanner.util.CustomDateValidator
-import com.example.taskplanner.util.Progress
 import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
@@ -19,22 +17,33 @@ class TaskCreatorFragment : BaseFragment<FragmentTaskCreatorBinding, TaskCreator
 
     override fun getViewModelClass(): KClass<TaskCreatorViewModel> = TaskCreatorViewModel::class
 
-    private var startDate: Long? = null
-    private var endDate: Long? = null
-    private var task: TaskDomain = TaskDomain()
     private val args: TaskCreatorFragmentArgs by navArgs()
 
     override fun onBindViewModel(viewModel: TaskCreatorViewModel) {
+        getTaskOwnerProjectInfo(viewModel)
+        observeTaskOwnerProjectLiveData(viewModel)
         observeTaskLiveData(viewModel)
         observeErrorLiveData(viewModel)
         setListeners(viewModel)
+    }
+
+    private fun getTaskOwnerProjectInfo(viewModel: TaskCreatorViewModel) {
+        viewModel.getTaskOwnerProjectInfo(args.project)
+    }
+
+    private fun observeTaskOwnerProjectLiveData(viewModel: TaskCreatorViewModel) {
+        with(viewModel) {
+            observer(taskOwnerProjectLiveData) {
+                project = it
+            }
+        }
     }
 
     private fun observeTaskLiveData(viewModel: TaskCreatorViewModel) {
         observer(viewModel.taskLiveData) {
             binding.progressBarView.isVisible(false)
             findNavController().navigate(TaskCreatorFragmentDirections.actionTaskCreatorFragmentToTaskDetailsFragment(
-                it, args.project))
+                it, viewModel.project))
         }
     }
 
@@ -48,7 +57,7 @@ class TaskCreatorFragment : BaseFragment<FragmentTaskCreatorBinding, TaskCreator
     private fun setListeners(viewModel: TaskCreatorViewModel) {
         with(binding) {
             datePickerButton.setOnClickListener {
-                pickUpDate()
+                pickUpDate(viewModel)
             }
             createNewTaskButton.setOnClickListener {
                 createNewTask(viewModel)
@@ -56,24 +65,25 @@ class TaskCreatorFragment : BaseFragment<FragmentTaskCreatorBinding, TaskCreator
         }
     }
 
-    private fun pickUpDate() {
-        childFragmentManager.pickDate(validator = CustomDateValidator(args.project.startDate,
-            args.project.endDate)) { startingDate, endingDate ->
-            binding.taskTimeTextView.text = startingDate.toEndDate(endingDate)
-            startDate = startingDate
-            endDate = endingDate
+    private fun pickUpDate(viewModel: TaskCreatorViewModel) {
+        with(viewModel) {
+            childFragmentManager.pickDate(validator = CustomDateValidator(project.startDate,
+                project.endDate)) { startingDate, endingDate ->
+                binding.taskTimeTextView.text = startingDate.toEndDate(endingDate)
+                startDate = startingDate
+                endDate = endingDate
+            }
         }
     }
 
     private fun createNewTask(viewModel: TaskCreatorViewModel) {
-        task = TaskDomain(
-            title = binding.taskNameEditText.text.toString(),
-            description = binding.taskDescriptionEditText.text.toString(),
-            startDate = startDate,
-            endDate = endDate,
-            taskProgress = Progress.TODO
-        )
-        binding.progressBarView.isVisible(true)
-        viewModel.createTask(task, args.project.projectId)
+        with(viewModel) {
+            val newTask = newTask(
+                title = binding.taskNameEditText.text.toString(),
+                description = binding.taskDescriptionEditText.text.toString(),
+            )
+            binding.progressBarView.isVisible(true)
+            createTask(newTask)
+        }
     }
 }
