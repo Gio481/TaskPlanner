@@ -1,6 +1,7 @@
 package com.example.taskplanner.domain.model
 
 import android.os.Parcelable
+import com.example.taskplanner.util.Status
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
