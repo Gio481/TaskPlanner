@@ -8,7 +8,7 @@ import com.example.taskplanner.domain.model.UserDomain
 import com.example.taskplanner.domain.usecase.home.project.GetProjectsUseCase
 import com.example.taskplanner.domain.usecase.home.user.UserUseCase
 import com.example.taskplanner.presentation.base.BaseViewModel
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -46,13 +46,13 @@ class HomeVewModel(
 
     fun getAllProjectsSize() {
         viewModelScope.launch(Dispatchers.IO) {
-            _getAllTodoProjects.postValue(getProjectsUseCase.getProjectsSize(Progress.TODO) {
+            _getAllTodoProjects.postValue(getProjectsUseCase.getProjectsSize(Status.TODO) {
                 getErrorMessage(it)
             })
-            _getAllInProgressProjects.postValue(getProjectsUseCase.getProjectsSize(Progress.IN_PROGRESS) {
+            _getAllInProgressProjects.postValue(getProjectsUseCase.getProjectsSize(Status.IN_PROGRESS) {
                 getErrorMessage(it)
             })
-            _getAllDoneProjects.postValue(getProjectsUseCase.getProjectsSize(Progress.DONE) {
+            _getAllDoneProjects.postValue(getProjectsUseCase.getProjectsSize(Status.DONE) {
                 getErrorMessage(it)
             })
         }

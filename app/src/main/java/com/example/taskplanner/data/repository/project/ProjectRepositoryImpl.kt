@@ -9,7 +9,7 @@ import com.example.taskplanner.util.Constants.DESCRIPTION_FIELD
 import com.example.taskplanner.util.Constants.END_DATE_FIELD
 import com.example.taskplanner.util.Constants.START_DATE_FIELD
 import com.example.taskplanner.util.Constants.TITLE_FIELD
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.Resources
 import com.example.taskplanner.util.extensions.update
 import com.example.taskplanner.util.fetchData
@@ -42,7 +42,7 @@ class ProjectRepositoryImpl(
         }
     }
 
-    override suspend fun getProjectsSize(projectProgress: Progress): Resources<Int> {
+    override suspend fun getProjectsSize(projectProgress: Status): Resources<Int> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 val result =
@@ -125,7 +125,7 @@ class ProjectRepositoryImpl(
 
     override suspend fun updateProjectProgress(
         projectId: String,
-        progress: Progress,
+        progress: Status,
     ): Resources<Unit> {
         return withContext(Dispatchers.IO) {
             fetchData {

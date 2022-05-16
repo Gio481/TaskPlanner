@@ -37,8 +37,11 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
         fun onBind(taskDomain: TaskDomain) {
             with(binding) {
                 taskTitleTextView.text = taskDomain.title
-                taskProgressTextView.text = taskDomain.taskProgress
-
+                with(taskProgressTextView) {
+                    text = taskDomain.taskProgress?.value?.let {
+                        context.getString(it)
+                    }
+                }
             }
         }
     }

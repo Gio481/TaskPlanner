@@ -1,7 +1,7 @@
 package com.example.taskplanner.domain.repository.task
 
 import com.example.taskplanner.domain.model.TaskDomain
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.Resources
 
 interface TaskRepository {
@@ -12,5 +12,5 @@ interface TaskRepository {
     suspend fun deleteTask(taskId: String): Resources<Unit>
     suspend fun getAllDoneTasks(projectId: String): Resources<Int>
     suspend fun getAllTasksSize(projectId: String): Resources<Int>
-    suspend fun updateTaskProgress(taskId: String, progress: Progress): Resources<Unit>
+    suspend fun updateTaskProgress(taskId: String, progress: Status): Resources<Unit>
 }
