@@ -1,7 +1,7 @@
 package com.example.taskplanner.domain.usecase.project.details.edit_project
 
 import com.example.taskplanner.domain.model.ProjectDomain
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 
 interface EditProjectUseCase {
     suspend fun deleteProject(projectId: String, errorAction: (error: String) -> Unit)
@@ -13,7 +13,7 @@ interface EditProjectUseCase {
 
     suspend fun updateProjectProgress(
         projectId: String,
-        progress: Progress,
+        status: Status,
         errorAction: (error: String) -> Unit,
     )
 }
