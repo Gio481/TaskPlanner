@@ -24,43 +24,80 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
     override fun getViewModelClass(): KClass<TaskDetailsViewModel> = TaskDetailsViewModel::class
 
     private val args: TaskDetailsFragmentArgs by navArgs()
-    private var startDate: Long? = null
-    private var endDate: Long? = null
-    private var task = TaskDomain()
     private var isDateChosen = false
     private var dialog: Dialog? = null
 
     override fun onBindViewModel(viewModel: TaskDetailsViewModel) {
-        binding.taskEndInTimeTextView.timer(args.task.startDate!!, args.task.endDate!!)
-        setUpDialog(viewModel)
-        setUpInvalidDateWarningDialog()
+        setUpTask(viewModel)
+        observeProjectDateLiveData(viewModel)
+        setUpTaskProgressDetails(viewModel)
+        observeTaskLiveData(viewModel)
+        configureDialog(viewModel)
+        setUpInvalidDateWarningDialog(viewModel)
         observeDeleteTaskLiveData(viewModel)
         observeErrorLiveData(viewModel)
-        setUpTaskDetailsScreen()
         setUpUpdateFieldsCustomViewActions(viewModel)
-        observeUpdatedTaskLiveData(viewModel)
         setListener(viewModel)
-        task = args.task
     }
 
-    private fun setUpDialog(viewModel: TaskDetailsViewModel) {
-        dialog = requireContext().createDialog(
-            updateTaskAction = { updateDate(viewModel) },
-            deleteTaskAction = { viewModel.deleteTask(args.task.taskId) },
-            chooseDateAction = { pickUpDate() })
+    private fun setUpTask(viewModel: TaskDetailsViewModel) {
+        with(viewModel) {
+            task = args.task
+            startDate = task.startDate
+            endDate = task.endDate
+            getTaskInfo(task)
+            getProjectDate(args.project)
+        }
     }
 
-    private fun setUpInvalidDateWarningDialog() {
-        with(args) {
-            if (!(task.startDate!!.isValidateWith(project.startDate!!,
-                    project.endDate!!) && task.endDate!!.isValidateWith(project.startDate!!,
-                    project.endDate!!))
+    private fun observeProjectDateLiveData(viewModel: TaskDetailsViewModel) {
+        with(viewModel) {
+            observer(projectDateLiveData) {
+                projectStartDate = it.startDate
+                projectEndDate = it.endDate
+            }
+        }
+    }
+
+    private fun setUpInvalidDateWarningDialog(viewModel: TaskDetailsViewModel) {
+        with(viewModel) {
+            if (!(task.startDate!!.isValidateWith(startDate!!,
+                    endDate!!) && task.endDate!!.isValidateWith(startDate!!, endDate!!))
             ) {
                 binding.taskEndInTimeTextView.countDownTimer.cancel()
+                binding.taskEndInTimeTextView.setText(getString(R.string.invalid_date_text))
                 dialog?.show()
             }
         }
     }
+
+    private fun setUpTaskProgressDetails(viewModel: TaskDetailsViewModel) {
+        with(binding.taskStateButton) {
+            text = viewModel.task.taskProgress?.value
+            setBackgroundColor(ContextCompat.getColor(requireContext(),
+                viewModel.task.taskProgress?.color!!))
+        }
+    }
+
+    private fun observeTaskLiveData(viewModel: TaskDetailsViewModel) {
+        with(viewModel) {
+            observer(viewModel.taskLiveData) {
+                task = it
+                setUpTaskDetailsScreen(viewModel, task)
+                binding.taskDetailsMotionLayout.transitionEndAction {
+                    setUpTaskDetailsScreen(viewModel, task)
+                }
+            }
+        }
+    }
+
+    private fun configureDialog(viewModel: TaskDetailsViewModel) {
+        dialog = requireContext().createDialog(
+            updateTaskAction = { updateDate(viewModel) },
+            deleteTaskAction = { viewModel.deleteTask() },
+            chooseDateAction = { pickUpDate(viewModel) })
+    }
+
 
     private fun observeDeleteTaskLiveData(viewModel: TaskDetailsViewModel) {
         observer(viewModel.successLiveData) {
@@ -76,64 +113,59 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
         }
     }
 
-    private fun setUpTaskDetailsScreen() {
+    private fun setUpTaskDetailsScreen(viewModel: TaskDetailsViewModel, taskDomain: TaskDomain) {
         with(binding) {
-            with(args.task) {
-                taskNameEditText.setText(title)
+            with(taskDomain) {
+                taskNameEditText.text = title
                 taskDescriptionEditText.text = description
                 taskTimeTextView.text = startDate!!.toEndDate(endDate!!)
-                taskEndInTimeTextView.countDownTimer.start()
-                taskStateButton.text = taskProgress?.value
-                taskStateButton.setBackgroundColor(ContextCompat.getColor(requireContext(),
-                    taskProgress?.color!!))
-                setUpFieldCustomViewFields(this)
+                setUpTimer(this)
+                setUpFieldCustomViewFields(viewModel, this)
+            }
+        }
+    }
+
+    private fun setUpTimer(task: TaskDomain) {
+        with(binding.taskEndInTimeTextView) {
+            timer(task.startDate!!, task.endDate!!)
+            if (task.taskProgress == Progress.DONE) {
+                setText(getString(R.string.task_is_done_text))
+            } else {
+                countDownTimer.start()
             }
         }
     }
 
     private fun setUpUpdateFieldsCustomViewActions(viewModel: TaskDetailsViewModel) {
         with(binding.updateFieldsCustomView) {
-            chooseDateAction = { pickUpDate() }
+            chooseDateAction = { pickUpDate(viewModel) }
             updateAction = { updateTask(viewModel) }
         }
     }
 
     private fun updateTask(viewModel: TaskDetailsViewModel) {
-        val task = TaskDomain(
-            title = binding.updateFieldsCustomView.getItemTitleText(),
-            description = binding.updateFieldsCustomView.getItemDescriptionText(),
-            endDate = endDate,
-            startDate = startDate
-        )
         binding.progressBarView.isVisible(true)
-        viewModel.updateTask(args.task.taskId!!, task)
-    }
-
-    private fun observeUpdatedTaskLiveData(viewModel: TaskDetailsViewModel) {
-        observer(viewModel.updatedTaskLiveData) {
-            with(binding) {
-                taskDescriptionEditText.text = it.description
-                taskNameEditText.setText(it.title)
-                taskTimeTextView.text = it.startDate?.toEndDate(it.endDate!!)
-                with(taskEndInTimeTextView) {
-                    countDownTimer.cancel()
-                    timer(it.startDate!!, it.endDate!!)
-                    countDownTimer.start()
+        with(viewModel) {
+            with(binding.updateFieldsCustomView) {
+                if (startDate != task.startDate || endDate != task.endDate) {
+                    binding.taskEndInTimeTextView.countDownTimer.cancel()
                 }
-                taskDetailsMotionLayout.transitionEndAction {
-                    setUpFieldCustomViewFields(it)
-                }
+                updateTask(getItemTitleText(), getItemDescriptionText(), startDate!!, endDate!!)
             }
         }
     }
 
-    private fun setUpFieldCustomViewFields(taskDomain: TaskDomain) {
+    private fun setUpFieldCustomViewFields(viewModel: TaskDetailsViewModel, taskDomain: TaskDomain, ) {
         with(binding.updateFieldsCustomView) {
             with(taskDomain) {
                 descriptionText = description
                 titleText = title
                 dateText = startDate?.toEndDate(endDate!!)
             }
+        }
+        with(viewModel) {
+            startDate = task.startDate
+            endDate = task.endDate
         }
     }
 
@@ -144,28 +176,27 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
             }
             deleteTaskActionButton.setOnClickListener {
                 binding.progressBarView.isVisible(true)
-                viewModel.deleteTask(args.task.taskId)
+                viewModel.deleteTask()
             }
         }
     }
 
     private fun updateDate(viewModel: TaskDetailsViewModel) {
         if (isDateChosen) {
-            val task = TaskDomain(startDate = startDate, endDate = endDate)
-            viewModel.updateTask(args.task.taskId!!, task)
+            viewModel.updateTask(startDate = viewModel.startDate!!, endDate = viewModel.endDate!!)
             dialog?.dismiss()
         } else {
             showToast(getString(R.string.pick_date_error_text))
         }
     }
 
-    private fun pickUpDate() {
-        with(args) {
+    private fun pickUpDate(viewModel: TaskDetailsViewModel) {
+        with(viewModel) {
             childFragmentManager.pickDate(
                 startTime = task.startDate,
                 endTime = task.endDate,
-                validator = CustomDateValidator(project.startDate,
-                    project.endDate)) { startingDate, endingDate ->
+                validator = CustomDateValidator(projectStartDate,
+                    projectEndDate)) { startingDate, endingDate ->
                 binding.updateFieldsCustomView.dateText = startingDate.toEndDate(endingDate)
                 startDate = startingDate
                 endDate = endingDate
@@ -177,15 +208,36 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
     private fun setProgressUpdaterPopupMenu(view: Button, viewModel: TaskDetailsViewModel) {
         inflatePopupMenu(view,
             todoAction = {
+                nonDoneTaskAction(viewModel)
                 updateTaskProgress(view, Progress.TODO, viewModel)
             },
             inProgressAction = {
+                nonDoneTaskAction(viewModel)
                 updateTaskProgress(view, Progress.IN_PROGRESS, viewModel)
             },
             doneAction = {
+                doneTaskAction(viewModel)
                 updateTaskProgress(view, Progress.DONE, viewModel)
             }
         )
+    }
+
+    private fun nonDoneTaskAction(viewModel: TaskDetailsViewModel) {
+        with(viewModel) {
+            with(binding.taskEndInTimeTextView) {
+                isFinishedTask = false
+                timer(task.startDate!!, task.endDate!!)
+                countDownTimer.start()
+            }
+        }
+    }
+
+    private fun doneTaskAction(viewModel: TaskDetailsViewModel) {
+        viewModel.isFinishedTask = true
+        with(binding.taskEndInTimeTextView) {
+            countDownTimer.cancel()
+            setText(getString(R.string.task_is_done_text))
+        }
     }
 
     private fun updateTaskProgress(
@@ -197,6 +249,6 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
             setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
             text = progress.value
         }
-        viewModel.updateTaskProgress(args.task.taskId, progress)
+        viewModel.updateTaskProgress(progress)
     }
 }

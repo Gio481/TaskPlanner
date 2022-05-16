@@ -3,6 +3,7 @@ package com.example.taskplanner.presentation.ui.task.details.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCase
 import com.example.taskplanner.presentation.base.BaseViewModel
@@ -12,23 +13,48 @@ import kotlinx.coroutines.launch
 
 class TaskDetailsViewModel(private val taskDetailsUseCase: TaskDetailsUseCase) : BaseViewModel() {
 
-    private val _updatedTaskLiveData: MutableLiveData<TaskDomain> = MutableLiveData()
-    val updatedTaskLiveData: LiveData<TaskDomain> = _updatedTaskLiveData
+    private val _taskLiveData: MutableLiveData<TaskDomain> = MutableLiveData()
+    val taskLiveData: LiveData<TaskDomain> = _taskLiveData
 
-    fun updateTask(taskId: String, taskDomain: TaskDomain) {
+    private val _projectDateLiveData: MutableLiveData<ProjectDomain> = MutableLiveData()
+    val projectDateLiveData: LiveData<ProjectDomain> = _projectDateLiveData
+
+    var task = TaskDomain()
+    var startDate: Long? = null
+    var endDate: Long? = null
+    var isFinishedTask = false
+    var projectStartDate: Long? = null
+    var projectEndDate: Long? = null
+
+    fun getTaskInfo(taskDomain: TaskDomain) = _taskLiveData.postValue(taskDomain)
+    fun getProjectDate(projectDomain: ProjectDomain) = _projectDateLiveData.postValue(projectDomain)
+
+    fun updateTask(
+        title: String? = task.title,
+        description: String? = task.description,
+        startDate: Long,
+        endDate: Long,
+    ) {
         viewModelScope.launch(Dispatchers.IO) {
-            _updatedTaskLiveData.postValue(taskDetailsUseCase.updateTask(taskId,
+            val taskDomain = TaskDomain(
+                title = title?.ifBlank { task.title },
+                description = description,
+                startDate = startDate,
+                endDate = endDate
+            )
+            _taskLiveData.postValue(taskDetailsUseCase.updateTask(task.taskId!!,
                 taskDomain) { getErrorMessage(it) })
         }
     }
 
-    fun updateTaskProgress(taskId: String?, progress: Progress) {
+
+    fun updateTaskProgress(progress: Progress) {
         viewModelScope.launch(Dispatchers.IO) {
-            taskDetailsUseCase.updateTaskProgress(taskId!!, progress) { getErrorMessage(it) }
+            taskDetailsUseCase.updateTaskProgress(task.taskId!!, progress) { getErrorMessage(it) }
         }
     }
 
-    fun deleteTask(taskId: String?) {
+    fun deleteTask(taskId: String? = task.taskId) {
         viewModelScope.launch(Dispatchers.IO) {
             successData(taskDetailsUseCase.deleteTask(taskId!!) { getErrorMessage(it) })
         }
