@@ -11,7 +11,6 @@ import com.example.taskplanner.util.Constants.START_DATE_FIELD
 import com.example.taskplanner.util.Constants.TITLE_FIELD
 import com.example.taskplanner.util.Progress
 import com.example.taskplanner.util.Resources
-import com.example.taskplanner.util.extensions.update
 import com.example.taskplanner.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -85,19 +84,12 @@ class TaskRepositoryImpl(
         return withContext(Dispatchers.IO) {
             fetchData {
                 with(taskDomain) {
-                    title.update {
-                        taskCollection.document(taskId).update(TITLE_FIELD, title).await()
-                    }
-                    description.update {
-                        taskCollection.document(taskId).update(DESCRIPTION_FIELD, description)
-                            .await()
-                    }
-                    startDate.update {
-                        taskCollection.document(taskId).update(START_DATE_FIELD, startDate).await()
-                    }
-                    endDate.update {
-                        taskCollection.document(taskId).update(END_DATE_FIELD, endDate).await()
-                    }
+                    val dataMap: Map<String, Any?> =
+                        mapOf(TITLE_FIELD to title,
+                            DESCRIPTION_FIELD to description,
+                            START_DATE_FIELD to startDate,
+                            END_DATE_FIELD to endDate)
+                    taskCollection.document(taskId).update(dataMap).await()
                 }
                 getTaskInfo(taskId)
             }
