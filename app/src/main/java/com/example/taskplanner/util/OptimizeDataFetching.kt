@@ -17,6 +17,19 @@ inline fun <T> fetchData(call: () -> Resources<T>): Resources<T> {
     }
 }
 
+inline fun <T> dataFetcher(
+    call: () -> Resources<T>,
+    errorAction: (error: String) -> Unit,
+): T? {
+    return when (val data = call.invoke()) {
+        is Resources.Success -> data.data
+        is Resources.Error -> {
+            errorAction.invoke(data.message)
+            null
+        }
+    }
+}
+
 const val MAIL_ERROR = "enter the correct mail"
 const val ALREADY_USED_MAIL_ERROR = "mail is already used"
 const val WEAK_PASSWORD_ERROR = "weak password"
