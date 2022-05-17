@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.FragmentSignUpBinding
@@ -12,10 +13,7 @@ import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.auth.signup.viewmodel.SignUpViewModel
 import com.example.taskplanner.util.BindingInflater
 import com.example.taskplanner.util.PermissionManager
-import com.example.taskplanner.util.extensions.checkGalleryPermission
-import com.example.taskplanner.util.extensions.isVisible
-import com.example.taskplanner.util.extensions.observer
-import com.example.taskplanner.util.extensions.showToast
+import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
@@ -114,9 +112,5 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         )
-    }
-
-    private fun alertDialog(block: AlertDialog.Builder.() -> Unit): AlertDialog? {
-        return AlertDialog.Builder(requireContext()).apply { block() }.show()
     }
 }

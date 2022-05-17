@@ -1,6 +1,7 @@
 package com.example.taskplanner.util.extensions
 
 import android.Manifest
+import android.app.AlertDialog
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,4 +24,8 @@ fun Fragment.checkGalleryPermission(action: () -> Unit): ActivityResultLauncher<
             action.invoke()
         }
     }
+}
+
+fun Fragment.alertDialog(block: AlertDialog.Builder.() -> Unit): AlertDialog? {
+    return AlertDialog.Builder(requireContext()).apply { block() }.show()
 }
