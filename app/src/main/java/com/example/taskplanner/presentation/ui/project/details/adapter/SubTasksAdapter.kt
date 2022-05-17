@@ -39,9 +39,12 @@ class SubTasksAdapter : ListAdapter<TaskDomain, SubTasksAdapter.ViewHolder>(Item
         fun onBind(taskDomain: TaskDomain) {
             with(binding) {
                 taskTitleTextView.text = taskDomain.title
-                taskProgressTextView.text = taskDomain.taskProgress?.value
-                taskProgressTextView.setBackgroundColor(ContextCompat.getColor(taskProgressTextView.context,
-                    taskDomain.taskProgress?.color!!))
+                with(taskProgressTextView) {
+                    text = taskDomain.taskProgress?.value?.let {
+                        context.getString(it) }
+                    setBackgroundColor(ContextCompat.getColor(taskProgressTextView.context,
+                        taskDomain.taskProgress?.color!!))
+                }
             }
         }
     }

@@ -2,7 +2,7 @@ package com.example.taskplanner.domain.usecase.task.details
 
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.repository.task.TaskRepository
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.dataFetcher
 
 class TaskDetailsUseCaseImpl(
@@ -31,9 +31,9 @@ class TaskDetailsUseCaseImpl(
 
     override suspend fun updateTaskProgress(
         taskId: String,
-        progress: Progress,
+        status: Status,
         errorAction: (error: String) -> Unit,
     ) {
-        dataFetcher({ taskRepository.updateTaskProgress(taskId, progress) }, { errorAction(it) })
+        dataFetcher({ taskRepository.updateTaskProgress(taskId, status) }, { errorAction(it) })
     }
 }

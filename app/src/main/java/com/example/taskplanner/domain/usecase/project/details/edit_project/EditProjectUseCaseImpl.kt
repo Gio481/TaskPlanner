@@ -2,7 +2,7 @@ package com.example.taskplanner.domain.usecase.project.details.edit_project
 
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.repository.project.ProjectRepository
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.dataFetcher
 
 class EditProjectUseCaseImpl(
@@ -24,10 +24,10 @@ class EditProjectUseCaseImpl(
 
     override suspend fun updateProjectProgress(
         projectId: String,
-        progress: Progress,
+        status: Status,
         errorAction: (error: String) -> Unit,
     ) {
-        dataFetcher({ projectRepository.updateProjectProgress(projectId, progress) },
+        dataFetcher({ projectRepository.updateProjectProgress(projectId, status) },
             { errorAction(it) })
     }
 }

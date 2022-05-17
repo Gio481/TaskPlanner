@@ -9,7 +9,7 @@ import com.example.taskplanner.util.Constants.DESCRIPTION_FIELD
 import com.example.taskplanner.util.Constants.END_DATE_FIELD
 import com.example.taskplanner.util.Constants.START_DATE_FIELD
 import com.example.taskplanner.util.Constants.TITLE_FIELD
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.Resources
 import com.example.taskplanner.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
@@ -111,7 +111,7 @@ class TaskRepositoryImpl(
                 val result =
                     taskCollection.whereEqualTo(PROJECTS_OWNER_ID, userId)
                         .whereEqualTo(PROJECT_ID, projectId)
-                        .whereEqualTo(TASK_PROGRESS_FIELD, Progress.DONE).get()
+                        .whereEqualTo(TASK_PROGRESS_FIELD, Status.DONE).get()
                         .await().documents.size
                 Resources.Success(result)
             }
@@ -128,7 +128,7 @@ class TaskRepositoryImpl(
         }
     }
 
-    override suspend fun updateTaskProgress(taskId: String, progress: Progress): Resources<Unit> {
+    override suspend fun updateTaskProgress(taskId: String, progress: Status): Resources<Unit> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 taskCollection.document(taskId).update(TASK_PROGRESS_FIELD, progress).await()

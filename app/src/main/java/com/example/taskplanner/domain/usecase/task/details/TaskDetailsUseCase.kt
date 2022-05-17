@@ -1,7 +1,7 @@
 package com.example.taskplanner.domain.usecase.task.details
 
 import com.example.taskplanner.domain.model.TaskDomain
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 
 interface TaskDetailsUseCase {
     suspend fun getTaskInfo(taskId: String, errorAction: (error: String) -> Unit): TaskDomain?
@@ -14,7 +14,7 @@ interface TaskDetailsUseCase {
     suspend fun deleteTask(taskId: String, errorAction: (error: String) -> Unit)
     suspend fun updateTaskProgress(
         taskId: String,
-        progress: Progress,
+        status: Status,
         errorAction: (error: String) -> Unit,
     )
 }

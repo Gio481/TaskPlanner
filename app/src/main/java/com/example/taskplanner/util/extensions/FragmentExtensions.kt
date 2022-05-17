@@ -1,6 +1,7 @@
 package com.example.taskplanner.util.extensions
 
 import android.Manifest
+import android.app.AlertDialog
 import android.view.View
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -96,4 +97,8 @@ fun Fragment.launchScope(launch: suspend CoroutineScope.() -> Unit) {
     viewLifecycleOwner.lifecycleScope.launch {
         launch()
     }
+}
+
+fun Fragment.alertDialog(block: AlertDialog.Builder.() -> Unit): AlertDialog? {
+    return AlertDialog.Builder(requireContext()).apply { block() }.show()
 }
