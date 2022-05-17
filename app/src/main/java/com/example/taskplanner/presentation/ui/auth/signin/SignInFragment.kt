@@ -28,7 +28,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, SignInViewModel>() {
     private fun observeAuthResultLiveData(viewModel: SignInViewModel) {
         observer(viewModel.signInLiveData) {
             binding.progressBarView.isVisible(false)
-            it?.let { findNavController().navigate(R.id.action_signInFragment_to_homeFragment) }
+            findNavController().navigate(R.id.action_signInFragment_to_homeFragment)
         }
     }
 

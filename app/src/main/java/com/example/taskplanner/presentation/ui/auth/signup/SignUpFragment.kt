@@ -2,7 +2,6 @@ package com.example.taskplanner.presentation.ui.auth.signup
 
 import android.Manifest
 import android.app.AlertDialog
-import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
@@ -42,10 +41,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
 
     private fun observeAuthResultLiveData(viewModel: SignUpViewModel) {
         observer(viewModel.signUpLiveData) {
-            if (it != null) {
-                binding.progressBarView.isVisible(false)
-                findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
-            }
+            binding.progressBarView.isVisible(false)
+            findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
+
         }
     }
 
