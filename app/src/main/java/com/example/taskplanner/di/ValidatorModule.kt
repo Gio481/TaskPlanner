@@ -7,6 +7,6 @@ import com.example.taskplanner.presentation.ui.project.create.validator.ProjectV
 import org.koin.dsl.module
 
 val validatorModule = module {
-    single<SignUpValidator> { SignUpValidatorImpl() }
+    single<SignUpValidator> { SignUpValidatorImpl(get()) }
     single<ProjectValidator> { ProjectValidatorImpl() }
 }

@@ -92,4 +92,7 @@ class InputTextCustomView @JvmOverloads constructor(
             )
         }
     }
+    fun getText(): String {
+        return binding.textInputEditText.text.toString()
+    }
 }

@@ -1,6 +1,6 @@
 package com.example.taskplanner.util
 
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthEmailException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
 
@@ -9,7 +9,7 @@ inline fun <T> fetchData(call: () -> Resources<T>): Resources<T> {
         call.invoke()
     } catch (e: Exception) {
         when (e) {
-            is FirebaseAuthInvalidCredentialsException -> Resources.Error(MAIL_ERROR)
+            is FirebaseAuthEmailException -> Resources.Error(MAIL_ERROR)
             is FirebaseAuthUserCollisionException -> Resources.Error(ALREADY_USED_MAIL_ERROR)
             is FirebaseAuthWeakPasswordException -> Resources.Error(WEAK_PASSWORD_ERROR)
             else -> Resources.Error(e.message!!)

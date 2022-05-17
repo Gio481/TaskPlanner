@@ -45,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_15_dp"
         android:layout_marginTop="@dimen/dimen_80_dp"
-        android:background="@drawable/edit_text_background"
         android:inputType="text"
         app:helperText="@string/required_text"
         app:hint="@string/enter_name_hint"
@@ -59,7 +58,6 @@
         android:layout_width="@dimen/dimen_0_dp"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_15_dp"
-        android:background="@drawable/edit_text_background"
         android:inputType="text"
         app:helperText="@string/required_text"
         app:hint="@string/enter_job_hint"
@@ -73,7 +71,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_40_dp"
         android:layout_marginVertical="@dimen/dimen_30_dp"
-        android:background="@drawable/edit_text_background"
         android:inputType="textEmailAddress"
         app:helperText="@string/required_text"
         app:hint="@string/enter_email_hint"
@@ -87,7 +84,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_40_dp"
         android:layout_marginVertical="@dimen/dimen_15_dp"
-        android:background="@drawable/edit_text_background"
         android:inputType="textPassword"
         app:helperText="@string/required_text"
         app:hint="@string/enter_password_text"
@@ -101,7 +97,6 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_40_dp"
         android:layout_marginVertical="@dimen/dimen_15_dp"
-        android:background="@drawable/edit_text_background"
         android:inputType="textPassword"
         app:helperText="@string/required_text"
         app:hint="@string/repeat_password_hint"
@@ -109,8 +104,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
 
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_5_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/repeatPasswordEditTextLayout" />
+
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/logInButton"
+        android:id="@+id/signInButton"
         android:layout_width="@dimen/dimen_170_dp"
         android:layout_height="wrap_content"
         android:background="@drawable/authentication_button_background"

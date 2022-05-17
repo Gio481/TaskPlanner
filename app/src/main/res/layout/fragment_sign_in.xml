@@ -62,6 +62,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emailEditTextLayout" />
 
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_20_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/signInButton"
@@ -74,7 +85,7 @@
         android:textColor="@color/blue_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
+        app:layout_constraintTop_toBottomOf="@id/progressBarView" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logInButton"
