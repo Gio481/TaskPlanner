@@ -18,7 +18,7 @@ import com.example.taskplanner.presentation.ui.project.details.viewmodel.Project
 import com.example.taskplanner.util.ActionTypes
 import com.example.taskplanner.util.BindingInflater
 import com.example.taskplanner.util.Constants.TIMER_STOP_AND_START_DELAY
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.bundle
 import com.example.taskplanner.util.extensions.*
 import kotlinx.coroutines.delay
@@ -68,7 +68,7 @@ class ProjectDetailsFragment :
 
     private fun setUpProjectProgressDetails(viewModel: ProjectDetailsViewModel) {
         with(binding.projectProgressButton) {
-            text = viewModel.project.projectProgress?.value
+            text = viewModel.project.projectProgress?.value?.let { getString(it) }
             setTextColor(ContextCompat.getColor(requireContext(),
                 viewModel.project.projectProgress?.color!!))
         }
@@ -161,7 +161,7 @@ class ProjectDetailsFragment :
         launchScope {
             with(binding.projectEndInTimeTextView) {
                 timer(project.startDate!!, project.endDate!!)
-                if (project.projectProgress == Progress.DONE) {
+                if (project.projectProgress == Status.DONE) {
                     setText(getString(R.string.project_is_done_text))
                 } else {
                     delay(TIMER_STOP_AND_START_DELAY)
@@ -253,19 +253,19 @@ class ProjectDetailsFragment :
             todoAction = {
                 launchScope {
                     nonDoneProjectAction(viewModel)
-                    updateProjectProgress(view, Progress.TODO, viewModel)
+                    updateProjectProgress(view, Status.TODO, viewModel)
                 }
             },
             inProgressAction = {
                 launchScope {
                     nonDoneProjectAction(viewModel)
-                    updateProjectProgress(view, Progress.IN_PROGRESS, viewModel)
+                    updateProjectProgress(view, Status.IN_PROGRESS, viewModel)
                 }
             },
             doneAction = {
                 launchScope {
                     doneProjectAction(viewModel)
-                    updateProjectProgress(view, Progress.DONE, viewModel)
+                    updateProjectProgress(view, Status.DONE, viewModel)
                 }
             }
         )
@@ -293,12 +293,12 @@ class ProjectDetailsFragment :
 
     private fun updateProjectProgress(
         view: Button,
-        progress: Progress,
+        progress: Status,
         viewModel: ProjectDetailsViewModel,
     ) {
         with(view) {
             setTextColor(ContextCompat.getColor(requireContext(), progress.color))
-            text = progress.value
+            text = getString(progress.value)
             viewModel.updateProjectProgress(progress = progress)
         }
     }
@@ -310,26 +310,26 @@ class ProjectDetailsFragment :
     ) {
         inflatePopupMenu(view,
             todoAction = {
-                updateSubTaskProgress(view, Progress.TODO, taskId, viewModel)
+                updateSubTaskProgress(view, Status.TODO, taskId, viewModel)
             },
             inProgressAction = {
-                updateSubTaskProgress(view, Progress.IN_PROGRESS, taskId, viewModel)
+                updateSubTaskProgress(view, Status.IN_PROGRESS, taskId, viewModel)
             },
             doneAction = {
-                updateSubTaskProgress(view, Progress.DONE, taskId, viewModel)
+                updateSubTaskProgress(view, Status.DONE, taskId, viewModel)
             })
     }
 
     private fun updateSubTaskProgress(
         view: TextView,
-        progress: Progress,
+        progress: Status,
         taskId: String,
         viewModel: ProjectDetailsViewModel,
     ) {
         binding.progressBarView.isVisible(true)
         with(view) {
             setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
-            text = progress.value
+            text = getString(progress.value)
         }
         with(viewModel) {
             getDoneTasksPercent()

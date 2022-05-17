@@ -7,7 +7,7 @@ import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.task.details.TaskDetailsUseCase
 import com.example.taskplanner.presentation.base.BaseViewModel
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -44,7 +44,7 @@ class TaskDetailsViewModel(private val taskDetailsUseCase: TaskDetailsUseCase) :
     }
 
 
-    fun updateTaskProgress(progress: Progress) {
+    fun updateTaskProgress(progress: Status) {
         viewModelScope.launch(Dispatchers.IO) {
             taskDetailsUseCase.updateTaskProgress(task.taskId!!, progress) { getErrorMessage(it) }
         }

@@ -8,7 +8,7 @@ import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.project.details.edit_project.EditProjectUseCase
 import com.example.taskplanner.domain.usecase.project.details.subtasks.SubTasksUseCase
 import com.example.taskplanner.presentation.base.BaseViewModel
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -65,13 +65,13 @@ class ProjectDetailsViewModel(
         }
     }
 
-    fun updateProjectProgress(projectId: String? = project.projectId, progress: Progress) {
+    fun updateProjectProgress(projectId: String? = project.projectId, progress: Status) {
         viewModelScope.launch(Dispatchers.IO) {
             editProjectUseCase.updateProjectProgress(projectId!!, progress) { getErrorMessage(it) }
         }
     }
 
-    fun updateSubTaskProgress(taskId: String, progress: Progress) {
+    fun updateSubTaskProgress(taskId: String, progress: Status) {
         viewModelScope.launch(Dispatchers.IO) {
             subTasksUseCase.updateSubTaskStatus(taskId, progress) { getErrorMessage(it) }
         }

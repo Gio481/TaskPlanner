@@ -13,7 +13,7 @@ import com.example.taskplanner.presentation.ui.task.details.viewmodel.TaskDetail
 import com.example.taskplanner.util.BindingInflater
 import com.example.taskplanner.util.Constants.TIMER_STOP_AND_START_DELAY
 import com.example.taskplanner.util.CustomDateValidator
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.extensions.*
 import kotlinx.coroutines.delay
 import kotlin.reflect.KClass
@@ -70,7 +70,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     private fun setUpTaskProgressDetails(viewModel: TaskDetailsViewModel) {
         with(binding.taskStateButton) {
-            text = viewModel.task.taskProgress?.value
+            text = viewModel.task.taskProgress?.value?.let { getString(it) }
             setBackgroundColor(ContextCompat.getColor(requireContext(),
                 viewModel.task.taskProgress?.color!!))
         }
@@ -142,7 +142,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
     }
 
     private fun isTaskDone(taskDomain: TaskDomain): Boolean {
-        return taskDomain.taskProgress == Progress.DONE
+        return taskDomain.taskProgress == Status.DONE
     }
 
     private fun isDateInvalid(viewModel: TaskDetailsViewModel): Boolean {
@@ -232,19 +232,19 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
             todoAction = {
                 launchScope {
                     nonDoneTaskAction(viewModel)
-                    updateTaskProgress(view, Progress.TODO, viewModel)
+                    updateTaskProgress(view, Status.TODO, viewModel)
                 }
             },
             inProgressAction = {
                 launchScope {
                     nonDoneTaskAction(viewModel)
-                    updateTaskProgress(view, Progress.IN_PROGRESS, viewModel)
+                    updateTaskProgress(view, Status.IN_PROGRESS, viewModel)
                 }
             },
             doneAction = {
                 launchScope {
                     doneTaskAction(viewModel)
-                    updateTaskProgress(view, Progress.DONE, viewModel)
+                    updateTaskProgress(view, Status.DONE, viewModel)
                 }
             }
         )
@@ -273,12 +273,12 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     private fun updateTaskProgress(
         view: Button,
-        progress: Progress,
+        progress: Status,
         viewModel: TaskDetailsViewModel,
     ) {
         with(view) {
             setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
-            text = progress.value
+            text = getString(progress.value)
         }
         viewModel.updateTaskProgress(progress)
     }

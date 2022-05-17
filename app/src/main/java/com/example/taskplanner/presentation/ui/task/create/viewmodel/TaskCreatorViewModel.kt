@@ -8,7 +8,7 @@ import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.domain.usecase.task.create.TaskCreatorUseCase
 import com.example.taskplanner.presentation.base.BaseViewModel
 import com.example.taskplanner.presentation.ui.task.create.validator.TaskValidator
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.ValidateState
 import kotlinx.coroutines.launch
 
@@ -48,7 +48,7 @@ class TaskCreatorViewModel(
             description = description,
             startDate = startDate,
             endDate = endDate,
-            taskProgress = Progress.TODO
+            taskProgress = Status.TODO
         )
         return task
     }
