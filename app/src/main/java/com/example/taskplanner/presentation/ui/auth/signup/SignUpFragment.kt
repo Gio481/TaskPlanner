@@ -1,10 +1,8 @@
 package com.example.taskplanner.presentation.ui.auth.signup
 
 import android.Manifest
-import android.app.AlertDialog
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.R
 import com.example.taskplanner.databinding.FragmentSignUpBinding
@@ -68,7 +66,8 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
                 signUp(viewModel)
             }
             userProfileImageView.setOnClickListener {
-                PermissionManager(requireContext(), requireActivity()).mediaPermissionRequest(
+                PermissionManager(requireContext(), requireActivity()).permissionRequest(
+                    listOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     { openStorage() },
                     { makeDialog() },
                     { requestMediaPermission(mediaPermissionChecker) },
