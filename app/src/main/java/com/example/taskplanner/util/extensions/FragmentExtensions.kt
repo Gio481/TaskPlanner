@@ -3,6 +3,7 @@ package com.example.taskplanner.util.extensions
 import android.Manifest
 import android.view.View
 import android.widget.PopupMenu
+import android.app.AlertDialog
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -87,4 +88,8 @@ fun Fragment.inflatePopupMenu(
         }
         true
     }
+}
+
+fun Fragment.alertDialog(block: AlertDialog.Builder.() -> Unit): AlertDialog? {
+    return AlertDialog.Builder(requireContext()).apply { block() }.show()
 }

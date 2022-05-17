@@ -2,7 +2,7 @@ package com.example.taskplanner.domain.usecase.home.project
 
 import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.domain.repository.project.ProjectRepository
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.dataFetcher
 
 class GetProjectsUseCaseImpl(private val projectRepository: ProjectRepository) : GetProjectsUseCase {
@@ -12,10 +12,10 @@ class GetProjectsUseCaseImpl(private val projectRepository: ProjectRepository) :
     }
 
     override suspend fun getProjectsSize(
-        progress: Progress,
+        status: Status,
         errorAction: (error: String) -> Unit,
     ): Int? {
-        return dataFetcher({ projectRepository.getProjectsSize(progress) },
+        return dataFetcher({ projectRepository.getProjectsSize(status) },
             { errorAction(it) })
     }
 }

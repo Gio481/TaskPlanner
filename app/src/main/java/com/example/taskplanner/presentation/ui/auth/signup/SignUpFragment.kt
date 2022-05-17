@@ -1,8 +1,6 @@
 package com.example.taskplanner.presentation.ui.auth.signup
 
 import android.Manifest
-import android.app.AlertDialog
-import android.net.Uri
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.navigation.fragment.findNavController
@@ -13,10 +11,7 @@ import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.auth.signup.viewmodel.SignUpViewModel
 import com.example.taskplanner.util.BindingInflater
 import com.example.taskplanner.util.PermissionManager
-import com.example.taskplanner.util.extensions.checkGalleryPermission
-import com.example.taskplanner.util.extensions.isVisible
-import com.example.taskplanner.util.extensions.observer
-import com.example.taskplanner.util.extensions.showToast
+import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
 class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
@@ -42,10 +37,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
 
     private fun observeAuthResultLiveData(viewModel: SignUpViewModel) {
         observer(viewModel.signUpLiveData) {
-            if (it != null) {
-                binding.progressBarView.isVisible(false)
-                findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
-            }
+            binding.progressBarView.isVisible(false)
+            findNavController().navigate(R.id.action_signUpFragment_to_homeFragment)
+
         }
     }
 
@@ -71,8 +65,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
                 progressBarView.isVisible(true)
                 signUp(viewModel)
             }
-            binding.userProfileImageView.setOnClickListener {
-                PermissionManager(requireContext(), requireActivity()).mediaPermissionRequest(
+            userProfileImageView.setOnClickListener {
+                PermissionManager(requireContext(), requireActivity()).permissionRequest(
+                    listOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE),
                     { openStorage() },
                     { makeDialog() },
                     { requestMediaPermission(mediaPermissionChecker) },
@@ -116,9 +111,5 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
                 Manifest.permission.READ_EXTERNAL_STORAGE
             )
         )
-    }
-
-    private fun alertDialog(block: AlertDialog.Builder.() -> Unit): AlertDialog? {
-        return AlertDialog.Builder(requireContext()).apply { block() }.show()
     }
 }
