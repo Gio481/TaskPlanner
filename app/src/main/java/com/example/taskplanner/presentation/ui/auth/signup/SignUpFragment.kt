@@ -71,7 +71,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpViewModel>() {
                 progressBarView.isVisible(true)
                 signUp(viewModel)
             }
-            binding.userProfileImageView.setOnClickListener {
+            userProfileImageView.setOnClickListener {
                 PermissionManager(requireContext(), requireActivity()).mediaPermissionRequest(
                     { openStorage() },
                     { makeDialog() },
