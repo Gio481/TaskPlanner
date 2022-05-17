@@ -6,7 +6,7 @@ import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.project.create.viewmodel.ProjectCreatorViewModel
 import com.example.taskplanner.util.BindingInflater
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
@@ -70,7 +70,7 @@ class ProjectCreatorFragment :
             description = binding.projectDescriptionEditText.text.toString(),
             startDate = startDate,
             endDate = endDate,
-            projectProgress = Progress.TODO
+            projectProgress = Status.TODO
         )
         viewModel.createProject(project)
     }

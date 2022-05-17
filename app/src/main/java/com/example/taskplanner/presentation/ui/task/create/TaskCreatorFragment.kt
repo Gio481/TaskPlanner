@@ -8,7 +8,7 @@ import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.task.create.viewmodel.TaskCreatorViewModel
 import com.example.taskplanner.util.BindingInflater
 import com.example.taskplanner.util.CustomDateValidator
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
@@ -71,7 +71,7 @@ class TaskCreatorFragment : BaseFragment<FragmentTaskCreatorBinding, TaskCreator
             description = binding.taskDescriptionEditText.text.toString(),
             startDate = startDate,
             endDate = endDate,
-            taskProgress = Progress.TODO
+            taskProgress = Status.TODO
         )
         binding.progressBarView.isVisible(true)
         viewModel.createTask(task, args.project.projectId)

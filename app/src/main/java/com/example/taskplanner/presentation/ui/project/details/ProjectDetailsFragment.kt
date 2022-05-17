@@ -15,10 +15,7 @@ import com.example.taskplanner.presentation.ui.project.details.actions.ProjectAc
 import com.example.taskplanner.presentation.ui.project.details.adapter.OnItemClickListener
 import com.example.taskplanner.presentation.ui.project.details.adapter.SubTasksAdapter
 import com.example.taskplanner.presentation.ui.project.details.viewmodel.ProjectDetailsViewModel
-import com.example.taskplanner.util.ActionTypes
-import com.example.taskplanner.util.BindingInflater
-import com.example.taskplanner.util.Progress
-import com.example.taskplanner.util.bundle
+import com.example.taskplanner.util.*
 import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
@@ -83,19 +80,19 @@ class ProjectDetailsFragment :
     ) {
         inflatePopupMenu(view,
             todoAction = {
-                popupMenuItemAction(view, Progress.TODO, taskId, viewModel)
+                popupMenuItemAction(view, Status.TODO, taskId, viewModel)
             },
             inProgressAction = {
-                popupMenuItemAction(view, Progress.IN_PROGRESS, taskId, viewModel)
+                popupMenuItemAction(view, Status.IN_PROGRESS, taskId, viewModel)
             },
             doneAction = {
-                popupMenuItemAction(view, Progress.DONE, taskId, viewModel)
+                popupMenuItemAction(view, Status.DONE, taskId, viewModel)
             })
     }
 
     private fun popupMenuItemAction(
         view: TextView,
-        progress: Progress,
+        progress: Status,
         taskId: String,
         viewModel: ProjectDetailsViewModel,
     ) {
@@ -103,7 +100,7 @@ class ProjectDetailsFragment :
         with(view) {
             setBackgroundColor(ContextCompat.getColor(requireContext(),
                 progress.color))
-            text = progress.value
+            text = getString(progress.value)
         }
         with(viewModel) {
             getDoneTasksPercent(args.project.projectId)
@@ -163,25 +160,25 @@ class ProjectDetailsFragment :
     private fun setProgressUpdaterPopupMenu(view: Button, viewModel: ProjectDetailsViewModel) {
         inflatePopupMenu(view,
             todoAction = {
-                updateProjectProgress(view, Progress.TODO, viewModel)
+                updateProjectProgress(view, Status.TODO, viewModel)
             },
             inProgressAction = {
-                updateProjectProgress(view, Progress.IN_PROGRESS, viewModel)
+                updateProjectProgress(view, Status.IN_PROGRESS, viewModel)
             },
             doneAction = {
-                updateProjectProgress(view, Progress.DONE, viewModel)
+                updateProjectProgress(view, Status.DONE, viewModel)
             }
         )
     }
 
     private fun updateProjectProgress(
         view: Button,
-        progress: Progress,
+        progress: Status,
         viewModel: ProjectDetailsViewModel,
     ) {
         with(view) {
             setTextColor(ContextCompat.getColor(requireContext(), progress.color))
-            text = progress.value
+            text = getString(progress.value)
             viewModel.updateProjectProgress(args.project.projectId, progress)
         }
     }

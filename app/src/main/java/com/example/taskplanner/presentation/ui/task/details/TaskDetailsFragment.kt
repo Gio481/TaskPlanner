@@ -8,7 +8,7 @@ import com.example.taskplanner.databinding.FragmentTaskDetailsBinding
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.task.details.viewmodel.TaskDetailsViewModel
 import com.example.taskplanner.util.BindingInflater
-import com.example.taskplanner.util.Progress
+import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
@@ -73,25 +73,25 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
     private fun setProgressUpdaterPopupMenu(view: Button, viewModel: TaskDetailsViewModel) {
         inflatePopupMenu(view,
             todoAction = {
-                updateTaskProgress(view, Progress.TODO, viewModel)
+                updateTaskProgress(view, Status.TODO, viewModel)
             },
             inProgressAction = {
-                updateTaskProgress(view, Progress.IN_PROGRESS, viewModel)
+                updateTaskProgress(view, Status.IN_PROGRESS, viewModel)
             },
             doneAction = {
-                updateTaskProgress(view, Progress.DONE, viewModel)
+                updateTaskProgress(view, Status.DONE, viewModel)
             }
         )
     }
 
     private fun updateTaskProgress(
         view: Button,
-        progress: Progress,
+        progress: Status,
         viewModel: TaskDetailsViewModel,
     ) {
         with(view) {
             setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
-            text = progress.value
+            text = getString(progress.value)
         }
         viewModel.updateTaskProgress(args.task.taskId, progress)
     }
