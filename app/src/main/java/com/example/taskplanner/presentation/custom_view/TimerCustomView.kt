@@ -19,7 +19,7 @@ class TimerCustomView @JvmOverloads constructor(
     private var binding: TimerCustomViewLayoutBinding = TimerCustomViewLayoutBinding.inflate(
         LayoutInflater.from(context), this, true)
 
-    lateinit var countDownTimer: CountDownTimer
+    private lateinit var countDownTimer: CountDownTimer
 
     fun timer(startTime: Long, endTime: Long): CountDownTimer {
 
@@ -55,4 +55,6 @@ class TimerCustomView @JvmOverloads constructor(
         return countDownTimer
     }
 
+    fun startTimer() = countDownTimer.start()
+    fun cancelTimer() = countDownTimer.cancel()
 }

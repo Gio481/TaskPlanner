@@ -37,7 +37,7 @@ class ProjectDetailsFragment :
         with(args.project) {
             viewModel.getAllSubTasks(projectId)
             viewModel.getDoneTasksPercent(projectId)
-            binding.projectEndInTimeTextView.timer(startDate!!, endDate!!)
+            binding.projectEndInTimerCustomView.timer(startDate!!, endDate!!)
         }
 
         taskAdapter.progressListener = { view, taskId ->
@@ -65,10 +65,10 @@ class ProjectDetailsFragment :
             with(args.project) {
                 projectNameEditText.setText(title)
                 projectTimeTextView.text = startDate!!.toEndDate(endDate!!)
-                projectProgressButton.text = projectProgress?.value
+                projectProgressButton.text = getString(projectProgress?.value!!)
                 projectProgressButton.setTextColor(ContextCompat.getColor(requireContext(),
-                    projectProgress?.color!!))
-                projectEndInTimeTextView.countDownTimer.start()
+                    projectProgress.color))
+                projectEndInTimerCustomView.startTimer()
             }
         }
     }

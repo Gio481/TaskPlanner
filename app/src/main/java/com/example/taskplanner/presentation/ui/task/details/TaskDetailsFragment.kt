@@ -34,11 +34,11 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
                 taskNameEditText.setText(title)
                 taskDescriptionEditText.setText(description)
                 taskTimeTextView.text = startDate!!.toEndDate(endDate!!)
-                taskEndInTimeTextView.timer(startDate, endDate)
-                taskStateButton.text = taskProgress?.value
+                taskEndInTimerCustomView.timer(startDate, endDate)
+                taskStateButton.text = getString(taskProgress?.value!!)
                 taskStateButton.setBackgroundColor(ContextCompat.getColor(requireContext(),
-                    taskProgress?.color!!))
-                taskEndInTimeTextView.countDownTimer.start()
+                    taskProgress.color))
+                taskEndInTimerCustomView.startTimer()
             }
         }
     }
