@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@id/projectNameEditText" />
 
     <com.example.taskplanner.presentation.custom_view.TimerCustomView
-        android:id="@+id/projectEndInTimeTextView"
+        android:id="@+id/projectEndInTimerCustomView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_30_dp"
@@ -50,7 +50,7 @@
         android:elevation="@dimen/dimen_2_dp"
         app:cardCornerRadius="@dimen/dimen_5_dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/projectEndInTimeTextView">
+        app:layout_constraintTop_toBottomOf="@id/projectEndInTimerCustomView">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"

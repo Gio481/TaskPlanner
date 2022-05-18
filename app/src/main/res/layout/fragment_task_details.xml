@@ -33,7 +33,7 @@
         app:layout_constraintTop_toBottomOf="@id/taskNameEditText" />
 
     <com.example.taskplanner.presentation.custom_view.TimerCustomView
-        android:id="@+id/taskEndInTimeTextView"
+        android:id="@+id/taskEndInTimerCustomView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_30_dp"
@@ -48,7 +48,7 @@
         android:elevation="@dimen/dimen_2_dp"
         app:cardCornerRadius="@dimen/dimen_5_dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskEndInTimeTextView">
+        app:layout_constraintTop_toBottomOf="@+id/taskEndInTimerCustomView">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
