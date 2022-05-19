@@ -30,7 +30,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     override fun onBindViewModel(viewModel: TaskDetailsViewModel) {
         setUpTask(viewModel)
-        binding.taskEndInTimeTextView.timer(viewModel.task.startDate!!, viewModel.task.endDate!!)
+        binding.taskEndInTimerCustomView.timer(viewModel.task.startDate!!, viewModel.task.endDate!!)
         observeProjectDateLiveData(viewModel)
         configureDialog(viewModel)
         setUpInvalidDateWarningDialog(viewModel)
@@ -121,7 +121,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     private fun setUpTimer(viewModel: TaskDetailsViewModel, task: TaskDomain) {
         launchScope {
-            with(binding.taskEndInTimeTextView) {
+            with(binding.taskEndInTimerCustomView) {
                 timer(task.startDate!!, task.endDate!!)
                 when {
                     isTaskDone(task) -> {
@@ -164,7 +164,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
         with(viewModel) {
             with(binding.updateFieldsCustomView) {
                 if (startDate != task.startDate || endDate != task.endDate) {
-                    binding.taskEndInTimeTextView.startTimer()
+                    binding.taskEndInTimerCustomView.startTimer()
                 }
                 updateTask(getItemTitleText(), getItemDescriptionText())
             }
@@ -252,7 +252,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     private suspend fun nonDoneTaskAction(viewModel: TaskDetailsViewModel) {
         with(viewModel) {
-            with(binding.taskEndInTimeTextView) {
+            with(binding.taskEndInTimerCustomView) {
                 isFinishedTask = false
                 delay(TIMER_STOP_AND_START_DELAY)
                 timer(task.startDate!!, task.endDate!!)
@@ -263,7 +263,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     private suspend fun doneTaskAction(viewModel: TaskDetailsViewModel) {
         viewModel.isFinishedTask = true
-        with(binding.taskEndInTimeTextView) {
+        with(binding.taskEndInTimerCustomView) {
             delay(TIMER_STOP_AND_START_DELAY)
             cancelTimer()
             setText(getString(R.string.task_is_done_text))

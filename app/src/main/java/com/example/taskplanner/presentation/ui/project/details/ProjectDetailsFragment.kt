@@ -3,7 +3,6 @@ package com.example.taskplanner.presentation.ui.project.details
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment.STYLE_NORMAL
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -160,7 +159,7 @@ class ProjectDetailsFragment :
 
     private fun setUpTimer(project: ProjectDomain) {
         launchScope {
-            with(binding.projectEndInTimeTextView) {
+            with(binding.projectEndInTimerCustomView) {
                 timer(project.startDate!!, project.endDate!!)
                 if (project.projectProgress == Status.DONE) {
                     setText(getString(R.string.project_is_done_text))
@@ -211,7 +210,7 @@ class ProjectDetailsFragment :
         with(viewModel) {
             with(binding.updateFieldsCustomView) {
                 if (startDate != project.startDate && endDate != project.endDate) {
-                    binding.projectEndInTimeTextView.cancelTimer()
+                    binding.projectEndInTimerCustomView.cancelTimer()
                 }
                 updateProject(getItemTitleText(), getItemDescriptionText())
             }
@@ -274,7 +273,7 @@ class ProjectDetailsFragment :
 
     private suspend fun nonDoneProjectAction(viewModel: ProjectDetailsViewModel) {
         with(viewModel) {
-            with(binding.projectEndInTimeTextView) {
+            with(binding.projectEndInTimerCustomView) {
                 isFinishedProject = false
                 timer(project.startDate!!, project.endDate!!)
                 delay(TIMER_STOP_AND_START_DELAY)
@@ -285,7 +284,7 @@ class ProjectDetailsFragment :
 
     private suspend fun doneProjectAction(viewModel: ProjectDetailsViewModel) {
         viewModel.isFinishedProject = true
-        with(binding.projectEndInTimeTextView) {
+        with(binding.projectEndInTimerCustomView) {
             delay(TIMER_STOP_AND_START_DELAY)
             cancelTimer()
             setText(getString(R.string.project_is_done_text))
