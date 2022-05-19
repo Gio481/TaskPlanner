@@ -2,7 +2,6 @@ package com.example.taskplanner.presentation.ui.task.details
 
 import android.app.Dialog
 import android.widget.Button
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.taskplanner.R
@@ -70,9 +69,10 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
 
     private fun setUpTaskProgressDetails(viewModel: TaskDetailsViewModel) {
         with(binding.taskStateButton) {
-            text = viewModel.task.taskProgress?.value?.let { getString(it) }
-            setBackgroundColor(ContextCompat.getColor(requireContext(),
-                viewModel.task.taskProgress?.color!!))
+            with(viewModel.task.taskProgress!!) {
+                text = getString(value)
+                setBackgroundColor(requireContext(), color)
+            }
         }
     }
 
@@ -125,16 +125,16 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
                 timer(task.startDate!!, task.endDate!!)
                 when {
                     isTaskDone(task) -> {
-                        countDownTimer.cancel()
+                        cancelTimer()
                         setText(getString(R.string.task_is_done_text))
                     }
                     isDateInvalid(viewModel) -> {
-                        countDownTimer.cancel()
+                        startTimer()
                         setText(getString(R.string.invalid_date_text))
                     }
                     else -> {
                         delay(TIMER_STOP_AND_START_DELAY)
-                        countDownTimer.start()
+                        startTimer()
                     }
                 }
             }
@@ -164,7 +164,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
         with(viewModel) {
             with(binding.updateFieldsCustomView) {
                 if (startDate != task.startDate || endDate != task.endDate) {
-                    binding.taskEndInTimeTextView.countDownTimer.cancel()
+                    binding.taskEndInTimeTextView.startTimer()
                 }
                 updateTask(getItemTitleText(), getItemDescriptionText())
             }
@@ -194,7 +194,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
                 setProgressUpdaterPopupMenu(it as Button, viewModel)
             }
             deleteTaskActionButton.setOnClickListener {
-                binding.progressBarView.isVisible(true)
+                progressBarView.isVisible(true)
                 viewModel.deleteTask()
             }
             taskDetailsMotionLayout.transitionEndAction {
@@ -256,7 +256,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
                 isFinishedTask = false
                 delay(TIMER_STOP_AND_START_DELAY)
                 timer(task.startDate!!, task.endDate!!)
-                countDownTimer.start()
+                startTimer()
             }
         }
     }
@@ -265,7 +265,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
         viewModel.isFinishedTask = true
         with(binding.taskEndInTimeTextView) {
             delay(TIMER_STOP_AND_START_DELAY)
-            countDownTimer.cancel()
+            cancelTimer()
             setText(getString(R.string.task_is_done_text))
 
         }
@@ -277,7 +277,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
         viewModel: TaskDetailsViewModel,
     ) {
         with(view) {
-            setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
+            setBackgroundColor(requireContext(), progress.color)
             text = getString(progress.value)
         }
         viewModel.updateTaskProgress(progress)

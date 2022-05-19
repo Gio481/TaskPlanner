@@ -68,9 +68,10 @@ class ProjectDetailsFragment :
 
     private fun setUpProjectProgressDetails(viewModel: ProjectDetailsViewModel) {
         with(binding.projectProgressButton) {
-            text = viewModel.project.projectProgress?.value?.let { getString(it) }
-            setTextColor(ContextCompat.getColor(requireContext(),
-                viewModel.project.projectProgress?.color!!))
+            with(viewModel.project.projectProgress!!) {
+                text = getString(value)
+                setTextColor(requireContext(), color)
+            }
         }
     }
 
@@ -165,7 +166,7 @@ class ProjectDetailsFragment :
                     setText(getString(R.string.project_is_done_text))
                 } else {
                     delay(TIMER_STOP_AND_START_DELAY)
-                    countDownTimer.start()
+                    startTimer()
                 }
             }
         }
@@ -210,7 +211,7 @@ class ProjectDetailsFragment :
         with(viewModel) {
             with(binding.updateFieldsCustomView) {
                 if (startDate != project.startDate && endDate != project.endDate) {
-                    binding.projectEndInTimeTextView.countDownTimer.cancel()
+                    binding.projectEndInTimeTextView.cancelTimer()
                 }
                 updateProject(getItemTitleText(), getItemDescriptionText())
             }
@@ -277,7 +278,7 @@ class ProjectDetailsFragment :
                 isFinishedProject = false
                 timer(project.startDate!!, project.endDate!!)
                 delay(TIMER_STOP_AND_START_DELAY)
-                countDownTimer.start()
+                startTimer()
             }
         }
     }
@@ -286,7 +287,7 @@ class ProjectDetailsFragment :
         viewModel.isFinishedProject = true
         with(binding.projectEndInTimeTextView) {
             delay(TIMER_STOP_AND_START_DELAY)
-            countDownTimer.cancel()
+            cancelTimer()
             setText(getString(R.string.project_is_done_text))
         }
     }
@@ -297,7 +298,7 @@ class ProjectDetailsFragment :
         viewModel: ProjectDetailsViewModel,
     ) {
         with(view) {
-            setTextColor(ContextCompat.getColor(requireContext(), progress.color))
+            setTextColor(requireContext(), progress.color)
             text = getString(progress.value)
             viewModel.updateProjectProgress(progress = progress)
         }
@@ -328,7 +329,7 @@ class ProjectDetailsFragment :
     ) {
         binding.progressBarView.isVisible(true)
         with(view) {
-            setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
+            setBackgroundColor(requireContext(), progress.color)
             text = getString(progress.value)
         }
         with(viewModel) {

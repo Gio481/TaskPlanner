@@ -52,10 +52,10 @@ class ProjectDetailsViewModel(
         }
     }
 
-    fun updateProject(title: String, description: String) {
+    fun updateProject(title: String?, description: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val newProject = ProjectDomain(
-                title = title,
+                title = title?.ifBlank { project.title },
                 description = description,
                 startDate = startDate,
                 endDate = endDate
