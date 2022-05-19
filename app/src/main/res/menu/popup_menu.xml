@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/todoItem"
+        android:title="@string/todo_state_text" />
+
+    <item
+        android:id="@+id/inProgressItem"
+        android:title="@string/in_progress_text" />
+
+    <item
+        android:id="@+id/doneItem"
+        android:title="@string/done_text" />
+</menu>

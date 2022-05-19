@@ -5,15 +5,16 @@ import com.example.taskplanner.presentation.base.BaseBottomSheetFragment
 import com.example.taskplanner.util.ActionTypes
 import com.example.taskplanner.util.BindingInflater
 
-class ProjectBottomSheetFragment : BaseBottomSheetFragment<FragmentProjectBottomSheetBinding>() {
+class ProjectActionsBottomSheetFragment :
+    BaseBottomSheetFragment<FragmentProjectBottomSheetBinding>() {
 
     override val inflater: BindingInflater<FragmentProjectBottomSheetBinding>
         get() = FragmentProjectBottomSheetBinding::inflate
 
     override fun setListener() {
         with(binding) {
-            itemDescriptionCustomView.setOnClickListener {
-                action(ActionTypes.Description)
+            createNewsTaskCustomView.setOnClickListener {
+                action(ActionTypes.Create)
                 dismiss()
             }
             deleteProjectCustomView.setOnClickListener {
@@ -22,10 +23,6 @@ class ProjectBottomSheetFragment : BaseBottomSheetFragment<FragmentProjectBottom
             }
             updateItemCustomView.setOnClickListener {
                 action(ActionTypes.Update)
-                dismiss()
-            }
-            updateAllItemsCustomView.setOnClickListener {
-                action(ActionTypes.UpdateAll)
                 dismiss()
             }
         }

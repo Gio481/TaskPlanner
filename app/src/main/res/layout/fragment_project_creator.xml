@@ -8,7 +8,7 @@
     tools:context=".presentation.ui.project.create.ProjectCreatorFragment">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/createNewTaskTextView"
+        android:id="@+id/createNewProjectTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_50_dp"
@@ -19,8 +19,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        android:elevation="@dimen/dimen_15_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/taskNameEditText"
+        android:id="@+id/projectNameEditText"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginHorizontal="@dimen/dimen_15_dp"
@@ -31,10 +44,10 @@
         android:hint="@string/project_name_hint"
         android:textColor="@color/blue_700"
         android:textColorHint="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/createNewTaskTextView" />
+        app:layout_constraintTop_toBottomOf="@id/createNewProjectTextView" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/taskDescriptionEditText"
+        android:id="@+id/projectDescriptionEditText"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_0_dp"
         android:layout_marginHorizontal="@dimen/dimen_15_dp"
@@ -46,11 +59,11 @@
         android:padding="@dimen/dimen_10_dp"
         android:textColor="@color/blue_700"
         android:textColorHint="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/taskStateButton"
-        app:layout_constraintTop_toBottomOf="@id/taskNameEditText" />
+        app:layout_constraintBottom_toTopOf="@id/projectStateButton"
+        app:layout_constraintTop_toBottomOf="@id/projectNameEditText" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/taskStateButton"
+        android:id="@+id/projectStateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_20_dp"
@@ -58,19 +71,18 @@
         android:gravity="center"
         android:text="@string/todo_state_text"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@id/taskTimeTextView"
+        app:layout_constraintBottom_toTopOf="@id/projectTimeTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/taskDescriptionEditText" />
+        app:layout_constraintTop_toBottomOf="@id/projectDescriptionEditText" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/taskTimeTextView"
+        android:id="@+id/projectTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_20_dp"
         android:textColor="@color/blue_700"
         android:textSize="@dimen/dimen_20_sp"
-        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@id/datePickerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -85,12 +97,12 @@
         android:text="@string/choose_date_text"
         android:textAllCaps="false"
         android:textColor="@color/blue_700"
-        app:layout_constraintBottom_toTopOf="@id/createNewTaskButton"
+        app:layout_constraintBottom_toTopOf="@id/createNewProjectButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/createNewTaskButton"
+        android:id="@+id/createNewProjectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen_50_dp"

@@ -2,6 +2,7 @@ package com.example.taskplanner.presentation.ui.project.details.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskplanner.databinding.TaskItemLayoutBinding
@@ -19,7 +20,7 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
         val viewHolder = ViewHolder(view)
         with(view) {
             taskProgressTextView.setOnClickListener {
-                progressListener()
+                progressListener(it, getItem(viewHolder.adapterPosition).taskId!!)
             }
             showItemView.setOnClickListener {
                 onItemClickListener.onItemClick(getItem(viewHolder.adapterPosition))
@@ -41,6 +42,7 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
                     text = taskDomain.taskProgress?.value?.let {
                         context.getString(it)
                     }
+                    setBackgroundColor(ContextCompat.getColor(taskProgressTextView.context, taskDomain.taskProgress?.color!!))
                 }
             }
         }

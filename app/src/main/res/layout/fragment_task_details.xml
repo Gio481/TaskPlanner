@@ -32,15 +32,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/taskNameEditText" />
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/taskEndTimeTextView"
+    <com.example.taskplanner.presentation.custom_view.TimerCustomView
+        android:id="@+id/taskEndInTimerCustomView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_30_dp"
         android:layout_marginVertical="@dimen/dimen_10_dp"
-        android:text="@string/task_ends_in_text"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_17_sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/taskTimeTextView" />
 
@@ -51,7 +48,7 @@
         android:elevation="@dimen/dimen_2_dp"
         app:cardCornerRadius="@dimen/dimen_5_dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/taskEndTimeTextView">
+        app:layout_constraintTop_toBottomOf="@+id/taskEndInTimerCustomView">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -60,7 +57,7 @@
             android:layout_marginTop="@dimen/dimen_25_dp"
             android:text="@string/task_description_text"
             android:textColor="@color/blue_700"
-            android:textSize="@dimen/dimen_20_sp" />
+            android:textSize="@dimen/dimen_17_sp" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/taskStateButton"
@@ -94,14 +91,27 @@
     </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteTaskActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/dimen_10_dp"
         android:backgroundTint="@color/blue_700"
-        android:src="@drawable/ic_more_info"
+        android:src="@drawable/ic_delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:tint="@color/white" />
+
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dimen_10_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
