@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_30_dp"
-        app:actionName="Create New Task"
+        app:actionName="@string/create_new_task_text"
         app:background="@drawable/ic_add_item"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_10_dp"
-        app:actionName="Delete Project"
+        app:actionName="@string/delete_project_text"
         app:background="@drawable/ic_delete"
         app:layout_constraintTop_toBottomOf="@+id/updateItemCustomView" />
 
