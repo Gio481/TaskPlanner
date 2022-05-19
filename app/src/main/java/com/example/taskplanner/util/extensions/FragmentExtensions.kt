@@ -44,7 +44,7 @@ fun FragmentManager.pickDate(
         .setValidator(validator).build()
 
     val picker = with(MaterialDatePicker.Builder.dateRangePicker()) {
-        setTitleText("Select Date")
+        setTitleText(R.string.date_picker_dialog_title)
         setCalendarConstraints(constraints)
         if (startTime != null && endTime != null) {
             setSelection(Pair(startTime, endTime))
