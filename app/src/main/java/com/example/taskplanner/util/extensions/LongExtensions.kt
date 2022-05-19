@@ -4,12 +4,12 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 fun Long.formatDate(): String {
-    val sdf = SimpleDateFormat("MMM dd yyyy", Locale.getDefault())
+    val sdf = SimpleDateFormat(DATE_PATTERN, Locale.getDefault())
     return sdf.format(this)
 }
 
 fun Long.getHours(): String {
-    val sdf = SimpleDateFormat("HH:mm:ss", Locale.getDefault())
+    val sdf = SimpleDateFormat(HOURS_PATTERN, Locale.getDefault())
     return sdf.format(this)
 }
 
@@ -24,3 +24,6 @@ fun Long.isValidDate(endDate: Long): Boolean {
 fun Long?.isValidateWith(projectStartDate: Long?, projectEndDate: Long?): Boolean {
     return this!! in projectEndDate?.let { projectStartDate?.rangeTo(it) }!!
 }
+
+const val DATE_PATTERN = "MMM dd yyyy"
+const val HOURS_PATTERN = "HH:mm:ss"

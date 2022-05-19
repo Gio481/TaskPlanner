@@ -26,7 +26,8 @@ class ProjectCreatorFragment :
     private fun observeSuccessLiveData(viewModel: ProjectCreatorViewModel) {
         observer(viewModel.projectDomainLiveData) {
             binding.progressBarView.isVisible(false)
-            findNavController().navigate(ProjectCreatorFragmentDirections.actionProjectCreatorFragmentToProjectDetailsFragment(it))
+            findNavController().navigate(ProjectCreatorFragmentDirections.actionProjectCreatorFragmentToProjectDetailsFragment(
+                it))
         }
     }
 

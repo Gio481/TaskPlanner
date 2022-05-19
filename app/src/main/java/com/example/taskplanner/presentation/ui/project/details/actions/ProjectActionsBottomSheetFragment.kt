@@ -13,7 +13,7 @@ class ProjectActionsBottomSheetFragment :
 
     override fun setListener() {
         with(binding) {
-            binding.createNewsTaskCustomView.setOnClickListener {
+            createNewsTaskCustomView.setOnClickListener {
                 action(ActionTypes.Create)
                 dismiss()
             }

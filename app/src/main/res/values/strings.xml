@@ -47,4 +47,6 @@
     <string name="invalid_date_text">Your date is out of date</string>
     <string name="project_is_done_text">your project is done</string>
     <string name="task_is_done_text">task is done</string>
+    <string name="date_picker_dialog_title">Select Date</string>
+    <string name="delete_project_text">Delete Project</string>
 </resources>

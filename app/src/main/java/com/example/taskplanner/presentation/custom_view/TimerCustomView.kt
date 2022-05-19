@@ -19,7 +19,7 @@ class TimerCustomView @JvmOverloads constructor(
     private var binding: TimerCustomViewLayoutBinding = TimerCustomViewLayoutBinding.inflate(
         LayoutInflater.from(context), this, true)
 
-    lateinit var countDownTimer: CountDownTimer
+    private lateinit var countDownTimer: CountDownTimer
 
     fun timer(startTime: Long, endTime: Long): CountDownTimer {
 
@@ -27,10 +27,10 @@ class TimerCustomView @JvmOverloads constructor(
 
             override fun onTick(millisUntilFinished: Long) {
                 var diff = millisUntilFinished
-                val secondsInMilli: Long = 1000
-                val minutesInMilli = secondsInMilli * 60
-                val hoursInMilli = minutesInMilli * 60
-                val daysInMilli = hoursInMilli * 24
+                val secondsInMilli: Long = SECONDS_IN_MILLI
+                val minutesInMilli = MINUTES_IN_MILLI
+                val hoursInMilli = HOURS_IN_MILLI
+                val daysInMilli = DAYS_IN_MILLI
 
                 val elapsedDays = diff / daysInMilli
                 diff %= daysInMilli
@@ -55,7 +55,17 @@ class TimerCustomView @JvmOverloads constructor(
         return countDownTimer
     }
 
-    fun setText(text:String){
+    fun setText(text: String) {
         binding.timerTextView.text = text
+    }
+
+    fun startTimer() = countDownTimer.start()
+    fun cancelTimer() = countDownTimer.cancel()
+
+    companion object {
+        private const val SECONDS_IN_MILLI = 1000L
+        private const val MINUTES_IN_MILLI = SECONDS_IN_MILLI * 60
+        private const val HOURS_IN_MILLI = MINUTES_IN_MILLI * 60
+        private const val DAYS_IN_MILLI = HOURS_IN_MILLI * 24
     }
 }

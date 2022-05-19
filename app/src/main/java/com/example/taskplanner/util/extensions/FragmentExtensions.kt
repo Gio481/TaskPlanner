@@ -1,6 +1,8 @@
 package com.example.taskplanner.util.extensions
 
 import android.Manifest
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
 import android.app.AlertDialog
 import android.view.View
 import android.widget.PopupMenu
@@ -11,12 +13,10 @@ import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.lifecycleScope
 import com.example.taskplanner.R
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 fun <T> Fragment.observer(liveData: LiveData<T>, observer: (data: T) -> Unit) {
@@ -47,7 +47,7 @@ fun FragmentManager.pickDate(
         .setValidator(validator).build()
 
     val picker = with(MaterialDatePicker.Builder.dateRangePicker()) {
-        setTitleText("Select Date")
+        setTitleText(R.string.date_picker_dialog_title)
         setCalendarConstraints(constraints)
         if (startTime != null && endTime != null) {
             setSelection(Pair(startTime, endTime))
