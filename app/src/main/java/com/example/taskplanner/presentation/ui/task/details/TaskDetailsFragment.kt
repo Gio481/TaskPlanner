@@ -36,8 +36,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
                 taskTimeTextView.text = startDate!!.toEndDate(endDate!!)
                 taskEndInTimerCustomView.timer(startDate, endDate)
                 taskStateButton.text = getString(taskProgress?.value!!)
-                taskStateButton.setBackgroundColor(ContextCompat.getColor(requireContext(),
-                    taskProgress.color))
+                taskStateButton.setBackgroundColor(requireContext(), taskProgress.color)
                 taskEndInTimerCustomView.startTimer()
             }
         }
@@ -90,7 +89,7 @@ class TaskDetailsFragment : BaseFragment<FragmentTaskDetailsBinding, TaskDetails
         viewModel: TaskDetailsViewModel,
     ) {
         with(view) {
-            setBackgroundColor(ContextCompat.getColor(requireContext(), progress.color))
+            setBackgroundColor(requireContext(), progress.color)
             text = getString(progress.value)
         }
         viewModel.updateTaskProgress(args.task.taskId, progress)

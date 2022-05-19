@@ -66,8 +66,7 @@ class ProjectDetailsFragment :
                 projectNameEditText.setText(title)
                 projectTimeTextView.text = startDate!!.toEndDate(endDate!!)
                 projectProgressButton.text = getString(projectProgress?.value!!)
-                projectProgressButton.setTextColor(ContextCompat.getColor(requireContext(),
-                    projectProgress.color))
+                projectProgressButton.setTextColor(requireContext(), projectProgress.color)
                 projectEndInTimerCustomView.startTimer()
             }
         }
@@ -98,8 +97,7 @@ class ProjectDetailsFragment :
     ) {
         binding.progressBarView.isVisible(true)
         with(view) {
-            setBackgroundColor(ContextCompat.getColor(requireContext(),
-                progress.color))
+            setBackgroundColor(requireContext(), progress.color)
             text = getString(progress.value)
         }
         with(viewModel) {
@@ -177,7 +175,7 @@ class ProjectDetailsFragment :
         viewModel: ProjectDetailsViewModel,
     ) {
         with(view) {
-            setTextColor(ContextCompat.getColor(requireContext(), progress.color))
+            setTextColor(requireContext(), progress.color)
             text = getString(progress.value)
             viewModel.updateProjectProgress(args.project.projectId, progress)
         }
