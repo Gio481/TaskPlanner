@@ -2,11 +2,9 @@ package com.example.taskplanner.presentation.ui.project.create
 
 import androidx.navigation.fragment.findNavController
 import com.example.taskplanner.databinding.FragmentProjectCreatorBinding
-import com.example.taskplanner.domain.model.ProjectDomain
 import com.example.taskplanner.presentation.base.BaseFragment
 import com.example.taskplanner.presentation.ui.project.create.viewmodel.ProjectCreatorViewModel
 import com.example.taskplanner.util.BindingInflater
-import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.extensions.*
 import kotlin.reflect.KClass
 
@@ -18,10 +16,6 @@ class ProjectCreatorFragment :
 
     override fun getViewModelClass(): KClass<ProjectCreatorViewModel> =
         ProjectCreatorViewModel::class
-
-    private var startDate: Long? = null
-    private var endDate: Long? = null
-    private var project: ProjectDomain = ProjectDomain()
 
     override fun onBindViewModel(viewModel: ProjectCreatorViewModel) {
         observeErrorLiveData(viewModel)
@@ -47,7 +41,7 @@ class ProjectCreatorFragment :
     private fun setListener(viewModel: ProjectCreatorViewModel) {
         with(binding) {
             datePickerButton.setOnClickListener {
-                pickUpDate()
+                pickUpDate(viewModel)
             }
             createNewProjectButton.setOnClickListener {
                 binding.progressBarView.isVisible(true)
@@ -56,22 +50,21 @@ class ProjectCreatorFragment :
         }
     }
 
-    private fun pickUpDate() {
+    private fun pickUpDate(viewModel: ProjectCreatorViewModel) {
         childFragmentManager.pickDate { startingDate, endingDate ->
             binding.projectTimeTextView.text = startingDate.toEndDate(endingDate)
-            startDate = startingDate
-            endDate = endingDate
+            viewModel.startDate = startingDate
+            viewModel.endDate = endingDate
         }
     }
 
     private fun createNewProject(viewModel: ProjectCreatorViewModel) {
-        project = ProjectDomain(
-            title = binding.projectNameEditText.text.toString(),
-            description = binding.projectDescriptionEditText.text.toString(),
-            startDate = startDate,
-            endDate = endDate,
-            projectProgress = Status.TODO
-        )
-        viewModel.createProject(project)
+        with(viewModel) {
+            val project = newProject(
+                title = binding.projectNameEditText.text.toString(),
+                description = binding.projectDescriptionEditText.text.toString(),
+            )
+            createProject(project)
+        }
     }
 }

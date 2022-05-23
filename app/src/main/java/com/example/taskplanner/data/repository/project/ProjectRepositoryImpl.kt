@@ -11,7 +11,6 @@ import com.example.taskplanner.util.Constants.START_DATE_FIELD
 import com.example.taskplanner.util.Constants.TITLE_FIELD
 import com.example.taskplanner.util.Status
 import com.example.taskplanner.util.Resources
-import com.example.taskplanner.util.extensions.update
 import com.example.taskplanner.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -97,28 +96,19 @@ class ProjectRepositoryImpl(
     override suspend fun updateProject(
         projectId: String,
         projectDomain: ProjectDomain,
-    ): Resources<Unit> {
+    ): Resources<ProjectDomain> {
         return withContext(Dispatchers.IO) {
             fetchData {
                 with(projectDomain) {
-                    title.update {
-                        projectCollection.document(projectId).update(TITLE_FIELD, title).await()
-                    }
-                    description.update {
-                        projectCollection.document(projectId).update(DESCRIPTION_FIELD, description)
-                            .await()
-                    }
-                    startDate.update {
-                        projectCollection.document(projectId).update(START_DATE_FIELD, startDate)
-                            .await()
-                    }
+                    val dataMap: Map<String, Any> =
+                        mapOf(TITLE_FIELD to title!!,
+                            DESCRIPTION_FIELD to description!!,
+                            START_DATE_FIELD to startDate!!,
+                            END_DATE_FIELD to endDate!!)
 
-                    endDate.update {
-                        projectCollection.document(projectId).update(END_DATE_FIELD, endDate)
-                            .await()
-                    }
+                    projectCollection.document(projectId).update(dataMap).await()
                 }
-                Resources.Success(Unit)
+                getProjectInfo(projectId)
             }
         }
     }

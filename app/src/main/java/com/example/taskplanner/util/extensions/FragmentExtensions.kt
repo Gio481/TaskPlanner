@@ -1,9 +1,11 @@
 package com.example.taskplanner.util.extensions
 
 import android.Manifest
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.CoroutineScope
+import android.app.AlertDialog
 import android.view.View
 import android.widget.PopupMenu
-import android.app.AlertDialog
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,6 +17,7 @@ import com.example.taskplanner.R
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import kotlinx.coroutines.launch
 
 fun <T> Fragment.observer(liveData: LiveData<T>, observer: (data: T) -> Unit) {
     liveData.observe(this.viewLifecycleOwner) { observer(it) }
@@ -87,6 +90,12 @@ fun Fragment.inflatePopupMenu(
             }
         }
         true
+    }
+}
+
+fun Fragment.launchScope(launch: suspend CoroutineScope.() -> Unit) {
+    viewLifecycleOwner.lifecycleScope.launch {
+        launch()
     }
 }
 

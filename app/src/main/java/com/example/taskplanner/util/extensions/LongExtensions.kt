@@ -21,5 +21,9 @@ fun Long.isValidDate(endDate: Long): Boolean {
     return System.currentTimeMillis() in this..endDate
 }
 
+fun Long?.isValidateWith(projectStartDate: Long?, projectEndDate: Long?): Boolean {
+    return this!! in projectEndDate?.let { projectStartDate?.rangeTo(it) }!!
+}
+
 const val DATE_PATTERN = "MMM dd yyyy"
 const val HOURS_PATTERN = "HH:mm:ss"

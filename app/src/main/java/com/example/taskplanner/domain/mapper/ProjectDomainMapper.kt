@@ -11,7 +11,7 @@ class ProjectDomainMapper : DataMapper<ProjectDomain, ProjectDto> {
             projectId = model.projectId,
             ownerId = model.ownerId,
             title = model.title,
-            description = model.title,
+            description = model.description,
             startDate = model.startDate,
             endDate = model.endDate,
             projectProgress = model.projectProgress

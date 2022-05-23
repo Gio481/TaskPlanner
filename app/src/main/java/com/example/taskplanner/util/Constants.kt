@@ -5,4 +5,5 @@ object Constants {
     const val TITLE_FIELD = "title"
     const val START_DATE_FIELD = "startDate"
     const val END_DATE_FIELD = "endDate"
+    const val TIMER_STOP_AND_START_DELAY = 500L
 }

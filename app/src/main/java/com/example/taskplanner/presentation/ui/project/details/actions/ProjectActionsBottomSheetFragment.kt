@@ -21,10 +21,6 @@ class ProjectActionsBottomSheetFragment :
                 action(ActionTypes.Delete)
                 dismiss()
             }
-            updateItemCustomView.setOnClickListener {
-                action(ActionTypes.Update)
-                dismiss()
-            }
         }
     }
 }

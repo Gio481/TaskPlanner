@@ -26,21 +26,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.taskplanner.presentation.custom_view.ActionTypeCustomView
-        android:id="@+id/updateItemCustomView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimen_10_dp"
-        app:actionName="Update"
-        app:background="@drawable/ic_edit"
-        app:layout_constraintTop_toBottomOf="@id/createNewsTaskCustomView" />
-
-    <com.example.taskplanner.presentation.custom_view.ActionTypeCustomView
         android:id="@+id/deleteProjectCustomView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_10_dp"
         app:actionName="@string/delete_project_text"
         app:background="@drawable/ic_delete"
-        app:layout_constraintTop_toBottomOf="@+id/updateItemCustomView" />
+        app:layout_constraintTop_toBottomOf="@+id/createNewsTaskCustomView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

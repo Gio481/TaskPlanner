@@ -111,5 +111,8 @@
         <argument
             android:name="task"
             app:argType="com.example.taskplanner.domain.model.TaskDomain" />
+        <argument
+            android:name="project"
+            app:argType="com.example.taskplanner.domain.model.ProjectDomain" />
     </fragment>
 </navigation>

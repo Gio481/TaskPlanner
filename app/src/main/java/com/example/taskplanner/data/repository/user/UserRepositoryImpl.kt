@@ -6,7 +6,6 @@ import com.example.taskplanner.data.repository.auth.AuthRepositoryImpl.Companion
 import com.example.taskplanner.domain.model.UserDomain
 import com.example.taskplanner.domain.repository.user.UserRepository
 import com.example.taskplanner.util.Resources
-import com.example.taskplanner.util.extensions.update
 import com.example.taskplanner.util.fetchData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -26,16 +25,12 @@ class UserRepositoryImpl(
         return withContext(Dispatchers.IO) {
             fetchData {
                 with(userDomain) {
-                    name.update {
-                        userCollection.document(userId).update(USER_NAME_FIELD, name).await()
-                    }
-                    job.update {
-                        userCollection.document(userId).update(USER_JOB_FIELD, job).await()
-                    }
-                    profileImage.update {
-                        userCollection.document(userId)
-                            .update(USER_PROFILE_IMAGE_FIELD, profileImage).await()
-                    }
+                    val dataMap: Map<String, Any?> = mapOf(
+                        USER_NAME_FIELD to name,
+                        USER_JOB_FIELD to job,
+                        USER_PROFILE_IMAGE_FIELD to profileImage
+                    )
+                    userCollection.document(userId).update(dataMap).await()
                 }
                 Resources.Success(Unit)
             }

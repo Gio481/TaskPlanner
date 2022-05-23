@@ -2,18 +2,19 @@ package com.example.taskplanner.presentation.ui.project.details.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.taskplanner.databinding.TaskItemLayoutBinding
 import com.example.taskplanner.domain.model.TaskDomain
 import com.example.taskplanner.util.ItemDiffUtil
+import com.example.taskplanner.util.OnItemClickListener
 import com.example.taskplanner.util.ProgressListener
+import com.example.taskplanner.util.extensions.setBackgroundColor
 
-class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
-    ListAdapter<TaskDomain, SubTasksAdapter.ViewHolder>(ItemDiffUtil()) {
+class SubTasksAdapter : ListAdapter<TaskDomain, SubTasksAdapter.ViewHolder>(ItemDiffUtil()) {
 
     lateinit var progressListener: ProgressListener
+    lateinit var onItemClickListener: OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = TaskItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -23,7 +24,7 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
                 progressListener(it, getItem(viewHolder.adapterPosition).taskId!!)
             }
             showItemView.setOnClickListener {
-                onItemClickListener.onItemClick(getItem(viewHolder.adapterPosition))
+                onItemClickListener(getItem(viewHolder.adapterPosition))
             }
         }
         return viewHolder
@@ -39,10 +40,8 @@ class SubTasksAdapter(private val onItemClickListener: OnItemClickListener) :
             with(binding) {
                 taskTitleTextView.text = taskDomain.title
                 with(taskProgressTextView) {
-                    text = taskDomain.taskProgress?.value?.let {
-                        context.getString(it)
-                    }
-                    setBackgroundColor(ContextCompat.getColor(taskProgressTextView.context, taskDomain.taskProgress?.color!!))
+                    text = taskDomain.taskProgress?.value?.let { context.getString(it) }
+                    setBackgroundColor(context, taskDomain.taskProgress?.color!!)
                 }
             }
         }

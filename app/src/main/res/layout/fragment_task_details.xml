@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/taskDetailsMotionLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/blue_200"
+    app:layoutDescription="@xml/fragment_task_details_scene"
     tools:context=".presentation.ui.task.details.TaskDetailsFragment">
 
-    <androidx.appcompat.widget.AppCompatEditText
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/taskNameEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,13 +44,15 @@
         app:layout_constraintTop_toBottomOf="@id/taskTimeTextView" />
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dimen_0_dp"
         android:layout_margin="@dimen/dimen_30_dp"
         android:elevation="@dimen/dimen_2_dp"
         app:cardCornerRadius="@dimen/dimen_5_dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taskEndInTimerCustomView">
+        app:layout_constraintTop_toBottomOf="@+id/taskEndInTimerCustomView"
+        tools:layout_editor_absoluteX="50dp">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
@@ -74,7 +78,7 @@
             android:text="@string/todo_state_text"
             android:textColor="@color/white" />
 
-        <androidx.appcompat.widget.AppCompatEditText
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/taskDescriptionEditText"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -106,7 +110,7 @@
         android:id="@+id/progressBarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:elevation="@dimen/dimen_10_dp"
+        android:elevation="@dimen/dimen_30_dp"
         android:indeterminateDrawable="@drawable/progress_bar_background"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -114,4 +118,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/updaterImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_80_dp"
+        android:layout_marginEnd="@dimen/dimen_20_dp"
+        android:elevation="@dimen/dimen_10_dp"
+        android:src="@drawable/updater_logo_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.taskplanner.presentation.custom_view.UpdateFieldsCustomView
+        android:id="@+id/updateFieldsCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/updaterImageView" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

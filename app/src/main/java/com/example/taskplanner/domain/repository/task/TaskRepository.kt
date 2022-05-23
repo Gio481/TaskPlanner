@@ -8,7 +8,7 @@ interface TaskRepository {
     suspend fun getAllTasks(projectId: String): Resources<List<TaskDomain>>
     suspend fun createTask(taskDomain: TaskDomain, projectId: String): Resources<TaskDomain>
     suspend fun getTaskInfo(taskId: String): Resources<TaskDomain>
-    suspend fun updateTask(taskId: String, taskDomain: TaskDomain): Resources<Unit>
+    suspend fun updateTask(taskId: String, taskDomain: TaskDomain): Resources<TaskDomain>
     suspend fun deleteTask(taskId: String): Resources<Unit>
     suspend fun getAllDoneTasks(projectId: String): Resources<Int>
     suspend fun getAllTasksSize(projectId: String): Resources<Int>

@@ -55,10 +55,14 @@ class TimerCustomView @JvmOverloads constructor(
         return countDownTimer
     }
 
+    fun setText(text: String) {
+        binding.timerTextView.text = text
+    }
+
     fun startTimer() = countDownTimer.start()
     fun cancelTimer() = countDownTimer.cancel()
 
-    companion object{
+    companion object {
         private const val SECONDS_IN_MILLI = 1000L
         private const val MINUTES_IN_MILLI = SECONDS_IN_MILLI * 60
         private const val HOURS_IN_MILLI = MINUTES_IN_MILLI * 60
