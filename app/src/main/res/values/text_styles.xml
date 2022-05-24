@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseText">
+        <item name="android:textColor">@color/blue_700</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="SmallText" parent="BaseText">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="MediumText" parent="BaseText">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="HighText" parent="BaseText">
+        <item name="android:textSize">@dimen/dimen_20_sp</item>
+    </style>
+
+    <style name="UltraHighText" parent="BaseText">
+        <item name="android:textSize">@dimen/dimen_22_sp</item>
+    </style>
+
+</resources>
