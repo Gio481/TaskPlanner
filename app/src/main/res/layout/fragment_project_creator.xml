@@ -9,12 +9,11 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/createNewProjectTextView"
+        style="@style/UltraHighText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dimen_50_dp"
         android:text="@string/create_new_project"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_30_sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +41,7 @@
         android:elevation="@dimen/dimen_2_dp"
         android:gravity="center"
         android:hint="@string/project_name_hint"
-        android:textColor="@color/blue_700"
+        style="@style/MediumText"
         android:textColorHint="@color/black"
         app:layout_constraintTop_toBottomOf="@id/createNewProjectTextView" />
 
@@ -57,7 +56,7 @@
         android:gravity="center"
         android:hint="@string/project_description_hint"
         android:padding="@dimen/dimen_10_dp"
-        android:textColor="@color/blue_700"
+        style="@style/MediumText"
         android:textColorHint="@color/black"
         app:layout_constraintBottom_toTopOf="@id/projectStateButton"
         app:layout_constraintTop_toBottomOf="@id/projectNameEditText" />
@@ -69,6 +68,7 @@
         android:layout_margin="@dimen/dimen_20_dp"
         android:background="@color/blue_500"
         android:gravity="center"
+        style="@style/SmallText"
         android:text="@string/todo_state_text"
         android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@id/projectTimeTextView"
@@ -81,8 +81,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_20_dp"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_20_sp"
+        style="@style/MediumText"
         app:layout_constraintBottom_toTopOf="@id/datePickerButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

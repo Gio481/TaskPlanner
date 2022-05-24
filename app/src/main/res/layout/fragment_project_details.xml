@@ -14,8 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/dimen_30_dp"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_20_sp"
+        style="@style/HighText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Football App" />
@@ -27,8 +26,7 @@
         android:layout_marginHorizontal="@dimen/dimen_30_dp"
         android:layout_marginVertical="@dimen/dimen_10_dp"
         android:text="@string/project_time_text"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_17_sp"
+        style="@style/SmallText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/projectNameTextView" />
 
@@ -38,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/dimen_30_dp"
         android:layout_marginVertical="@dimen/dimen_10_dp"
-        android:textColor="@color/blue_700"
+        style="@style/SmallText"
         android:textSize="@dimen/dimen_14_sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/projectTimeTextView" />
@@ -60,8 +58,7 @@
             android:layout_marginHorizontal="@dimen/dimen_30_dp"
             android:layout_marginTop="@dimen/dimen_15_dp"
             android:text="@string/tasks_text"
-            android:textColor="@color/blue_700"
-            android:textSize="@dimen/dimen_20_sp" />
+           style="@style/HighText" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/projectProgressButton"
