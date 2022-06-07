@@ -16,8 +16,7 @@
         android:layout_margin="@dimen/dimen_30_dp"
         android:background="@color/blue_200"
         android:focusable="false"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_20_sp"
+        style="@style/HighText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Task Name" />
@@ -29,8 +28,7 @@
         android:layout_marginHorizontal="@dimen/dimen_30_dp"
         android:layout_marginVertical="@dimen/dimen_10_dp"
         android:text="@string/task_time_text"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_17_sp"
+        style="@style/SmallText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/taskNameEditText" />
 
@@ -60,8 +58,7 @@
             android:layout_marginHorizontal="@dimen/dimen_30_dp"
             android:layout_marginTop="@dimen/dimen_25_dp"
             android:text="@string/task_description_text"
-            android:textColor="@color/blue_700"
-            android:textSize="@dimen/dimen_17_sp" />
+            style="@style/SmallText" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/taskStateButton"
@@ -89,8 +86,7 @@
             android:focusable="false"
             android:gravity="center"
             android:padding="@dimen/dimen_15_dp"
-            android:textColor="@color/blue_700"
-            android:textSize="@dimen/dimen_20_sp" />
+           style="@style/HighText" />
 
     </androidx.cardview.widget.CardView>
 

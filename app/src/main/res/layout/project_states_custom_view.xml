@@ -12,8 +12,8 @@
         android:background="@drawable/projects_state_background"
         android:gravity="center"
         android:textColor="@color/white"
-        android:textSize="@dimen/dimen_20_sp"
         android:textStyle="bold"
+        style="@style/HighText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

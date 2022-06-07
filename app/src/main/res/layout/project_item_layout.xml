@@ -11,8 +11,7 @@
         android:id="@+id/projectTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/blue_700"
-        android:textSize="@dimen/dimen_17_sp"
+        style="@style/SmallText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Football App" />

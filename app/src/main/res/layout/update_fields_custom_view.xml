@@ -47,13 +47,13 @@
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/itemDateTextView"
+        style="@style/SmallText"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/dimen_50_dp"
         android:layout_gravity="center"
         android:layout_marginVertical="@dimen/dimen_5_dp"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="@dimen/dimen_17_sp" />
+        android:textColor="@color/white" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/updateItemActionButton"
