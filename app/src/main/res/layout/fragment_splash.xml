@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_700"
+    app:applyMotionScene="true"
+    app:layoutDescription="@xml/fragment_splash_scene"
+    tools:context=".presentation.ui.splash.SplashFragment">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoBackground"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoFrame"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_frame"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoTopCheckedButton"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_checked_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoUncheckedButton"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_unchecked_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoTopText"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoBottomUncheckedButton"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:layout_marginTop="@dimen/dimen_70_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_unchecked_button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoMiddleText"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:layout_marginTop="@dimen/dimen_30_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/logoBottomText"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:layout_marginTop="@dimen/dimen_70_dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

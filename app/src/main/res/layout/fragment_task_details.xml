@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/taskDetailsMotionLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_200"
+    app:layoutDescription="@xml/fragment_task_details_scene"
+    tools:context=".presentation.ui.task.details.TaskDetailsFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/taskNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_30_dp"
+        android:background="@color/blue_200"
+        android:focusable="false"
+        style="@style/HighText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Task Name" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/taskTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_30_dp"
+        android:layout_marginVertical="@dimen/dimen_10_dp"
+        android:text="@string/task_time_text"
+        style="@style/SmallText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/taskNameEditText" />
+
+    <com.example.taskplanner.presentation.custom_view.TimerCustomView
+        android:id="@+id/taskEndInTimerCustomView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_30_dp"
+        android:layout_marginVertical="@dimen/dimen_10_dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/taskTimeTextView" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0_dp"
+        android:layout_margin="@dimen/dimen_30_dp"
+        android:elevation="@dimen/dimen_2_dp"
+        app:cardCornerRadius="@dimen/dimen_5_dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/taskEndInTimerCustomView"
+        tools:layout_editor_absoluteX="50dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/dimen_30_dp"
+            android:layout_marginTop="@dimen/dimen_25_dp"
+            android:text="@string/task_description_text"
+            style="@style/SmallText" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/taskStateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginHorizontal="@dimen/dimen_30_dp"
+            android:layout_marginTop="@dimen/dimen_15_dp"
+            android:background="@color/blue_500"
+            android:drawableEnd="@drawable/ic_show_item"
+            android:drawableTint="@color/white"
+            android:gravity="center"
+            android:paddingHorizontal="@dimen/dimen_10_dp"
+            android:text="@string/todo_state_text"
+            android:textColor="@color/white" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/taskDescriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/dimen_30_dp"
+            android:layout_marginVertical="@dimen/dimen_80_dp"
+            android:background="@color/white"
+            android:focusable="false"
+            android:gravity="center"
+            android:padding="@dimen/dimen_15_dp"
+           style="@style/HighText" />
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/deleteTaskActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_10_dp"
+        android:backgroundTint="@color/blue_700"
+        android:src="@drawable/ic_delete"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:tint="@color/white" />
+
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dimen_30_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/updaterImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_80_dp"
+        android:layout_marginEnd="@dimen/dimen_20_dp"
+        android:elevation="@dimen/dimen_10_dp"
+        android:src="@drawable/updater_logo_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.taskplanner.presentation.custom_view.UpdateFieldsCustomView
+        android:id="@+id/updateFieldsCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/updaterImageView" />
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

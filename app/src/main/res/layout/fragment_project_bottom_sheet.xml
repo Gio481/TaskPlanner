@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bottom_sheet_background"
+    tools:context=".presentation.ui.project.details.actions.ProjectActionsBottomSheetFragment">
+
+    <View
+        android:layout_width="@dimen/dimen_70_dp"
+        android:layout_height="@dimen/dimen_5_dp"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        android:background="@color/blue_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.taskplanner.presentation.custom_view.ActionTypeCustomView
+        android:id="@+id/createNewsTaskCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_30_dp"
+        app:actionName="@string/create_new_task_text"
+        app:background="@drawable/ic_add_item"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.taskplanner.presentation.custom_view.ActionTypeCustomView
+        android:id="@+id/deleteProjectCustomView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_10_dp"
+        app:actionName="@string/delete_project_text"
+        app:background="@drawable/ic_delete"
+        app:layout_constraintTop_toBottomOf="@+id/createNewsTaskCustomView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

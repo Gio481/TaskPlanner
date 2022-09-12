@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".presentation.ui.auth.signin.SignInFragment">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_300_dp"
+        android:layout_marginBottom="@dimen/dimen_100_dp"
+        app:cardBackgroundColor="@color/blue_700"
+        app:cardCornerRadius="@dimen/dimen_30_dp"
+        app:layout_constraintBottom_toTopOf="@id/SignInTextView"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="@dimen/dimen_150_dp"
+            android:layout_height="@dimen/dimen_150_dp"
+            android:layout_gravity="center"
+            android:src="@drawable/logo" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/SignInTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_50_dp"
+        android:gravity="center"
+        android:text="@string/welcome_text"
+        style="@style/UltraHighText"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.example.taskplanner.presentation.custom_view.InputTextCustomView
+        android:id="@+id/emailEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_40_dp"
+        android:layout_marginVertical="@dimen/dimen_15_dp"
+        android:inputType="textPassword"
+        app:hint="@string/enter_email_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/SignInTextView" />
+
+    <com.example.taskplanner.presentation.custom_view.InputTextCustomView
+        android:id="@+id/passwordEditTextLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/dimen_40_dp"
+        android:layout_marginVertical="@dimen/dimen_15_dp"
+        android:inputType="textPassword"
+        app:hint="@string/enter_password_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emailEditTextLayout" />
+
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_20_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/passwordEditTextLayout" />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/signInButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_15_dp"
+        android:background="@android:color/transparent"
+        android:text="@string/create_account_text"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_700"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/progressBarView" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/logInButton"
+        android:layout_width="@dimen/dimen_170_dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_30_dp"
+        android:background="@drawable/authentication_button_background"
+        android:text="@string/log_in_text"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/signInButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

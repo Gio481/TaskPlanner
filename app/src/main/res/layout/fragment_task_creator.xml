@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/blue_200"
+    tools:context=".presentation.ui.task.create.TaskCreatorFragment">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/createNewTaskTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_50_dp"
+        android:text="@string/create_new_task_text"
+        style="@style/UltraHighText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/taskNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_60_dp"
+        android:layout_marginHorizontal="@dimen/dimen_15_dp"
+        android:layout_marginTop="@dimen/dimen_50_dp"
+        android:background="@drawable/edit_text_background"
+        android:elevation="@dimen/dimen_2_dp"
+        android:gravity="center"
+        android:hint="@string/task_name_hint"
+        style="@style/MediumText"
+        android:textColorHint="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/createNewTaskTextView" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/taskDescriptionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_0_dp"
+        android:layout_marginHorizontal="@dimen/dimen_15_dp"
+        android:layout_marginTop="@dimen/dimen_30_dp"
+        android:background="@drawable/edit_text_background"
+        android:elevation="@dimen/dimen_2_dp"
+        android:gravity="center"
+        android:hint="@string/task_description_hint"
+        android:padding="@dimen/dimen_10_dp"
+        style="@style/MediumText"
+        android:textColorHint="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/taskStateButton"
+        app:layout_constraintTop_toBottomOf="@id/taskNameEditText" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/taskStateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_20_dp"
+        android:background="@color/blue_500"
+        android:gravity="center"
+        android:text="@string/todo_state_text"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@id/taskTimeTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/taskDescriptionEditText" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/taskTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_20_dp"
+        style="@style/HighText"
+        app:layout_constraintBottom_toTopOf="@id/datePickerButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/datePickerButton"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dimen_30_dp"
+        android:background="@color/white"
+        android:elevation="@dimen/dimen_2_dp"
+        android:text="@string/choose_date_text"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_700"
+        app:layout_constraintBottom_toTopOf="@id/createNewTaskButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/createNewTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/dimen_50_dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/create_task_text"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_700"
+        app:icon="@drawable/ic_add_item"
+        app:iconTint="@color/blue_700"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/black"
+        app:strokeWidth="@dimen/dimen_1_dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="@dimen/dimen_10_dp"
+        android:indeterminateDrawable="@drawable/progress_bar_background"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/projectItemLayout"
+    android:layout_marginTop="@dimen/dimen_15_dp">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/projectTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SmallText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Football App" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/projectProgressTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimen_2_dp"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/dimen_14_sp"
+        app:layout_constraintStart_toStartOf="@id/projectTitleTextView"
+        app:layout_constraintTop_toBottomOf="@id/projectTitleTextView"
+        tools:text="In Progress" />
+
+    <View
+        android:id="@+id/showItemView"
+        android:layout_width="@dimen/dimen_20_dp"
+        android:layout_height="@dimen/dimen_20_dp"
+        android:background="@drawable/ic_show_item"
+        android:backgroundTint="@color/blue_700"
+        android:rotation="270"
+        app:layout_constraintBottom_toBottomOf="@id/projectProgressTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/projectTitleTextView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

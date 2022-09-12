@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/update_actions_background"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/itemTitleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_50_dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/dimen_50_dp"
+        android:layout_marginVertical="@dimen/dimen_20_dp"
+        android:background="@drawable/update_edit_text_background"
+        android:gravity="center"
+        android:inputType="textNoSuggestions"
+        android:maxLength="30"
+        android:maxLines="1"
+        android:textColor="@color/white" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/itemDescriptionEditText"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimen_150_dp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="@dimen/dimen_50_dp"
+        android:autoSizeTextType="uniform"
+        android:background="@drawable/update_edit_text_background"
+        android:gravity="center"
+        android:inputType="textNoSuggestions"
+        android:textColor="@color/white"
+        tools:targetApi="o" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/chooseDateButton"
+        android:layout_width="@dimen/dimen_150_dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dimen_20_dp"
+        android:background="@color/white"
+        android:text="@string/choose_date_text"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_700" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/itemDateTextView"
+        style="@style/SmallText"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dimen_50_dp"
+        android:layout_gravity="center"
+        android:layout_marginVertical="@dimen/dimen_5_dp"
+        android:gravity="center"
+        android:textColor="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/updateItemActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/dimen_10_dp"
+        android:backgroundTint="@color/white"
+        android:text="@string/update_text"
+        android:textAllCaps="false"
+        android:textColor="@color/blue_700"
+        app:icon="@drawable/ic_edit"
+        app:iconTint="@color/blue_700"
+        app:strokeColor="@color/black"
+        app:strokeWidth="@dimen/dimen_1_dp" />
+
+</androidx.appcompat.widget.LinearLayoutCompat>
