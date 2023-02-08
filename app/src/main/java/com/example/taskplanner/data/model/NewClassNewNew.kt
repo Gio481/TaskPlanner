@@ -1,6 +1,6 @@
 package com.example.taskplanner.data.model
 
-class NewClass {
+class NewClassNewNew {
     fun newFunction(){
 
     }
